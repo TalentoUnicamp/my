@@ -1,0 +1,17 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'dashboard/apps/dashboard.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+<script type="text/javascript">
+    var dashboard_context = JSON.parse('{{ dashboard_context | escapejs }}');
+    var settings_context = JSON.parse('{{ settings_context | escapejs }}');
+</script>
+<div id="dashboard-app"></div>
+{% endblock content %}

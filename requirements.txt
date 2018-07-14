@@ -1,0 +1,30 @@
+dj-database-url==0.5.0
+Django==2.0.3
+gunicorn==19.7.1
+psycopg2==2.7.4
+whitenoise==3.3.1
+requests
+
+# Async
+celery
+redis
+
+# Channels
+channels
+channels_redis
+
+# Compressor
+django-compressor
+django-compressor-toolkit
+
+# Custom app settings
+django-appconf
+six
+
+# REST
+djangorestframework
+django-filter
+markdown
+
+# Social
+facebook-sdk==2.0.0

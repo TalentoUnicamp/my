@@ -1,0 +1,22 @@
+#staff {
+  .status {
+    text-align: center;
+    p {
+      text-align: left;
+    }
+    .button {
+      margin-top: 12px;
+    }
+    .header {
+      font-size: 1.2em;
+    }
+  }
+
+  .segment {
+    padding: 36px 36px 12px 36px;
+  }
+
+  .description {
+    margin-bottom: 24px;
+  }
+}

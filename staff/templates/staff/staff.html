@@ -1,0 +1,29 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'staff/apps/staff.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/transitions.js' %}"></script>
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/dropdown.js' %}"></script>
+{% endcompress %}
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/datatables/js/datatables.js' %}"></script>
+<script type="text/javascript" src="{% static 'project/plugins/datatables/js/datatables.sui.js' %}"></script>
+{% endcompress %}
+{% compress css %}
+<link rel="stylesheet" type="text/css" href="{% static 'project/plugins/datatables/css/datatables.sui.css' %}">
+{% endcompress %}
+
+<script type="text/javascript">
+    var staff_context = JSON.parse('{{ staff_context | escapejs }}');
+</script>
+
+<div id="staff-app"></div>
+{% endblock content %}

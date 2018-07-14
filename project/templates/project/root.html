@@ -1,0 +1,71 @@
+{% load compress %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    {% compress js %}
+    <script src="{% static 'project/plugins/jquery/dist/jquery.min.js' %}"></script>
+    {% endcompress %}
+    {% compress css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'project/css/normalize.css' %}">
+    {% endcompress %}
+
+    <!-- Semantic-UI -->
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'project/plugins/semantic/src/semantic.less' %}">
+    <link rel="stylesheet" type="text/less" href="{% static 'project/plugins/izitoast/izitoast.min.css' %}">
+    {% endcompress %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/components/icon.css" />
+
+    <!-- Custom styling -->
+    {% compress css %}
+    <link rel="stylesheet" type="text/x-scss" href="{% static 'project/css/site.scss' %}">
+    {% endcompress %}
+    <link href='//fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+
+    <!-- Django vars -->
+    <script type="text/javascript">
+        var csrf_token = "{{ csrf_token }}";
+    </script>
+
+    <!-- iOS Web Clip -->
+    <!-- <link rel="apple-touch-icon" href="assets/images/favicon.png"> -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- <link rel="icon" href="assets/images/favicon.png"> -->
+
+    <!-- Google Analytics -->
+</head>
+<body>
+    <!-- Messages are loaded automatically as notifications -->
+    {% if messages %}
+    <script type="text/javascript">
+        var messages = [];
+        {% for message in messages %}
+            message = {message: "{{ message }}", 'level': "{{ message.tags }}"};
+            messages.push(message);
+        {% endfor %}
+    </script>
+    {% compress js %}
+    <script type="module" src="{% static 'project/js/notify_messages.js' %}"></script>
+    {% endcompress %}
+    {% endif %}
+
+    </script>
+    {% block root %}
+    {% endblock root %}
+
+    <!-- Sidebar app -->
+    {% block sidebarapp %}
+    {% endblock sidebarapp %}
+
+    <!-- Page app -->
+    {% block appjs %}
+    {% endblock appjs %}
+</body>
+</html>

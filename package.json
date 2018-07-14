@@ -1,0 +1,55 @@
+{
+  "name": "compressor",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-preset-es2015": "^6.24.1",
+    "datatables.net": "^1.10.19",
+    "datatables.net-dt": "^1.10.19",
+    "envify": "^4.1.0",
+    "izitoast": "^1.3.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.22.2",
+    "semantic-ui": "^2.3.2",
+    "semantic-ui-vue": "^0.2.11",
+    "sweetalert": "^2.1.0",
+    "vue": "^2.5.16",
+    "vue-qrcode-component": "^2.1.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^8.6.4",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-runtime": "^6.0.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-vue": "^2.0.2",
+    "babelify": "^8.0.0",
+    "browserify": "^16.2.2",
+    "node-sass": "^4.9.1",
+    "postcss-cli": "^5.0.1",
+    "vueify": "^9.1.0"
+  },
+  "browserify": {
+    "transform": [
+      "vueify",
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common.js"
+  }
+}

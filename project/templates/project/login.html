@@ -1,0 +1,16 @@
+{% extends 'project/root.html' %}
+{% load compress %}
+{% load staticfiles %}
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'project/apps/login.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block root %}
+<script type="text/javascript">
+    var login_context = JSON.parse('{{ login_context | escapejs }}');
+</script>
+
+<div id="login-app"></div>
+{% endblock root %}

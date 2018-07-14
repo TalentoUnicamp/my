@@ -1,0 +1,222 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block content %}
+
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/transitions.js' %}"></script>
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/dropdown.js' %}"></script>
+{% endcompress %}
+
+<div id="application" class="page">
+    <div class="divided title">
+        Aplicação
+    </div>
+    <div class="ui stackable page grid">
+        <div class="column">
+            <div class="ui form">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="subheader">* Obrigatório</div>
+                    <br />
+                    <div class="divided title">Informações Básicas</div>
+                    <div class="two fields">
+                        <div class="field {% if form.first_name.errors.as_text %}error{% endif %}">
+                            <label>{{ form.first_name.label}}</label>
+                            <span style="color: red" class="small">{{ form.first_name.errors.as_text }}</span>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="field {% if form.last_name.errors.as_text %}error{% endif %}">
+                            <label>{{ form.last_name.label}}</label>
+                            <span style="color: red" class="small">{{ form.last_name.errors.as_text }}</span>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field {% if form.email.errors.as_text %}error{% endif %}">
+                            <label>{{ form.email.label}}</label>
+                            <span style="color: red" class="small">{{ form.email.errors.as_text }}</span>
+                            {{ form.email }}
+                        </div>
+                        <div class="field {% if form.phone.errors.as_text %}error{% endif %}">
+                            <label>{{ form.phone.label}}</label>
+                            <span style="color: red" class="small">{{ form.phone.errors.as_text }}</span>
+                            {{ form.phone }}
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field {% if form.age.errors.as_text %}error{% endif %}">
+                            <label>{{ form.age.label}}</label>
+                            <span style="color: red" class="small">{{ form.age.errors.as_text }}</span>
+                            {{ form.age }}
+                        </div>
+                        <div class="field {% if form.gender.errors.as_text %}error{% endif %}">
+                            <label>{{ form.gender.label}}</label>
+                            <span style="color: red" class="small">{{ form.gender.errors.as_text }}</span>
+                            {{ form.gender }}
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field {% if form.shirt_size.errors.as_text %}error{% endif %}">
+                            <label>{{ form.shirt_size.label}}</label>
+                            <span style="color: red" class="small">{{ form.shirt_size.errors.as_text }}</span>
+                            {{ form.shirt_size }}
+                        </div>
+                        <div class="field {% if form.shirt_style.errors.as_text %}error{% endif %}">
+                            <label>{{ form.shirt_style.label}}</label>
+                            <span style="color: red" class="small">{{ form.shirt_style.errors.as_text }}</span>
+                            {{ form.shirt_style }}
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field  {% if form.university.errors.as_text %}error{% endif %}">
+                            <label>{{ form.university.label }}</label>
+                            <select value='{{form.university.value}}' id="id_university" name="university" class="ui fluid search dropdown">
+                                <option value="">Digite sua Universidade</option>
+                                <option value="Unicamp">Unicamp</option>
+                                <option value="USP SP">USP SP</option>
+                                <option value="USP SC">USP SC</option>
+                                <option value="PUCCAMP">PUCCAMP</option>
+                                <option value="UFSCAR">UFSCAR</option>
+                                <option value="PUC SP">PUC SP</option>
+                                <option value="UNIFESP">UNIFESP</option>
+                            </select>
+                        </div>
+                        <div class="field {% if form.enroll_year.errors.as_text %}error{% endif %}">
+                            <label>{{ form.enroll_year.label}}</label>
+                            <span style="color: red" class="small">{{ form.enroll_year.errors.as_text }}</span>
+                            {{ form.enroll_year }}
+                        </div>
+                    </div>
+                    <br />
+                    <div class="divided title">Logístico</div>
+                    <div class="two fields">
+                        <div class="field {% if form.diet.errors.as_text %}error{% endif %}">
+                            <label>{{ form.diet.label}}</label>
+                            <span style="color: red" class="small">{{ form.diet.errors.as_text }}</span>
+                            {{ form.diet }}
+                        </div>
+                        <div class="field {% if form.special_needs.errors.as_text %}error{% endif %}">
+                            <label>{{ form.special_needs.label}}</label>
+                            <span style="color: red" class="small">{{ form.special_needs.errors.as_text }}</span>
+                            {{ form.special_needs }}
+                        </div>
+                    </div>
+                    <br />
+                    <div class="divided title">Currículo</div>
+                    <div class="two fields">
+                        <div class="field {% if form.cv_type.errors.as_text %}error{% endif %}">
+                            <label>{{ form.cv_type.label}}</label>
+                            <span style="color: red" class="small">{{ form.cv_type.errors.as_text }}</span>
+                            {{ form.cv_type }}
+                        </div>
+                        <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
+                            <label>{{ form.cv.label | safe}}</label>
+                            <span style="color: red" class="small">{{ form.cv.errors.as_text }}</span>
+                            <div class="ui input labeled">
+                                <div id="cv_label" class="ui label">
+                                    http://
+                                </div>
+                                {{ form.cv }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="two fields">
+                        <div class="field {% if form.cv2_type.errors.as_text %}error{% endif %}">
+                            <label>{{ form.cv2_type.label}}</label>
+                            <span style="color: red" class="small">{{ form.cv2_type.errors.as_text }}</span>
+                            {{ form.cv2_type }}
+                        </div>
+                        <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
+                            <label>{{ form.cv2.label}}</label>
+                            <span style="color: red" class="small">{{ form.cv2.errors.as_text }}</span>
+                            <div class="ui input labeled">
+                                <div id="cv2_label" class="ui label">
+                                    http://
+                                </div>
+                                {{ form.cv2 }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="divided title">Nos fale um pouco mais</div>
+                    <div class="field {% if form.description.errors.as_text %}error{% endif %}">
+                        <label>{{ form.description.label}}</label>
+                        <span style="color: red" class="small">{{ form.description.errors.as_text }}</span>
+                        {{ form.description }}
+                    </div>
+                    <div class="field {% if form.essay.errors.as_text %}error{% endif %}">
+                        <label>{{ form.essay.label}}</label>
+                        <span style="color: red" class="small">{{ form.essay.errors.as_text }}</span>
+                        {{ form.essay }}
+                    </div>
+                    <br>
+                    <div class="ui divider"></div>
+                    <br>
+                    <div class="field">
+                        <button type="submit" class="fluid ui purple button">
+                            Submeter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var ll = {
+        "GH": "github.com/",
+        "WS": "https://",
+        "LI": "linkedin.com/in/",
+        "OT": "https://"
+    }
+    function change_cv_option(cv) {
+        if (cv == 0) {
+            cv_id_select = '#id_cv_type';
+            cv_label_select = '#cv_label';
+        }
+        else {
+            cv_id_select = '#id_cv2_type';
+            cv_label_select = '#cv2_label';
+        }
+        if ($(cv_id_select).val() == '') {
+            $(cv_label_select).parent().removeClass('labeled');
+            $(cv_label_select).removeClass('ui label');
+            $(cv_label_select).text('');
+        }
+        else {
+            $(cv_label_select).addClass('ui label');
+            $(cv_label_select).parent().addClass('labeled');
+            $(cv_label_select).text(ll[$(cv_id_select).val()]);
+        }
+    }
+
+    $("#id_cv_type").change(function () {
+        change_cv_option(0);
+    })
+    $("#id_cv2_type").change(function () {
+        change_cv_option(1);
+    })
+
+    $(document).ready(function() {
+        change_cv_option(0);
+        change_cv_option(1);
+    })
+
+    $('#id_university').dropdown({
+        allowAdditions: true
+    });
+
+    $('#id_gender').dropdown();
+    $('#id_shirt_size').dropdown();
+    $('#id_shirt_style').dropdown();
+    $('#id_cv_type').dropdown();
+    $('#id_cv2_type').dropdown();
+
+    if ("{{ form.university.value }}" != "None")
+        $('#id_university').dropdown("set selected", "{{ form.university.value }}");
+</script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{
+  "name": "",
+  "description": "",
+  "keywords": [],
+  "addons": [],
+  "repository": "",
+  "success_url": "/",
+  "env": {
+    "DEBUG": {
+      "description": "Ativar modo debug (se em dúvida, deixe False)",
+      "value": "False"
+    },
+    "SECRET_KEY": {
+      "description": "String longa e aleatória usada como chave de encriptação das comunicações do site.",
+      "generator": "secret"
+    },
+    "EMAIL_ACCOUNT": {
+      "description": "Conta de email de onde serão enviados os emails do site. Use uma existente.",
+      "value": ""
+    },
+    "EMAIL_PASSWORD": {
+      "description": "Senha do email ai de cima, pra ser possível enviar emails.",
+      "value": ""
+    },
+    "ADMIN_ACCOUNT": {
+      "description": "Email do admnistrador que vai receber os error reports. Use o meu email",
+      "value": "gustavomaronato@gmail.com"
+    },
+    "ROOT_URL" : {
+        "description": "URL do seu app (<nome-do-app>.herokuapp.com)",
+        "value": "",
+    }
+  }
+}
