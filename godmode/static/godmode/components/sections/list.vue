@@ -4,7 +4,6 @@
         <div class="small title">
             Lista de usuários
         </div>
-        <sui-button content="reload" @click="getUserList" />
         <UserTable
         v-bind:data="userList"
         v-on:toggle-ishacker="toggleIsHacker"
@@ -18,7 +17,7 @@
     import axios from 'project/js/axios_csrf';
     import toast from 'project/js/notifications';
     import swal from 'sweetalert';
-    import UserTable from './user_table.vue';
+    import UserTable from './list/user_table.vue';
 
     import { ModelSubscription } from 'model_sockets/js/subscription';
 
