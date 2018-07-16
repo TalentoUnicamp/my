@@ -1,10 +1,11 @@
 from rest_framework import permissions
 
 
-class IsHacker(permissions.BasePermission):
+class IsHacker(permissions.IsAuthenticated):
 
     def has_permission(self, request, view):
-        return request.user.profile.is_hacker
+        is_authenticated = super().has_permission(request, view)
+        return is_authenticated and request.user.profile.is_hacker
 
 
 class IsCheckedin(IsHacker):

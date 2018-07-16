@@ -5,6 +5,7 @@ from urllib.parse import urlencode, quote
 from django.contrib.auth import login
 from django.contrib import messages
 from ..models import Social
+import json
 
 
 def get_credentials():
@@ -126,7 +127,7 @@ def login_successful(code, request):
         'expires': expires,
         'first_name': first_name,
         'last_name': last_name,
-        'scopes': scopes,
+        'scopes': json.dumps(scopes),
         'email': email
     }
     new, u_created, s_created, request = Social.create_or_update(**kwargs)

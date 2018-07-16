@@ -19,13 +19,15 @@
 
                     <List
                     v-bind:staff_context="staff"
-                    v-if="isActive('Lista')" />
+                    v-show="isActive('Lista')" />
 
                     <Checkin
-                    v-if="isActive('Check in')" />
+                    v-bind:staff_context="staff"
+                    v-show="isActive('Check in')" />
 
                     <Register
-                    v-if="isActive('Inscrição')" />
+                    v-show="isActive('Inscrição')"
+                    v-bind:staff_context="staff" />
 
                 </div>
         </div>

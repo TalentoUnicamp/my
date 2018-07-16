@@ -1,0 +1,23 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'godmode/apps/admin.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/transitions.js' %}"></script>
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/dropdown.js' %}"></script>
+<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/checkbox.js' %}"></script>
+{% endcompress %}
+
+<script type="text/javascript">
+    var admin_context = JSON.parse('{{ admin_context | escapejs }}');
+</script>
+
+<div id="admin-app"></div>
+{% endblock content %}

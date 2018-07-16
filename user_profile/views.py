@@ -17,6 +17,7 @@ class VerifyEmailView(View):
             profile = Profile.objects.get(verification_code=code)
             add_message(request, SUCCESS, 'Email verificado')
             profile.verify_email()
+            login(request, profile.user)
         except Profile.DoesNotExist:
             add_message(request, ERROR, 'Código inválido')
 

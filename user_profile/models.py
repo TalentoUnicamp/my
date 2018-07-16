@@ -13,28 +13,28 @@ from .tasks import send_verify_email
 def gen_token():
     TOKEN_SIZE = settings.TOKEN_SIZE
     token = get_random_string(length=TOKEN_SIZE)
-    if Profile.objects.filter(token=token).exists():
-        return gen_token()
     return token
 
 
 def gen_verification_code():
     TOKEN_SIZE = settings.TOKEN_SIZE
     verification_code = get_random_string(length=TOKEN_SIZE)
-    if Profile.objects.filter(verification_code=verification_code).exists():
-        return gen_verification_code()
     return verification_code
 
 
 def gen_unique_id():
     TOKEN_SIZE = settings.TOKEN_SIZE
     unique_id = get_random_string(length=TOKEN_SIZE)
-    if Profile.objects.filter(unique_id=unique_id).exists():
-        return gen_verification_code()
     return unique_id
 
 
 class Profile(models.Model):
+    # Fields to subscribe to
+
+    # Subscription permissions
+    msocks_allow = True
+    msocks_fields = ['unique_id', 'full_name', 'email', 'state', 'is_verified', 'is_hacker', 'is_staff', 'is_admin', 'is_employee', 'has_facebook', 'has_github', 'has_google']
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE
@@ -47,7 +47,7 @@ class Profile(models.Model):
     token = models.CharField(max_length=20, unique=True, default=gen_token)
 
     # Email verification
-    verified = models.BooleanField(default=True)
+    verified = models.BooleanField(default=False)
     verification_code = models.CharField(max_length=20, unique=True, default=gen_verification_code)
 
     @property
@@ -65,6 +65,16 @@ class Profile(models.Model):
         if self.is_hacker:
             return self.hacker.hacker_state
         return 'verified'
+
+    # Update attribute
+    # Used so that changes in other models can trigger sockets
+    _update_field = models.BooleanField(default=False)
+
+    def trigger_update(self):
+        """Trigger Update
+        Used to manually trigger signal updates on this model
+        """
+        post_save.send(Profile, instance=self, created=False)
 
     # Social logins
     @property
@@ -87,6 +97,22 @@ class Profile(models.Model):
     @property
     def is_staff(self):
         return hasattr(self, 'staff')
+
+    @property
+    def is_admin(self):
+        return self.user.is_superuser
+
+    @property
+    def is_employee(self):
+        return hasattr(self, 'employee')
+
+    @property
+    def full_name(self):
+        return self.user.get_full_name()
+
+    @property
+    def email(self):
+        return self.user.email
 
     # Methods
     def new_token(self):
@@ -122,10 +148,14 @@ class Profile(models.Model):
 
 
 def create_profile(sender, **kwargs):
+    user = kwargs['instance']
     if kwargs['created']:
-        user = kwargs['instance']
         profile = Profile(user=user)
         profile.save()
+    # Trigger profile update on user update
+    else:
+        if hasattr(user, 'profile'):
+            user.profile.trigger_update()
 
 
 post_save.connect(create_profile, sender=User)

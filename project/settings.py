@@ -53,6 +53,9 @@ INSTALLED_APPS = [
 
     'django_extensions',
 
+    'channels',
+    'model_sockets',
+
     'dashboard',
     'user_profile',
     'social',
@@ -60,11 +63,14 @@ INSTALLED_APPS = [
     'staff',
     'settings',
     'application',
+    'godmode',
+    'company',
 ]
 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -207,3 +213,23 @@ ADMINS = [('Admin', os.environ.get('ADMIN_ACCOUNT')), ]
 
 # Event data
 EVENT_NAME = os.environ.get('EVENT_NAME', 'Hackathon')
+
+
+# Model Sockets settings
+# Name of the app containing the self model
+MSOCKS_SELF_APP = 'user_profile'
+# Name of the self Model
+MSOCKS_SELF_MODEL = 'Profile'
+MSOCK_AUTH_USER_RELATION_ID = 'user.profile.id'
+MSOCKS_SELF_SUBSCRIPTION_FIELDS = [
+    'unique_id',
+    'state',
+    'is_hacker',
+    'is_staff',
+    'is_admin',
+    'is_employee',
+    'token',
+    'is_verified',
+    'full_name',
+    'email',
+]

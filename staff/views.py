@@ -1,10 +1,11 @@
 from django.views.generic import TemplateView
 from project.mixins import SidebarContextMixin, UserContextMixin
-from .mixins import StaffContextMixin
+from .mixins import StaffContextMixin, IsStaffMixin
 # Create your views here.
 
 
 class StaffView(
+        IsStaffMixin,
         SidebarContextMixin,
         StaffContextMixin,
         UserContextMixin,

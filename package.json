@@ -20,7 +20,8 @@
     "semantic-ui-vue": "^0.2.11",
     "sweetalert": "^2.1.0",
     "vue": "^2.5.16",
-    "vue-qrcode-component": "^2.1.1"
+    "vue-qrcode-component": "^2.1.1",
+    "vue-qrcode-reader": "^0.8.5"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.4",

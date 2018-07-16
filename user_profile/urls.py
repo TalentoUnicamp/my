@@ -9,6 +9,8 @@ apipattens = [
     path('change_email/', api.ChangeEmail.as_view(), name='change_email'),
     path('change_token/', api.ChangeToken.as_view(), name='change_token'),
     path('reset_token_email/', api.ResetTokenEmail.as_view(), name='reset_token_email'),
+    path('list_profiles/', api.ListProfiles.as_view(), name='list_profiles'),
+    path('list_hacker_profiles/', api.ListHackerProfiles.as_view(), name='list_hacker_profiles'),
 ]
 
 app_name = 'profile'

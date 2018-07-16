@@ -107,3 +107,6 @@ class Settings(models.Model):
     @staticmethod
     def hackathon_end_seconds():
         return int((Settings.get().hackathon_end - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+
+    def __str__(self):
+        return 'Settings'

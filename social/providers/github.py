@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 from ..models import Social
 import requests
+import json
 
 
 def get_credentials():
@@ -105,7 +106,7 @@ def login_successful(code, request):
     # Get the user's scope ID from debug data
     social_id = debug['id']
     # Github tokens dont expire
-    expires = 99999999999999
+    expires = 999999999
     scopes = token_info.get('scope', "").split(',')
 
     # Get some user info like name and url
@@ -126,7 +127,7 @@ def login_successful(code, request):
         'expires': expires,
         'first_name': first_name,
         'last_name': last_name,
-        'scopes': scopes,
+        'scopes': json.dumps(scopes),
         'email': email
     }
     new, u_created, s_created, request = Social.create_or_update(**kwargs)

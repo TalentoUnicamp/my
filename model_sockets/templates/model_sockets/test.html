@@ -1,0 +1,27 @@
+{% load staticfiles %}
+
+<script src='{% static "model_sockets/js/socket_unified.js" %}' type="text/javascript"></script>
+
+<p id="data"></p>
+
+<input onclick="subscribe_self()" type="button" value="Subscribe to yourself" id="subme">
+<br>
+<p id="data2"></p>
+<input onclick="subscribe_users()" type="button" value="Subscribe to all users" id="subusers">
+
+<script type="text/javascript">
+    function update_data(data) {
+        document.getElementById('data').innerHTML = JSON.stringify(data);
+    }
+    function update_data2(data) {
+        document.getElementById('data2').innerHTML = JSON.stringify(data);
+    }
+    function subscribe_self() {
+        var sub = new SelfSubscription('update', true);
+        sub.subscribe(update_data);
+    }
+    function subscribe_users() {
+        var sub = new ModelSubscription('auth', 'User', 'update', true);
+        sub.subscribe(update_data2);
+    }
+</script>

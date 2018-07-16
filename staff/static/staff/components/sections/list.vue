@@ -4,60 +4,73 @@
         <div class="small title">
             Lista de hackers
         </div>
-        <my-vuetable></my-vuetable>
+        <HackerTable v-bind:data="hackerList" />
     </div>
 </template>
 
 <script>
     import axios from 'project/js/axios_csrf';
+    import toast from 'project/js/notifications';
+    import HackerTable from './hacker_table.vue'
 
-    import MyVuetable from './vuetable.vue'
+    import { ModelSubscription } from 'model_sockets/js/subscription';
 
     export default {
-        components: { MyVuetable },
+        components: { HackerTable },
         props: ['staff_context'],
         data() {
             return {
                 staff: this.staff_context,
-                items: ['Todos', 'Confirmados', 'Admitidos'],
-                active: 'Todos',
-                table: Object
+                hackerList: [],
+                allowedStates: ['checkedin', 'confirmed', 'waitlist', 'admitted', 'submitted']
             }
         },
         methods: {
-            isActive(name) {
-                return this.active === name;
+            getUserList() {
+                self = this;
+                axios.get(this.staff.api.list_hacker_profiles)
+                .then(function (data) {
+                    self.hackerList = data.data;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    toast('Opa!', 'Algo de errado aconteceu :(', 'error');
+                });
             },
-            select(name) {
-                this.active = name;
-                console.log(this.table);
-                console.log(this.table.search('a'));
-                if (name == 'Todos')
-                    this.table[0].search('').columns().search('').draw();
-                else if (name == 'Confirmados')
-                    this.table[0].column('state:name').search('confirmed').draw();
-                else if (name == 'Admitidos')
-                    this.table[0].column('state:name').search('admitted').draw();
+            hackerStateAllowed(hacker) {
+                return this.allowedStates.indexOf(hacker.state) > -1;
+            },
+            userUpdated(user) {
+                if (!this.hackerStateAllowed(user))
+                    return this.userDeleted(user);
+                let userIdx = this.hackerList.findIndex((obj => obj.unique_id == user.unique_id));
+                if (userIdx == -1)
+                    return this.userCreated(user);
+                this.hackerList.splice(userIdx, 1, user);
+            },
+            userCreated(user) {
+                if (!this.hackerStateAllowed(user))
+                    return;
+                this.hackerList.push(user);
+            },
+            userDeleted(user) {
+                let userIdx = this.hackerList.findIndex((obj => obj.unique_id == user.unique_id));
+                if (userIdx > -1)
+                    this.hackerList.splice(userIdx, 1);
             }
         },
         mounted: function () {
-            var table = $('#example')
-            console.log(table);
-            table.DataTable({
-                "ajax": {
-                    url: staff_context.api.list_hackers,
-                    dataSrc: ''
-                },
-                "columns": [
-                { "data": "id" },
-                { "data": "name" },
-                { "data": "state" }
-                ]
-            });
-            console.log(table);
-            console.log(this.table);
-            this.table = table;
-            console.log(this.table[0]);
+            this.getUserList();
+
+            var updatesub = new ModelSubscription('user_profile', 'Profile', 'update');
+            var createsub = new ModelSubscription('user_profile', 'Profile', 'create');
+            var deletesub = new ModelSubscription('user_profile', 'Profile', 'delete');
+            updatesub.connect();
+            createsub.connect();
+            deletesub.connect();
+            updatesub.subscribe(this.userUpdated);
+            createsub.subscribe(this.userCreated);
+            deletesub.subscribe(this.userDeleted);
         }
     }
 </script>

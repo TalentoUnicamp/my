@@ -54,3 +54,6 @@ class Application(models.Model):
     # Extra
     description = models.CharField(max_length=100, null=True)
     essay = models.TextField(null=True, blank=False)
+
+    def __str__(self):
+        return f'Aplicação de {self.hacker.profile.full_name}'

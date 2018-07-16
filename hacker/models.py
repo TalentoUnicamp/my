@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save, pre_delete
 from django.db import models
 from django.utils import timezone
 from user_profile.models import Profile
@@ -7,6 +8,11 @@ from . import tasks
 
 
 class Hacker(models.Model):
+
+    # Subscription fields
+    msocks_allow = True
+    msocks_fields = ['profile.unique_id', 'profile.email', 'profile.full_name', 'profile.state']
+
     profile = models.OneToOneField(
         Profile,
         on_delete=models.CASCADE
@@ -108,3 +114,26 @@ class Hacker(models.Model):
         # Hacker confirmed presence
         self.confirmed = True
         self.save()
+
+    def check_in(self):
+        self.checked_in = True
+        self.save()
+
+    def __str__(self):
+        return f'Hacker {self.profile.full_name}'
+
+
+def update_hacker(sender, **kwargs):
+    # Updates profile
+    kwargs['instance'].profile.trigger_update()
+
+
+def delete_hacker(sender, **kwargs):
+    profile = kwargs['instance'].profile
+    profile.hacker = None
+    profile.trigger_update()
+    profile.hacker = kwargs['instance']
+
+
+post_save.connect(update_hacker, sender=Hacker)
+pre_delete.connect(delete_hacker, sender=Hacker)

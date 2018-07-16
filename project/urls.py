@@ -14,4 +14,6 @@ urlpatterns = [
     path('application/', include('application.urls')),
     path('hacker/', include('hacker.urls')),
     path('staff/', include('staff.urls')),
+    path('godmode/', include('godmode.urls')),
+    path('company/', include('company.urls')),
 ]

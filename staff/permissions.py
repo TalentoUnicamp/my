@@ -1,13 +1,15 @@
 from rest_framework import permissions
 
 
-class IsStaff(permissions.BasePermission):
+class IsStaff(permissions.IsAuthenticated):
 
     def has_permission(self, request, view):
-        return request.user.profile.is_staff
+        is_authenticated = super().has_permission(request, view)
+        return is_authenticated and request.user.profile.is_staff
 
 
-class IsStaffOrSuperuser(IsStaff):
+class IsStaffOrSuperuser(permissions.IsAuthenticated):
 
     def has_permission(self, request, view):
-        return super().has_permission(request, view) or request.user.is_superuser
+        is_authenticated = super().has_permission(request, view)
+        return is_authenticated and (request.user.profile.is_staff or request.user.is_superuser)

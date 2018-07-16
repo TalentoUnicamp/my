@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save, pre_delete
 from django.db import models
 from user_profile.models import Profile, User
 from settings.models import Settings
@@ -17,10 +18,12 @@ SOCIAL_PROVIDERS = (
 
 
 class Social(models.Model):
+
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        related_name='social_logins'
+        related_name='social_logins',
+        null=True
     )
     updated_at = models.DateTimeField(auto_now=True)
     provider = models.CharField(max_length=20, choices=SOCIAL_PROVIDERS)
@@ -57,7 +60,6 @@ class Social(models.Model):
     @staticmethod
     def create_or_update(**kwargs):
         # Creates or updates a Social instance. Also creates User if email does not exist
-        email = kwargs.pop('email') or Social.unique_email()
         user = kwargs.pop('user')
         request = kwargs.pop('request', None)
         first_name = kwargs.pop('first_name')
@@ -67,9 +69,24 @@ class Social(models.Model):
         user_created = False
         social_created = False
 
+        temp_email = False
+        email = kwargs.pop('email')
+        if not email or email is None:
+            email = Social.unique_email()
+            temp_email = True
+
         social = Social.objects.filter(social_id=social_id)
         if social.exists():
             user = social.first().profile.user
+            # If the social email is not temporary and the user is not verified
+            if not temp_email and not user.profile.is_verified:
+                # update the user email and verify them
+                user.email = email
+                user.save()
+                profile = user.profile
+                profile.verified = True
+                profile.save()
+
         else:
             try:
                 if user is None:
@@ -90,6 +107,10 @@ class Social(models.Model):
                 )
                 user.save()
                 user_created = True
+                if not temp_email:
+                    profile = user.profile
+                    profile.verified = True
+                    profile.save()
 
                 # New user created
                 if Settings.default_hacker():
@@ -110,3 +131,20 @@ class Social(models.Model):
 
     def __str__(self):
         return f"{self.provider.capitalize()} de {self.profile.user.get_full_name()} ({self.profile.user.email})"
+
+
+def update_social(sender, **kwargs):
+    # Updates profile
+    kwargs['instance'].profile.trigger_update()
+
+
+def delete_social(sender, **kwargs):
+    # Updates profile
+    profile = kwargs['instance'].profile
+    profile.social_logins.remove(kwargs['instance'])
+    profile.trigger_update()
+    profile.social_logins.add(kwargs['instance'])
+
+
+post_save.connect(update_social, sender=Social)
+pre_delete.connect(delete_social, sender=Social)

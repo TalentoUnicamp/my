@@ -24,8 +24,9 @@ class SidebarContextMixin(LoginRequiredMixin, ContextMixin):
             'redirect_urls': {
                 'dashboard': reverse('dashboard:index'),
                 'application': reverse('application:form'),
+                'company': reverse('company:index'),
                 'team': reverse('dashboard:index'),
-                'admin': reverse('dashboard:index'),
+                'admin': reverse('godmode:index'),
                 'staff': reverse('staff:index'),
                 'logout': reverse('profile:logout'),
             }
@@ -45,12 +46,13 @@ class UserContextMixin(ContextMixin):
         user = self.request.user
         profile = user.profile
         user_context = {
-            'is_admin': user.is_superuser,
+            'is_admin': profile.is_admin,
             'token': profile.token,
             'is_verified': profile.is_verified,
             'unique_id': profile.unique_id,
             'is_hacker': profile.is_hacker,
             'is_staff': profile.is_staff,
+            'is_employee': profile.is_employee,
             'state': profile.state,
             'email': user.email,
             'social': {

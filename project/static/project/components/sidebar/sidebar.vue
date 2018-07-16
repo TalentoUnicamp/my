@@ -69,6 +69,13 @@
                 condition: this.user.state == 'incomplete' || this.user.state == 'submitted'
             },
             {
+                title: 'Empresa',
+                active_tab: this.sidebar.active_tab,
+                link: this.sidebar.redirect_urls['company'],
+                tab: 'company',
+                condition: this.user.is_employee
+            },
+            {
                 title: 'Equipe',
                 active_tab: this.sidebar.active_tab,
                 link: this.sidebar.redirect_urls['team'],
