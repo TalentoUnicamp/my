@@ -3,33 +3,33 @@ Django==2.0.3
 gunicorn==19.7.1
 psycopg2==2.7.4
 whitenoise==3.3.1
-django-extensions
-requests
+django-extensions==2.0.7
+requests==2.19.1
 
 # Async
-celery
-redis
+celery==4.2.0
+redis==2.10.6
 
 # Channels
-channels
-channels_redis
+channels==2.1.2
+channels-redis==2.2.1
 
 # Compressor
-django-compressor
-django-compressor-toolkit
+django-compressor==2.2
+django-compressor-toolkit==0.6.0
 
 # Custom app settings
-django-appconf
+django-appconf==1.0.2
 six
 
 # REST
-djangorestframework
-django-filter
-markdown
-djangorestframework-csv
-djangorestframework-yaml
-djangorestframework-msgpack
-djangorestframework-xml
+djangorestframework==3.8.2
+django-filter==1.1.0
+Markdown==2.6.11
+djangorestframework-csv==2.1.0
+djangorestframework-msgpack==1.0.2
+djangorestframework-xml==1.3.0
+djangorestframework-yaml==1.0.3
 
 # Social
 facebook-sdk==2.0.0
