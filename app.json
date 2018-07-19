@@ -2,7 +2,15 @@
   "name": "",
   "description": "",
   "keywords": [],
-  "addons": [],
+  "addons": [
+    "heroku-redis",
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
   "repository": "",
   "success_url": "/",
   "env": {
