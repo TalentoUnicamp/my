@@ -18,7 +18,7 @@
                                 Filtrar por permissões
                             </div>
                             <div class="scrolling menu">
-                                <div v-for="option in options" v-bind:data-value="option.text" class="item">
+                                <div v-bind:key="option.text" v-for="option in options" v-bind:data-value="option.text" class="item">
                                     <div v-bind:class="option.color" class="ui empty circular label"></div>
                                     {{ option.text }}
                                 </div>
@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in filteredUsers">
+                <tr v-bind:key="user.unique_id" v-for="user in filteredUsers">
                     <td>
                         {{ user.unique_id }}
                     </td>
@@ -81,79 +81,82 @@
 </template>
 
 <script>
-
-    export default {
-        props: ['data'],
-        data() {
-            return {
-                searchText: '',
-                filter: '',
-                options: [
-                {text: 'Todos', color: 'red'},
-                {text: 'Hacker', color: 'blue'},
-                {text: 'Staff', color: 'yellow'},
-                {text: 'Admin', color: 'green'}
-                ],
-                users: this.data
-            }
-        },
-        watch: {
-            data: function(val) {
-                this.users = val;
-            }
-        },
-        computed: {
-            filteredUsers() {
-                let searched = this.users.filter(user => {
-                    let byname = user.full_name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
-                    let byemail = user.email.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
-                    return byname || byemail;
-                });
-                if (this.filter === '')
-                    return searched;
-                self = this;
-                return searched.filter(function (user) {
-                    if (self.filter === 'Hacker')
-                        return user.is_hacker == true;
-                    if (self.filter === 'Staff')
-                        return user.is_staff == true;
-                    if (self.filter === 'Admin')
-                        return user.is_admin == true;
-                    return true;
-                });
-            }
-        },
-        filters: {
-            mapState: function(state) {
-                var map = {
-                    unverified: 'Não verificado',
-                    verified: 'Verificado',
-                    incomplete: 'Incompleto',
-                    submitted: 'Submetido',
-                    late: 'Atrasado',
-                    declined: 'Recusado',
-                    admitted: 'Admitido',
-                    waitlist: 'Fila de espera',
-                    withdraw: 'Desistente',
-                    confirmed: 'Confirmado',
-                    checkedin: 'Checkin'
-                };
-                return map[state];
-            }
-        },
-        mounted: function () {
-            var comp = this;
-            $("#hack_drop").dropdown({
-                onChange: function (value) {
-                    comp.filter = value;
-                }
-            })
+export default {
+    props: ["data"],
+    data() {
+        return {
+            searchText: "",
+            filter: "",
+            options: [
+                { text: "Todos", color: "red" },
+                { text: "Hacker", color: "blue" },
+                { text: "Staff", color: "yellow" },
+                { text: "Admin", color: "green" }
+            ],
+            users: this.data
+        };
+    },
+    watch: {
+        data: function(val) {
+            this.users = val;
         }
+    },
+    computed: {
+        filteredUsers() {
+            let searched = this.users.filter(user => {
+                let byname =
+                    user.full_name
+                        .toLowerCase()
+                        .indexOf(this.searchText.toLowerCase()) > -1;
+                let byemail =
+                    user.email
+                        .toLowerCase()
+                        .indexOf(this.searchText.toLowerCase()) > -1;
+                return byname || byemail;
+            });
+            if (this.filter === "") return searched;
+            self = this;
+            return searched.filter(function(user) {
+                if (self.filter === "Hacker") return user.is_hacker == true;
+                if (self.filter === "Staff") return user.is_staff == true;
+                if (self.filter === "Admin") return user.is_admin == true;
+                return true;
+            });
+        }
+    },
+    filters: {
+        mapState: function(state) {
+            var map = {
+                unverified: "Não verificado",
+                verified: "Verificado",
+                incomplete: "Incompleto",
+                submitted: "Submetido",
+                late: "Atrasado",
+                declined: "Recusado",
+                admitted: "Admitido",
+                waitlist: "Fila de espera",
+                withdraw: "Desistente",
+                confirmed: "Confirmado",
+                checkedin: "Checkin"
+            };
+            return map[state];
+        }
+    },
+    mounted: function() {
+        var comp = this;
+        $("#hack_drop").dropdown({
+            onChange: function(value) {
+                comp.filter = value;
+            }
+        });
     }
+};
 </script>
 
 <style scoped>
-.dropdown, .ui.form .fields .field .ui.input input, .ui.form .field .ui.input input {
+.dropdown,
+.ui.form .fields .field .ui.input input,
+.ui.form .field .ui.input input {
     margin-top: 10px;
 }
 .ui.button {
@@ -167,6 +170,6 @@
     margin-top: 7px;
 }
 .ui.table {
-    font-size: .8em;
+    font-size: 0.8em;
 }
 </style>

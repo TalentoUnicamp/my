@@ -25,6 +25,10 @@ six
 djangorestframework
 django-filter
 markdown
+djangorestframework-csv
+djangorestframework-yaml
+djangorestframework-msgpack
+djangorestframework-xml
 
 # Social
 facebook-sdk==2.0.0

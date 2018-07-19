@@ -15,6 +15,9 @@ class SettingsContextMixin(ContextMixin):
     def get_context_data(self, **kwargs):
 
         settings_context = {
+            'max_hackers': Settings.get().max_hackers,
+            'default_hacker': Settings.default_hacker(),
+            'default_staff': Settings.default_staff(),
             'auto_admit_hackers': Settings.auto_admit_hackers(),
             'registration_opened': Settings.registration_opened(),
             'registration_is_open': Settings.registration_is_open(),

@@ -120,8 +120,8 @@ def notify_decline(hacker):
     }
     to = hacker.profile.user.email
     fr = hack_name
-    msg_plain = render_to_string('project/email/action/text.txt', context)
-    msg_html = render_to_string('project/email/action/html.html', context)
+    msg_plain = render_to_string('project/email/basic/text.txt', context)
+    msg_html = render_to_string('project/email/basic/html.html', context)
 
     send_mail(
         f'[{hack_name}] Sobre sua aplicação',

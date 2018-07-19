@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Dashboard from 'dashboard/components/dashboard/dashboard.vue'
-import SuiVue from 'semantic-ui-vue';
+import SuiVue from 'semantic-ui-vue'
+import VueCookie from 'vue-cookie'
 
 Vue.use(SuiVue);
+Vue.use(VueCookie);
 
 var base = new Vue({
     el: '#dashboard-app',

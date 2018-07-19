@@ -9,7 +9,7 @@
  * });
  */
 
-import ReconnectingWebSocket from './reconnecting-websocket';
+import ReconnectingWebSocket from "./reconnecting-websocket";
 
 class WebSocketBridge {
   constructor(options) {
@@ -21,7 +21,7 @@ class WebSocketBridge {
     this.socket = null;
     this.streams = {};
     this.default_cb = null;
-    this.options = {options};
+    this.options = { options };
   }
 
   /**
@@ -38,13 +38,13 @@ class WebSocketBridge {
   connect(url, protocols, options) {
     let _url;
     // Use wss:// if running on https://
-    const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const scheme = window.location.protocol === "https:" ? "wss" : "ws";
     const base_url = `${scheme}://${window.location.host}`;
     if (url === undefined) {
       _url = base_url;
     } else {
       // Support relative URLs
-      if (url[0] == '/') {
+      if (url[0] == "/") {
         _url = `${base_url}${url}`;
       } else {
         _url = url;
@@ -53,7 +53,7 @@ class WebSocketBridge {
     this.socket = new ReconnectingWebSocket(_url, protocols, options);
   }
 
-    close(code, reason) {
+  close(code, reason) {
     this.socket.close(code, reason);
   }
 
@@ -72,7 +72,7 @@ class WebSocketBridge {
    */
   listen(cb) {
     this.default_cb = cb;
-    this.socket.onmessage = (event) => {
+    this.socket.onmessage = event => {
       const msg = JSON.parse(event.data);
       let action;
       let stream;
@@ -135,16 +135,15 @@ class WebSocketBridge {
    */
   stream(stream) {
     return {
-      send: (action) => {
+      send: action => {
         const msg = {
           stream,
           payload: action
-        }
+        };
         this.socket.send(JSON.stringify(msg));
       }
-    }
+    };
   }
-
 }
 
 export default WebSocketBridge;

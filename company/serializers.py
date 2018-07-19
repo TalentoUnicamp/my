@@ -1,13 +1,27 @@
 from rest_framework import serializers
 from user_profile.models import Profile
-from .models import Company, Employee
+from .models import Company, Employee, Scan
 
 
 class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'access_level']
         model = Company
+
+
+class ScanSerializer(serializers.ModelSerializer):
+
+    scannee_full_name = serializers.CharField(source='scannee.full_name')
+    scannee_unique_id = serializers.CharField(source='scannee.unique_id')
+    scannee_email = serializers.CharField(source='scannee.email')
+    scanner_full_name = serializers.CharField(source='scanner.full_name')
+    scanner_unique_id = serializers.CharField(source='scanner.unique_id')
+    scanner_email = serializers.CharField(source='scanner.email')
+
+    class Meta:
+        fields = ['id', 'rating', 'comments', 'scannee_full_name', 'scannee_unique_id', 'scannee_email', 'scanner_full_name', 'scanner_unique_id', 'scanner_email']
+        model = Scan
 
 
 class ReadEmployeeSerializer(serializers.ModelSerializer):

@@ -4,548 +4,521 @@
 		"selected_items":
 		[
 			[
-				"log",
-				"loginState"
+				"Me",
+				"MessagePackRenderer\tclass"
 			],
 			[
-				"logi",
-				"login_context"
-			],
-			[
-				"Log",
-				"LoginContextMixin\tclass"
-			],
-			[
-				"for",
-				"form_error\tstatement"
-			],
-			[
-				"sidebar",
-				"sidebar_context"
-			],
-			[
-				"side",
-				"sidebar_context"
-			],
-			[
-				"s",
-				"sidebar_context"
-			],
-			[
-				"User",
-				"UserContextMixin\tclass"
-			],
-			[
-				"Us",
-				"UserContextMixin\tclass"
-			],
-			[
-				"use",
-				"user_context\tstatement"
-			],
-			[
-				"dum",
-				"dumps\tfunction"
-			],
-			[
-				"app",
-				"application"
-			],
-			[
-				"pro",
-				"project"
-			],
-			[
-				"act",
-				"active_tab"
-			],
-			[
-				"con",
-				"ContextMixin\tclass"
-			],
-			[
-				"COn",
-				"ContextMixin\tclass"
-			],
-			[
-				"us",
-				"user_status"
-			],
-			[
-				"user",
-				"user_status\tstatement"
-			],
-			[
-				"get",
-				"get_context_data"
-			],
-			[
-				"in",
-				"input\tTag"
-			],
-			[
-				"T",
-				"TemplateView\tmodule"
-			],
-			[
-				"Pro",
-				"PROJECT_ROOT\tstatement"
-			],
-			[
-				"li",
-				"link\tTag"
-			],
-			[
-				"impor",
-				"@import\t@import url(${0});"
-			],
-			[
-				"mo",
-				"modelMixin"
-			],
-			[
-				"mod",
-				"model_sockets"
-			],
-			[
-				"han",
-				"handleSubmit"
-			],
-			[
-				"requ",
-				"requestCreate"
-			],
-			[
-				"dele",
-				"deleteObject"
-			],
-			[
-				"upda",
-				"updateObject"
-			],
-			[
-				"crea",
-				"createObject"
-			],
-			[
-				"mode",
-				"modelMixin"
-			],
-			[
-				"U",
-				"UserSerializer\tclass"
-			],
-			[
-				"vi",
-				"viewsets\tmodule"
+				"M",
+				"MessagePackRenderer\tclass"
 			],
 			[
 				"res",
-				"rest_framework\tmodule"
+				"rest_framework_msgpack\tmodule"
 			],
 			[
-				"l",
-				"listener"
+				"ex",
+				"ExportMixin\tclass"
 			],
 			[
-				"pr",
-				"print1"
+				"dow",
+				"download_url"
 			],
 			[
-				"recc",
-				"ReconnectingWebSocket"
+				"down",
+				"downloadAs"
 			],
 			[
-				"a",
-				"abc"
+				"form",
+				"format"
 			],
 			[
-				"col",
-				"color\tproperty"
+				"Not",
+				"NotNestedTSVRenderer\tclass"
 			],
 			[
-				"soci",
-				"SOCIAL_FACEBOOK_PERMISSIONS\tstatement"
+				"for",
+				"format\tfunction"
 			],
 			[
-				"ba",
-				"background-color\tproperty"
+				"B",
+				"BrowsableAPIRenderer\tclass"
 			],
 			[
-				"ali",
-				"text-align\tproperty"
+				"rend",
+				"renderer_context\tparam"
 			],
 			[
-				"st",
-				"style\tTag"
+				"ren",
+				"renderer_context\tparam"
 			],
 			[
-				"conte",
-				"context_object_name\tstatement"
+				"No",
+				"NotNestedCSVRenderer\tclass"
 			],
 			[
-				"pag",
-				"paginate_by\tstatement"
+				"get_ser",
+				"get_serializer_context\tfunction"
 			],
 			[
-				"n",
-				"n_casos\tstatement"
-			],
-			[
-				"Pend",
-				"PendingSpotted"
+				"e",
+				"export_serializers\tmodule"
 			],
 			[
 				"re",
-				"redirected\tstatement"
+				"renderers\tmodule"
 			],
 			[
-				"red",
-				"redirected\tparam"
+				"expo",
+				"exportCSV"
 			],
 			[
-				"redi",
-				"redirected_param"
+				"ser",
+				"serializer_class\tstatement"
 			],
 			[
-				"code",
-				"code_already_used_url\tfunction"
+				"Ex",
+				"ExportScannedHackersSerializer\tclass"
 			],
 			[
-				"nex",
-				"next_url\tparam"
+				"com",
+				"company\tstatement"
 			],
 			[
-				"F",
-				"False\tkeyword"
+				"get_sri",
+				"get_serializer_context\tfunction"
 			],
 			[
-				"url",
-				"urlparse\tfunction"
+				"Exp",
+				"ExportScanSerializer\tclass"
 			],
 			[
-				"Gra",
-				"GraphAPIError\tclass"
+				"Ser",
+				"SerializerMethodField\tclass"
 			],
 			[
-				"mes",
-				"messages"
+				"app",
+				"application\tmodule"
 			],
 			[
-				"mess",
-				"messages\tstatement"
+				"esca",
+				"escaneador_email\tstatement"
 			],
 			[
-				"messa",
-				"message"
+				"mde",
+				"model"
 			],
 			[
-				"att",
-				"attachment_payload\tparam"
+				"Mode",
+				"ModelSerializer\tclass"
 			],
 			[
-				"ty",
-				"typing_time\tparam"
+				"sc",
+				"scannee_full_name"
 			],
 			[
-				"m",
-				"m_type\tparam"
+				"butt",
+				"button"
 			],
 			[
-				"sim",
-				"simple_message\tfunction"
+				"sca",
+				"scanIdx"
 			],
 			[
-				"qui",
-				"quick_replies\tparam"
+				"rat",
+				"rating"
 			],
 			[
-				"De",
-				"DetailView\tclass"
+				"ra",
+				"rateComponent"
 			],
 			[
-				"cs",
-				"csrf_exempt\tfunction"
+				"rate",
+				"rateInstance"
 			],
 			[
-				"Dw",
-				"DetailView\tclass"
+				"tex",
+				"text-align\tproperty"
 			],
 			[
-				"In",
-				"IndexError\tclass"
+				"as",
+				"askRating"
+			],
+			[
+				"U",
+				"UpdateModelMixin\tclass"
+			],
+			[
+				"def",
+				"default\tparam"
+			],
+			[
+				"scan",
+				"scanList"
+			],
+			[
+				"Sca",
+				"ScanList"
+			],
+			[
+				"Esc",
+				"Escaneados"
+			],
+			[
+				"uni",
+				"unique_id"
+			],
+			[
+				"un",
+				"unique_id"
+			],
+			[
+				"Scan",
+				"ScanViewset\tclass"
+			],
+			[
+				"Is",
+				"IsEmployee\tclass"
+			],
+			[
+				"gene",
+				"GenericViewSet\tclass"
+			],
+			[
+				"view",
+				"viewsets\tmodule"
+			],
+			[
+				"sta",
+				"status\tparam"
+			],
+			[
+				"ad",
+				"admit\tfunction"
+			],
+			[
+				"is",
+				"is_full\tfunction"
+			],
+			[
+				"get",
+				"get_object_or_404\tfunction"
+			],
+			[
+				"u",
+				"useridx"
+			],
+			[
+				"ap",
+				"applicationData"
+			],
+			[
+				"vie",
+				"view_application"
+			],
+			[
+				"ui",
+				"unique_id"
+			],
+			[
+				"f",
+				"f\tAnonymous Function"
+			],
+			[
+				"refre",
+				"refreshCalendars"
+			],
+			[
+				"df",
+				"_default_hacker"
+			],
+			[
+				"_de",
+				"_default_staff"
+			],
+			[
+				"hac",
+				"hackathon_end"
+			],
+			[
+				"regis",
+				"registration_close"
+			],
+			[
+				"reg",
+				"registration_open"
+			],
+			[
+				"sett",
+				"settings_context"
+			],
+			[
+				"fiel",
+				"Field"
+			],
+			[
+				"field",
+				"field_value\tstatement"
+			],
+			[
+				"mii",
+				"mixin"
+			],
+			[
+				"set",
+				"settings_subscriptions"
 			],
 			[
 				"Lo",
 				"LoginRequiredMixin\tclass"
 			],
 			[
-				"Re",
-				"RejectSubmit\tclass"
+				"upda",
+				"updateOnList"
 			],
 			[
-				"Rep",
-				"ReportedSpottedsView\tclass"
+				"fun",
+				"fun\tFunction"
 			],
 			[
-				"Po",
-				"PolemicSpottedsView\tclass"
+				"id",
+				"id_field"
 			],
 			[
-				"PendingSpotted",
-				"PendingSpottedsView\tclass"
+				"em",
+				"employee"
 			],
 			[
-				"Mo",
-				"ModOnlyMixin\tclass"
+				"togg",
+				"toggleAll"
 			],
 			[
-				"Mod",
-				"ModOnlyMixin\tclass"
+				"sele",
+				"selectAll"
 			],
 			[
-				"Pen",
-				"PendingSpotted\tclass"
+				"sle",
+				"selectedCompany"
 			],
 			[
-				"H",
-				"Handler404\tclass"
+				"find",
+				"findIndex"
 			],
 			[
-				"For",
-				"ForMeDeleteOptions\tclass"
+				"in",
+				"indexOf"
 			],
 			[
-				"My",
-				"MyDeleteOptions\tclass"
+				"fu",
+				"fun\tFunction"
 			],
 			[
-				"ge",
-				"get_context_data\tfunction"
+				"on",
+				"onChecked"
 			],
 			[
-				"auth",
-				"author"
+				"cehc",
+				"checkinited"
 			],
 			[
-				"Bse",
-				"BaseFormView\tclass"
+				"ce",
+				"checkinited"
 			],
 			[
-				"Proc",
-				"ProcessFormView\tclass"
+				"co",
+				"console"
 			],
 			[
-				"Mixi",
-				"FormMixin\tclass"
+				"user",
+				"userList"
 			],
 			[
-				"Base",
-				"BaseFormView\tclass"
+				"Em",
+				"EmployeeList"
 			],
 			[
-				"Im",
-				"ImgurUpload\tclass"
+				"comp",
+				"companyCreated"
 			],
 			[
-				"form",
-				"form_class\tstatement"
+				"C",
+				"Company"
 			],
 			[
-				"mi",
-				"mixins\tmodule"
-			],
-			[
-				"cle",
-				"clean_picture"
+				"val",
+				"value\tstatement"
 			],
 			[
 				"vali",
-				"ValidationError\tclass"
+				"validate_unique_id"
 			],
 			[
-				"cont",
-				"content_types"
+				"va",
+				"validate_company_id"
 			],
 			[
-				"Con",
-				"ContentTypeRestrictedFileField"
+				"Des",
+				"DestroyModelMixin\tclass"
 			],
 			[
-				"Fi",
-				"FileField\tclass"
+				"cp",
+				"company_name"
 			],
 			[
-				"clea",
-				"cleaned_data\tstatement"
+				"fet",
+				"FetchScanHacker\tclass"
 			],
 			[
-				"all",
-				"allow_empty_file\tparam"
+				"che",
+				"checkedin"
 			],
 			[
-				"Htt",
-				"HttpResponseRedirect\tclass"
+				"chec",
+				"check-in"
 			],
 			[
-				"to",
-				"total_spotteds\tfunction"
+				"s",
+				"scanner\tstatement"
 			],
 			[
-				"tem",
-				"template_name\tstatement"
+				"rou",
+				"router\tstatement"
 			],
 			[
-				"Mu",
-				"MultiFormsView\tclass"
+				"per",
+				"permission_classes\tstatement"
 			],
 			[
-				"Tem",
-				"TemplateResponseMixin\tclass"
+				"Re",
+				"IsAuthenticatedOrReadOnly\tclass"
 			],
 			[
-				"Fa",
-				"FacebookLogin\tclass"
+				"gn",
+				"GenericAPIView\tclass"
 			],
 			[
-				"Ke",
-				"KeyError\tclass"
+				"Ie",
+				"IsEmployeeMixin\tclass"
 			],
 			[
-				"sta",
-				"state\tstatement"
+				"scann",
+				"scanner"
 			],
 			[
-				"face",
-				"FacebookLogin\tclass"
+				"msoc",
+				"msocks_fields"
 			],
 			[
-				"Co",
-				"CoinHiveStats\tclass"
+				"mso",
+				"msocks_allow"
 			],
 			[
-				"Fr",
-				"ForMeDeleteOptions\tclass"
+				"auto",
+				"auto_now_add\tparam"
 			],
 			[
-				"my",
-				"MyDeleteOptions\tclass"
+				"man",
+				"manualCode"
 			],
 			[
-				"cla",
-				"class\tNew Class"
+				"max",
+				"max-width\tproperty"
 			],
 			[
-				"me",
-				"message\tparam"
+				"came",
+				"cameraMode"
 			],
 			[
-				"ran",
-				"get_random_string"
+				"cam",
+				"cameraWidth"
 			],
 			[
-				"nag",
-				"nag_id\tstatement"
+				"rel",
+				"reloadCamera"
 			],
 			[
-				"Resp",
-				"HttpResponse"
+				"sto",
+				"stopCamera"
 			],
 			[
-				"is",
-				"is_moderator\tfunction"
+				"camera",
+				"cameraContainer"
 			],
 			[
-				"cele",
-				"celery_admin_mail\tfunction"
+				"scre",
+				"screen_w"
 			],
 			[
-				"ins",
-				"instance_id\tparam"
+				"min",
+				"min_h"
 			],
 			[
-				"sha",
-				"shared_task\tfunction"
-			],
-			[
-				"new",
-				"new_id\tstatement"
+				"pro",
+				"promise"
 			],
 			[
 				"de",
-				"description"
+				"decodedString"
 			],
 			[
-				"Spo",
-				"SpottedBot"
+				"le",
+				"length"
 			],
 			[
-				"Key",
-				"KeyboardInterrupt\tclass"
+				"toke",
+				"token"
 			],
 			[
-				"proce",
-				"process_questions\tfunction"
+				"tok",
+				"tokenCopied"
 			],
 			[
-				"env",
-				"env_string\tstatement"
+				"logi",
+				"loginUrl"
 			],
 			[
-				"ask",
-				"ask_user\tfunction"
+				"cop",
+				"copyTextToClipboard"
 			],
 			[
-				"op",
-				"options\tparam"
+				"to",
+				"tokenText"
 			],
 			[
-				"No",
-				"None\tkeyword"
+				"url",
+				"urlText"
 			],
 			[
-				"api",
-				"api_process_raw_bot_message\tfunction"
+				"ur",
+				"urlCopied"
 			],
 			[
-				"last",
-				"last_raw_message"
+				"cur",
+				"cursor\tproperty"
 			],
 			[
-				"las",
-				"last_raw_message"
+				"background-c",
+				"background-color\tproperty"
+			],
+			[
+				"sub",
+				"submitForm"
+			],
+			[
+				"log",
+				"loginUrl"
+			],
+			[
+				"pr",
+				"print\tfunction"
+			],
+			[
+				"send",
+				"send_verify_email\tfunction"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "project/mixins.py",
-			"settings":
-			{
-				"buffer_size": 2115,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "project/views.py",
-			"settings":
-			{
-				"buffer_size": 177,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "project/static/project/components/login/login.vue",
-			"settings":
-			{
-				"buffer_size": 4019,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -559,20 +532,72 @@
 		"selected_items":
 		[
 			[
+				"prett",
+				"JsPrettier: Format Code"
+			],
+			[
 				"rein",
 				"Indentation: Reindent Lines"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"lint",
+				"SublimeLinter: Show Line Errors"
+			],
+			[
+				"pret",
+				"JsPrettier: Format Code"
 			],
 			[
 				"rei",
 				"Indentation: Reindent Lines"
 			],
 			[
-				"ins",
+				"pre",
+				"JsPrettier: Format Code"
+			],
+			[
+				"p",
 				"Package Control: Install Package"
+			],
+			[
+				"linter",
+				"SublimeLinter: Show All Errors"
+			],
+			[
+				"lin",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"li",
+				"SublimeLinter: Lint This View"
+			],
+			[
+				"j",
+				"JsPrettier: Format Code"
 			],
 			[
 				"insta",
 				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"re",
+				"Indentation: Reindent Lines"
 			],
 			[
 				"r",
@@ -589,10 +614,6 @@
 			[
 				"rest",
 				"Git: Reset (hard) HEAD"
-			],
-			[
-				"pac",
-				"Package Control: Install Package"
 			],
 			[
 				"pus",
@@ -695,10 +716,6 @@
 				"Markdown Preview: Preview in Browser"
 			],
 			[
-				"re",
-				"Indentation: Reindent Lines"
-			],
-			[
 				"pep",
 				"Anaconda: Autoformat PEP8 Errors"
 			],
@@ -757,10 +774,6 @@
 			[
 				"todo",
 				"TodoReview: Open Files"
-			],
-			[
-				"inst",
-				"Package Control: Install Package"
 			],
 			[
 				"REIN",
@@ -829,10 +842,6 @@
 			[
 				"ocm",
 				"Markdown Preview: Open Markdown Cheat sheet"
-			],
-			[
-				"p",
-				"Package Control: Install Package"
 			],
 			[
 				"gi",
@@ -927,7 +936,7 @@
 	},
 	"console":
 	{
-		"height": 216.0,
+		"height": 726.0,
 		"history":
 		[
 			"python",
@@ -951,166 +960,154 @@
 	"expanded_folders":
 	[
 		"/Users/Maronato/Documents/learning_vue/future_quill",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/apps",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components/dashboard",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/dashboard",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project"
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/extra",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login"
 	],
 	"file_history":
 	[
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/apps/dashboard.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/login.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/login.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/urls.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/views.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/root.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components/dashboard/dashboard.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/extra/download_button.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/mixins.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/sidebar.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/dashboard/dashboard.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/base.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login/login.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/settings.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/renderers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/requirements.txt",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/views.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/sidebar.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/item.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/apps.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/__init__.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/custom_appconf.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/urls.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/project/dashboard.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/dashboard.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/dashboard/dashboard.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/dashboard.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_sidebar.scss",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/base.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/base.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/user_property.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/base/base.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/base/base.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/test.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/company.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/scan_list.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/settings.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/exports.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/user_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/list/user_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/export_serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/export_serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/export_serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/export_serializers.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/renderers.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/generics.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/hacker_rate.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/scan.vue",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/templates/company/company.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/tablesort/tablesort.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/settings_subscriptions.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/list.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/permissions.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/hacker_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/list.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/emails.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/settings_subs.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/settings.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/templates/godmode/admin.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/admin.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/company_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/employee_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/subscriptions/base.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/templates/staff/staff.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/templates/application/application.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/root.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/package.json",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/src/theme.config",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/src/theme.less",
-		"/Users/Maronato/Documents/DjangoTemplates/projects/vue/requirements.txt",
-		"/Users/Maronato/Documents/DjangoTemplates/projects/vue/project/urls.py",
-		"/Users/Maronato/Documents/DjangoTemplates/projects/vue/project/settings.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/scripts/App.vue",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/templates/vueapp/vue.html",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/scripts/vue.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/css/bulma.scss",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/urls.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/serializers.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/mixins/modelMixin.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/.babelrc",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/components/TodoList.vue",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/css/variables2.scss",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/components/BaseInputText.vue",
-		"/Users/Maronato/Documents/learning_vue/compressor/package.json",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/css/variables.scss",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/css/test.scss",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/components/user/user.vue",
-		"/Users/Maronato/Documents/learning_vue/compressor/model_sockets/consumers.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/project/settings.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/views.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/requirements.txt",
-		"/Users/Maronato/Documents/learning_vue/compressor/model_sockets/static/model_sockets/js/subscriptions.js",
-		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_compressor/venv/lib/python3.6/site-packages/channels/generic/websocket.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/project/urls.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/project/asgi.py",
-		"/Users/Maronato/Documents/learning_vue/compressor/model_sockets/static/model_sockets/js/ws_wrapper.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/model_sockets/static/model_sockets/js/sssubscription.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/model_sockets/static/model_sockets/js/subscription.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/css/test.css",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/templates/vueapp/es6.html",
-		"/Users/Maronato/Library/Application Support/Sublime Text 3/Packages/Color Highlighter/ColorHighlighter.sublime-settings",
-		"/Users/Maronato/Library/Application Support/Sublime Text 3/Packages/User/ColorHighlighter.sublime-settings",
-		"/Users/Maronato/Documents/learning_vue/compressor/runtime.txt",
-		"/Users/Maronato/Documents/learning_vue/compressor/bin/post_compile",
-		"/Users/Maronato/Documents/learning_vue/compressor/Procfile",
-		"/Users/Maronato/Documents/learning_vue/compressor/release.sh",
-		"/Users/Maronato/Documents/learning_vue/compressor/bin/run_compress",
-		"/Users/Maronato/Documents/learning_vue/compressor/.env",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/scripts/hello.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/vueapp/static/vueapp/js/components/greeter.jsx",
-		"/Users/Maronato/Documents/learning_vue/compressor/project/templates/static/project/js/index.js",
-		"/Users/Maronato/Documents/learning_vue/compressor/project/templates/project/index.html",
-		"/Users/Maronato/Documents/learning_vue/django-vue-template/templates/project/spa2.html",
-		"/Users/Maronato/Documents/learning_vue/django-vue-template/src/main.js",
-		"/Users/Maronato/Documents/learning_vue/project/config/index.js",
-		"/Users/Maronato/Documents/learning_vue/project/templates/project/spa.html",
-		"/Users/Maronato/Documents/learning_vue/project/templates/project/base.html",
-		"/Users/Maronato/Documents/learning_vue/project/build/webpack.dev.conf.js",
-		"/Users/Maronato/Documents/learning_vue/project/build/webpack.base.conf.js",
-		"/Users/Maronato/Documents/learning_vue/project/.gitignore",
-		"/Users/Maronato/Documents/learning_vue/project/project/urls.py",
-		"/Users/Maronato/Documents/learning_vue/project/src/main.js",
-		"/Users/Maronato/Documents/learning_vue/project/project/settings.py",
-		"/Users/Maronato/Documents/learning_vue/project/requirements.txt",
-		"/Users/Maronato/Documents/learning_vue/project/build/dev-client.js",
-		"/Users/Maronato/Documents/learning_vue/assets/js/index.js",
-		"/Users/Maronato/Documents/learning_vue/webpack.config.js",
-		"/Users/Maronato/Documents/learning_vue/index.html",
-		"/Users/Maronato/Documents/learning_vue/src/index.js",
-		"/Users/Maronato/Documents/learning_vue/assets/js/App.vue",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/models.py",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/facebook_methods.py",
-		"/Users/Maronato/Documents/SpottedBot/requirements.txt",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/migrations/0004_facebookuser_last_name.py",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/migrations/0003_auto_20180701_2335.py",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/migrations/0002_auto_20180701_2335.py",
-		"/Users/Maronato/Documents/SpottedBot/custom_auth/__init__.py",
-		"/Users/Maronato/Documents/SpottedBot/project/maintenance_mode_state.txt",
-		"/Users/Maronato/Documents/SpottedBot/.gitignore",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/base.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/templates/spotteds/view_spotted.html",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/404.html",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/analytics/GA.html",
-		"/Users/Maronato/Documents/Matérias Unicamp/MC404/IAS_compiler/variables.py",
-		"/Users/Maronato/Documents/SpottedBot/project/settings.py",
-		"/Users/Maronato/Documents/SpottedBot/.env",
-		"/Users/Maronato/Documents/SpottedBot/main/static/main/js/GA.js",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/503.html",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/500.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/models.py",
-		"/Users/Maronato/Documents/SpottedBot/main/context_processors.py",
-		"/Users/Maronato/Documents/SpottedBot/initialize.py",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/wot_wrapper.py",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/ads/init_ads.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/views.py",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/index.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/templates/spotteds/list_spotteds.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/templates/spotteds/spotteds/list.html",
-		"/Users/Maronato/Documents/SpottedBot/spotteds/urls.py",
-		"/Users/Maronato/Desktop/sapo.py",
-		"/Users/Maronato/Documents/SpottedBot/main/templates/main/imgur_form.html"
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/js/modules/popup.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/apps/admin.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_animation.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_application.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_base.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_branding.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_custom.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_dashboard.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_login.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_page.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_sidebar.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_staff.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_team.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_verify.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/normalize.css",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/site.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/axios_csrf.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/notifications.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/notify_messages.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/self_subscriptions.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/action/html.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/action/style.css",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/basic/html.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/basic/style.css",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/base.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/apps/staff.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/checkin.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/register.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/staff.vue",
+		"/Users/Maronato/Library/Application Support/Sublime Text 3/Packages/Terminal/Terminal.sublime-settings",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_admin.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/sidebar.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/item.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login/login.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/sidebar.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/self_subs.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/login.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/ws_wrapper.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/subscription.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/msocks.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/msocks_bkp.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/reconnecting-websocket.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/create_users.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/apps/company.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/views.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/.eslintrc.json",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/views.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/dashboard/dashboard.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/.env",
+		"/Users/Maronato/Documents/learning_vue/future_quill/social/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/application/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/admin.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/db.sqlite3",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/user_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/views.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/js/modules/checkbox.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/permissions.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/serializers.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/permissions.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/consumers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/apps.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/subscriptions/generics.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/staff/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/tasks.py"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 72.0
 	},
 	"find_in_files":
 	{
 		"height": 322.0,
 		"where_history":
 		[
+			"<project>"
 		]
 	},
 	"find_state":
@@ -1118,6 +1115,55 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"rest",
+			"data-sort-value",
+			"button",
+			"buttom",
+			"index",
+			"node",
+			".uni",
+			"map",
+			"reload",
+			"conso",
+			"cons",
+			"consolo",
+			"scop",
+			"scope",
+			"json",
+			"conso",
+			"export",
+			"dispat",
+			"fields",
+			"field",
+			"admin",
+			"export",
+			"seman",
+			"face",
+			"setti",
+			"is_h",
+			"email",
+			"tok",
+			".get()",
+			"drop",
+			"save",
+			"hackers",
+			"messa",
+			"automatically",
+			"todo",
+			"_",
+			"_m",
+			"_d",
+			"is_hacker",
+			"add_to_class",
+			"background: rg",
+			"backg",
+			"opacit",
+			"cons",
+			"prin",
+			"retrieveMo",
+			"retrieve",
+			"icon",
+			"ico",
 			"img"
 		],
 		"highlight": true,
@@ -1126,6 +1172,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"",
+			"d"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -1136,154 +1184,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "project/mixins.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2115,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1867,
-								1867
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".>:",
-									"selector": "source.c++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>:",
-									"selector": "source.c - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.objc++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.objc - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.cuda-c++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 923.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "project/views.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 177,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								120,
-								120
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".>:",
-									"selector": "source.c++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>:",
-									"selector": "source.c - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.objc++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.objc - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".>: ",
-									"selector": "source.cuda-c++ - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "project/static/project/components/login/login.vue",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4019,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								652,
-								652
-							]
-						],
-						"settings":
-						{
-							"git_gutter_is_enabled": true,
-							"syntax": "Packages/Vue Syntax Highlight/Vue Component.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 21.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1318,7 +1220,19 @@
 		]
 	},
 	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 155.0
+	},
+	"output.SublimeLinter Messages":
+	{
+		"height": 186.0
+	},
 	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
 	{
 		"height": 0.0
 	},
@@ -1335,6 +1249,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"staff/templates/staff/staff.html"
+			],
 			[
 				"com",
 				"main/static/main/css/semantic-ui/components/comment.css"

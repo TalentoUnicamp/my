@@ -160,6 +160,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder'
 )
 
+
 # Compressor settings
 COMPRESS_OFFLINE = not DEBUG
 

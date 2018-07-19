@@ -2,11 +2,18 @@ from django.shortcuts import reverse
 from django.views.generic.base import ContextMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.conf import settings
+from django.conf import settings as dj_settings
+from rest_framework_csv.renderers import CSVRenderer
+from rest_framework.renderers import JSONRenderer
+from rest_framework_yaml.renderers import YAMLRenderer
+from rest_framework_xml.renderers import XMLRenderer
+from rest_framework_msgpack.renderers import MessagePackRenderer
 import json
+from .renderers import NotNestedCSVRenderer, TSVRenderer, NotNestedTSVRenderer
+from settings.mixins import SettingsContextMixin
 
 
-class SidebarContextMixin(LoginRequiredMixin, ContextMixin):
+class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin):
     """Sidebar Context
 
     Inherit this mixin to automatically get the context required for
@@ -19,7 +26,7 @@ class SidebarContextMixin(LoginRequiredMixin, ContextMixin):
         context = super().get_context_data(**kwargs)
         sidebar_context = {
             'active_tab': self.active_tab,
-            'event_name': settings.EVENT_NAME,
+            'event_name': dj_settings.EVENT_NAME,
             'event_logo': static('project/img/logo.svg'),
             'redirect_urls': {
                 'dashboard': reverse('dashboard:index'),
@@ -53,6 +60,7 @@ class UserContextMixin(ContextMixin):
             'is_hacker': profile.is_hacker,
             'is_staff': profile.is_staff,
             'is_employee': profile.is_employee,
+            'employee_company_access': (profile.employee.company.access_level if profile.is_employee else -1),
             'state': profile.state,
             'email': user.email,
             'social': {
@@ -77,7 +85,7 @@ class LoginContextMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         login_context = {
-            'event_logo': static('project/img/logo.svg'),
+            'event_logo_text': static('project/img/logo_text.svg'),
             'event_bg': static('project/img/bg.png'),
             'check_token_url': reverse('profile:api:check_token'),
             'reset_email_url': reverse('profile:api:reset_token_email'),
@@ -91,3 +99,20 @@ class LoginContextMixin(ContextMixin):
         }
         context['login_context'] = json.dumps(login_context)
         return context
+
+
+class ExportMixin:
+    """
+    Enables exporting in various formats
+    Can be used with the DownloadButton.vue component
+    """
+    renderer_classes = (
+        JSONRenderer,
+        CSVRenderer,
+        NotNestedCSVRenderer,
+        TSVRenderer,
+        NotNestedTSVRenderer,
+        YAMLRenderer,
+        XMLRenderer,
+        MessagePackRenderer
+    )

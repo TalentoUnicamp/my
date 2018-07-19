@@ -1,6 +1,6 @@
-import toast from './notifications';
+import toast from "./notifications";
 
 for (var i in messages) {
     var message = messages[i];
-    toast('', message.message, message.level);
+    toast("", message.message, message.level);
 }

@@ -3,7 +3,7 @@ from . import views, api
 
 apipattens = [
     path('toggle_is_admin/', api.ToggleIsAdmin.as_view(), name='toggle_is_admin'),
-    path('delete_user/', api.DeleteUser.as_view(), name='delete_user'),
+    path('delete_user/<str:unique_id>/', api.DeleteUser.as_view(), name='delete_user'),
     path('batch_create_users/', api.BatchCreateUsers.as_view(), name='batch_create_users'),
 ]
 

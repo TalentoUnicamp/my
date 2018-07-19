@@ -48,7 +48,7 @@
                     {{ error }}
                 </div>
                 <div class="ui relaxed list">
-                    <div class="item" v-for="user in users">
+                    <div class="item" v-for="user in users" v-bind:key="user.token">
                         <i v-if="user.result == 'success'" class="green large check circle icon"></i>
                         <i v-if="user.result == 'error'" class="red large remove circle icon"></i>
                         <i v-if="user.result == 'pending'" class="large circle outline icon"></i>
@@ -75,45 +75,45 @@
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
-    import axios from 'project/js/axios_csrf';
-    import toast from 'project/js/notifications';
+import axios from "project/js/axios_csrf";
+import toast from "project/js/notifications";
 
-    export default {
-        props: ['admin_context'],
-        data() {
-            return {
-                csv: '',
-                validCsv: [],
-                error: '',
-                users: [],
-                admin: admin_context,
-                createLoading: false,
-                sendEmails: false
+export default {
+    props: ["admin_context"],
+    data() {
+        return {
+            csv: "",
+            validCsv: [],
+            error: "",
+            users: [],
+            admin: admin_context,
+            createLoading: false,
+            sendEmails: false
+        };
+    },
+    computed: {
+        formatIsValid() {
+            return this.csv.length > 0 && this.csv == this.validCsv;
+        }
+    },
+    methods: {
+        checkFormat() {
+            this.error = "";
+            try {
+                this.users = formatCSV(this.csv);
+                this.validCsv = this.csv;
+            } catch (error) {
+                this.error = error;
             }
         },
-        computed: {
-            formatIsValid() {
-                return this.csv.length > 0 && this.csv == this.validCsv;
-            }
-        },
-        methods: {
-            checkFormat() {
-                this.error = '';
-                try {
-                    this.users = formatCSV(this.csv);
-                    this.validCsv = this.csv;
-                } catch(error) {
-                    this.error = error;
-                }
-            },
-            createUsers() {
-                self = this;
-                this.createLoading = true;
-                axios.post(this.admin.api.batch_create_users, {
+        createUsers() {
+            self = this;
+            this.createLoading = true;
+            axios
+                .post(this.admin.api.batch_create_users, {
                     users: this.users,
                     send_emails: this.sendEmails
                 })
@@ -122,49 +122,52 @@
                 })
                 .catch(function(error) {
                     console.error(error);
-                    toast('Opa!', 'Algo de errado aconteceu :(', 'error');
+                    toast("Opa!", "Algo de errado aconteceu :(", "error");
                 })
                 .then(function() {
                     self.createLoading = false;
                 });
-            }
         }
     }
+};
 
-    function formatCSV(csv) {
-        var rows = csv.split('\n');
-        if (csv.length == 0) {
-            throw 'Não tem nada aqui';
-        }
-        var users = {};
-        return rows.map(function(row, i) {
-            var columns = row.split(',');
-            if (columns.length != 3) {
-                throw 'Linha ' + i + ' tem ' + columns.length + ' valores. Eram esperados 3';
-            }
-            var f_name = columns[0].trim(),
-                l_name = columns[1].trim(),
-                email = columns[2].trim();
-            if (f_name.length == 0 || l_name.length == 0) {
-                throw 'Linha ' + i + ', nome ou sobrenome vazios';
-            }
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if (!re.test(String(email).toLowerCase())) {
-                throw 'Linha ' + i + ', email inválido';
-            }
-            if (users[email]) {
-                throw 'Linha ' + i + ', email já digitado';
-            }
-            users[email] = true;
-
-            return {
-                first_name: f_name,
-                last_name: l_name,
-                email: email,
-                result: 'pending',
-                token: ''
-            }
-        })
+function formatCSV(csv) {
+    var rows = csv.split("\n");
+    if (csv.length == 0) {
+        throw "Não tem nada aqui";
     }
+    var users = {};
+    return rows.map(function(row, i) {
+        var columns = row.split(",");
+        if (columns.length != 3) {
+            throw "Linha " +
+                i +
+                " tem " +
+                columns.length +
+                " valores. Eram esperados 3";
+        }
+        var f_name = columns[0].trim(),
+            l_name = columns[1].trim(),
+            email = columns[2].trim();
+        if (f_name.length == 0 || l_name.length == 0) {
+            throw "Linha " + i + ", nome ou sobrenome vazios";
+        }
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(String(email).toLowerCase())) {
+            throw "Linha " + i + ", email inválido";
+        }
+        if (users[email]) {
+            throw "Linha " + i + ", email já digitado";
+        }
+        users[email] = true;
+
+        return {
+            first_name: f_name,
+            last_name: l_name,
+            email: email,
+            result: "pending",
+            token: ""
+        };
+    });
+}
 </script>
-

@@ -6,7 +6,7 @@
 
         <div class="ui stackable centered page grid">
             <div class="column">
-                    <sui-menu class="stackable three item">
+                    <sui-menu class="stackable two item">
                         <a
                         is="sui-menu-item"
                         v-for="item in items"
@@ -20,41 +20,35 @@
                     <Scan
                     v-bind:company_context="company"
                     v-show="isActive('Escanear')" />
-<!--                     <List
-                    v-bind:staff_context="staff"
-                    v-show="isActive('Lista')" /> -->
-<!--
-
-
-                    <Register
-                    v-show="isActive('Inscrição')"
-                    v-bind:staff_context="staff" />
- -->
+                    <ScanList
+                    v-bind:company_context="company"
+                    v-show="isActive('Escaneados')" />
                 </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Scan from './sections/scan.vue';
+import Scan from "./sections/scan.vue";
+import ScanList from "./sections/scan_list.vue";
 
-    export default {
-        props: ['company_context'],
-        components: { Scan },
-        data() {
-            return {
-                company: this.company_context,
-                active: 'Escanear',
-                items: ['Escanear', 'Escaneados', 'Inscrição'],
-            };
+export default {
+    props: ["company_context"],
+    components: { Scan, ScanList },
+    data() {
+        return {
+            company: this.company_context,
+            active: "Escanear",
+            items: ["Escanear", "Escaneados"]
+        };
+    },
+    methods: {
+        isActive(name) {
+            return this.active === name;
         },
-        methods: {
-            isActive(name) {
-                return this.active === name;
-            },
-            select(name) {
-                this.active = name;
-            },
-        },
+        select(name) {
+            this.active = name;
+        }
     }
+};
 </script>

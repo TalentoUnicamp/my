@@ -29,7 +29,18 @@ class BaseSubscriptionReceiver:
     def get_allowed_data(self, all_fields={}):
         data = {}
         for field in self.get_allowed_fields(all_fields):
-            data[field] = eval('self.instance.' + field)
+            field_value = field
+            if not isinstance(field, str):
+                if not isinstance(field, list) and not isinstance(field, tuple):
+                    raise TypeError(f'Field {field} should be str, tuple or list. Is {type(field)}')
+                if len(field) != 2:
+                    raise ValueError(f'Field {field} has {len(field)}. Should have 2')
+                field_value = field[1]
+                field = field[0]
+            obj = eval('self.instance.' + field_value)
+            if callable(obj):
+                obj = obj()
+            data[field] = obj
         return data
 
     def dispatch(self):

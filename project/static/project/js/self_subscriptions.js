@@ -1,6 +1,6 @@
-import { SelfSubscription } from 'model_sockets/js/subscription';
+import { SelfSubscription } from "model_sockets/js/subscription";
 
-var selfsub = new SelfSubscription('update', false);
+var selfsub = new SelfSubscription("update", false);
 selfsub.connect();
 
 // function update(data) {

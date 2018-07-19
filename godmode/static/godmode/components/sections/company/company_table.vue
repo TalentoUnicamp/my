@@ -1,10 +1,16 @@
 <template>
     <div class="container">
-        <sui-form @submit.prevent="createCompany">
-            <sui-form-field>
-                <label>Criar empresa</label>
-                <input placeholder="Nome" v-model="newCompanyName">
-            </sui-form-field>
+        <sui-form v-on:submit.prevent="createCompany">
+            <sui-form-fields fields='two'>
+                <sui-form-field>
+                    <label>Nome da empresa</label>
+                    <input placeholder="Nome" v-model="newCompanyName">
+                </sui-form-field>
+                <sui-form-field>
+                    <label>Nível de acesso</label>
+                    <input type="number" min="0" max="10" placeholder="Inteiros positivos" v-model="newCompanyAccess">
+                </sui-form-field>
+            </sui-form-fields>
             <sui-button content="Criar empresa" color="blue" />
         </sui-form>
         <sui-divider />
@@ -23,11 +29,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>Acesso</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="company in filteredCompanies">
+                <tr v-for="company in filteredCompanies" v-bind:key="company.id">
                     <td>
                         {{ company.id }}
                     </td>
@@ -35,6 +42,9 @@
                         <strong>
                             {{ company.name }}
                         </strong>
+                    </td>
+                    <td>
+                        {{ company.access_level }}
                     </td>
                     <td class="right aligned collapsing">
                         <sui-button class="actionbuttons" content="Apagar" color="red" @click="$emit('delete-company', company.id)" />
@@ -46,15 +56,15 @@
 </template>
 
 <script>
-
     export default {
-        props: ['data'],
+        props: ["data"],
         data() {
             return {
-                searchText: '',
+                searchText: "",
                 companies: this.data,
-                newCompanyName: ''
-            }
+                newCompanyName: "",
+                newCompanyAccess: null
+            };
         },
         watch: {
             data: function(val) {
@@ -64,19 +74,29 @@
         computed: {
             filteredCompanies() {
                 return this.companies.filter(company => {
-                    return company.name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
+                    return (
+                        company.name
+                        .toLowerCase()
+                        .indexOf(this.searchText.toLowerCase()) > -1
+                        );
                 });
-            },
+            }
+        },
+        methods: {
             createCompany() {
-                this.$emit('create-company', this.newCompanyName);
-                this.newCompanyName = '';
+                this.$emit("create-company", {name: this.newCompanyName, access_level: this.newCompanyAccess});
+                this.newCompanyName = "";
+                this.newCompanyAccess = null;
+                return null;
             }
         }
-    }
+    };
 </script>
 
 <style scoped>
-.dropdown, .ui.form .fields .field .ui.input input, .ui.form .field .ui.input input {
+.dropdown,
+.ui.form .fields .field .ui.input input,
+.ui.form .field .ui.input input {
     margin-top: 10px;
 }
 .ui.button {
@@ -88,8 +108,5 @@
 }
 .ui.icon.input > i.icon:not(.link) {
     margin-top: 7px;
-}
-.ui.table {
-    font-size: .8em;
 }
 </style>

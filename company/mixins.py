@@ -9,6 +9,17 @@ class IsEmployeeMixin(LoginRequiredMixin, UserPassesTestMixin):
         return self.request.user.profile.is_employee
 
 
+class EmployeeHasAccessMixin(IsEmployeeMixin):
+    access_level = 0
+
+    def test_func(self):
+        if not super().test_func():
+            # if not employee, return False
+            return False
+        company_access = self.request.user.profile.employee.company.access_level
+        return company_access >= self.access_level
+
+
 class CompanyContextMixin(LoginRequiredMixin, ContextMixin):
     """Company Context
 
@@ -25,9 +36,17 @@ class CompanyContextMixin(LoginRequiredMixin, ContextMixin):
         company_context = {
             'active_tab': self.active_tab,
             'company_name': company.name,
+            'company_access_level': company.access_level,
             'api': {
                 'fetch_scan_hacker': reverse('company:api:fetch_scan_hacker'),
                 'scan_hacker': reverse('company:api:scan_hacker'),
+
+                'scan_list': reverse('company:api:scan-list'),
+                'scan_destroy': reverse('company:api:scan-detail', args=[0])[:-2],
+                'scan_update': reverse('company:api:scan-detail', args=[0])[:-2],
+            },
+            'exports': {
+                'scanned_hackers': reverse('hacker:exports:scanned_hackers')
             }
         }
         context = super().get_context_data(**kwargs)

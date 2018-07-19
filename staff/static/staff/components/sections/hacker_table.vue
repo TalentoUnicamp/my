@@ -2,13 +2,13 @@
     <div class="container">
         <div class="ui form">
             <div class="fields">
-                <div class="twelve wide field">
+                <div class="eleven wide field">
                     <div class="ui left icon fluid input">
                         <i class="search icon"></i>
-                        <input type="text" class="searchText" placeholder="Pesquisar por nome" v-model="searchText">
+                        <input type="text" class="searchText" placeholder="Pesquisar por nome e email" v-model="searchText">
                     </div>
                 </div>
-                <div class="four wide field">
+                <div class="five wide field">
                     <div id="filter_drop" class="ui floating fluid dropdown labeled icon button">
                         <i class="filter icon"></i>
                         <span class="text">Filtrar</span>
@@ -18,7 +18,7 @@
                                 Filtrar por estado
                             </div>
                             <div class="scrolling menu">
-                                <div v-for="option in options" v-bind:data-value="option.text" class="item">
+                                <div v-bind:key="option.text" v-for="option in options" v-bind:data-value="option.text" class="item">
                                     <div v-bind:class="option.color" class="ui empty circular label"></div>
                                     {{ option.text }}
                                 </div>
@@ -34,10 +34,11 @@
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Estado</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in filteredUsers">
+                <tr v-bind:key="user.email" v-for="user in filteredUsers">
                     <td>
                         <strong>
                             {{ user.full_name }}
@@ -51,31 +52,91 @@
                             {{ user.state | mapState }}
                         </strong>
                     </td>
+                    <td class="right aligned collapsing">
+
+                        <sui-button
+                        class="actionbuttons"
+                        size="tiny"
+                        content="Analisar"
+                        color="blue"
+                        v-if="user.state == 'submitted'"
+                        @click="analyzeHacker(user.unique_id)" />
+
+                        <sui-button
+                        class="actionbuttons"
+                        size="tiny"
+                        content="Rejeitar"
+                        color="red"
+                        v-if="user.state == 'admitted' || user.state == 'confirmed'"
+                        @click="rejectHacker(user.unique_id)" />
+
+                        <sui-button
+                        class="actionbuttons"
+                        size="tiny"
+                        content="Admitir"
+                        color="green"
+                        v-if="user.state == 'declined'"
+                        @click="admitHacker(user.unique_id)" />
+
+                        <sui-button
+                        class="actionbuttons"
+                        size="tiny"
+                        content="Tirar da fila"
+                        color="orange"
+                        v-if="user.state == 'waitlist'"
+                        @click="unWaitlistHacker(user.unique_id)" />
+
+                    </td>
                 </tr>
             </tbody>
         </table>
+        <sui-modal v-model="openAnalyzeModal">
 
+            <sui-dimmer v-bind:active="applicationData === null" inverted>
+                <sui-loader content="Carregando hacker..." />
+            </sui-dimmer>
+                <sui-modal-header v-if="applicationData !== null">{{ applicationData.full_name }}</sui-modal-header>
+                <sui-modal-content v-if="applicationData !== null">
+                    <sui-modal-description>
+                        <sui-header>Default Profile Image</sui-header>
+                        <p>We've found the following gravatar image associated with your e-mail address.</p>
+                        <p>Is it okay to use this photo?</p>
+                    </sui-modal-description>
+                </sui-modal-content>
+                <sui-modal-actions v-if="applicationData !== null">
+                    <div @click="rejectHacker(applicationData.unique_id)" class="ui negative right labeled icon button">Rejeitar<sui-icon name="times" /></div>
+                    <div @click="admitHacker(applicationData.unique_id)" class="ui positive right labeled icon button">Admitir<sui-icon name="check" /></div>
+                </sui-modal-actions>
+        </sui-modal>
     </div>
 
 </template>
 
 <script>
+    import axios from "project/js/axios_csrf";
+    import toast from "project/js/notifications";
+    import swal from "sweetalert";
 
     export default {
-        props: ['data'],
+        props: ["data", "staff_context"],
         data() {
             return {
-                searchText: '',
-                filter: '',
+                staff: this.staff_context,
+                searchText: "",
+                filter: "",
                 options: [
-                {text: 'Todos', color: 'red'},
-                {text: 'Confirmado', color: 'blue'},
-                {text: 'Admitido', color: 'yellow'},
-                {text: 'Fila de espera', color: 'gray'},
-                {text: 'Checkin', color: 'green'},
+                { text: "Todos", color: "orange" },
+                { text: "Submetido", color: "black" },
+                { text: "Admitido", color: "yellow" },
+                { text: "Confirmado", color: "blue" },
+                { text: "Fila de espera", color: "gray" },
+                { text: "Check-in", color: "green" },
+                { text: "Recusado", color: "red" },
                 ],
-                users: []
-            }
+                users: [],
+                openAnalyzeModal: false,
+                applicationData: null
+            };
         },
         watch: {
             data: function(val) {
@@ -85,51 +146,155 @@
         computed: {
             filteredUsers() {
                 let searched = this.users.filter(user => {
-                    let byname = user.full_name.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
-                    let byemail = user.email.toLowerCase().indexOf(this.searchText.toLowerCase()) > -1
+                    let byname =
+                    user.full_name
+                    .toLowerCase()
+                    .indexOf(this.searchText.toLowerCase()) > -1;
+                    let byemail =
+                    user.email
+                    .toLowerCase()
+                    .indexOf(this.searchText.toLowerCase()) > -1;
                     return byname || byemail;
                 });
-                if (this.filter === '')
-                    return searched;
+                if (this.filter === "") return searched;
                 self = this;
-                return searched.filter(function (user) {
-                    if (self.filter == '' || self.filter == 'Todos')
-                        return true;
-                    return self.$options.filters.mapState(user.state) == self.filter;
+                return searched.filter(function(user) {
+                    if (self.filter == "" || self.filter == "Todos") return true;
+                    return (
+                        self.$options.filters.mapState(user.state) == self.filter
+                        );
                 });
             }
         },
         filters: {
             mapState: function(state) {
                 var map = {
-                    unverified: 'Não verificado',
-                    verified: 'Verificado',
-                    incomplete: 'Incompleto',
-                    submitted: 'Submetido',
-                    late: 'Atrasado',
-                    declined: 'Recusado',
-                    admitted: 'Admitido',
-                    waitlist: 'Fila de espera',
-                    withdraw: 'Desistente',
-                    confirmed: 'Confirmado',
-                    checkedin: 'Checkin'
+                    unverified: "Não verificado",
+                    verified: "Verificado",
+                    incomplete: "Incompleto",
+                    submitted: "Submetido",
+                    late: "Atrasado",
+                    declined: "Recusado",
+                    admitted: "Admitido",
+                    waitlist: "Fila de espera",
+                    withdraw: "Desistente",
+                    confirmed: "Confirmado",
+                    checkedin: "Check-in"
                 };
                 return map[state];
             }
         },
-        mounted: function () {
+        mounted: function() {
             var comp = this;
             $("#filter_drop").dropdown({
-                onChange: function (value) {
+                onChange: function(value) {
                     comp.filter = value;
                 }
-            })
+            });
+        },
+        methods: {
+            analyzeHacker(unique_id) {
+                this.applicationData = null;
+                this.openAnalyzeModal = true;
+                self = this;
+                axios
+                .get(this.staff.api.view_application + unique_id)
+                .then(function(data) {
+                    self.applicationData = data.data;
+                    console.log(data.data);
+                })
+                .catch(function(error) {
+                    console.error(error);
+                    self.openAnalyzeModal = false;
+                    toast("Opa!", "Algo de errado aconteceu :(", "error");
+                });
+            },
+            rejectHacker(unique_id) {
+                this.openAnalyzeModal = false;
+                let useridx = this.users.findIndex(u => u.unique_id == unique_id);
+                let user = this.users[useridx];
+                var comp = this;
+                swal({
+                    title: "Rejeitar " + user.full_name,
+                    text: "Tem certeza de que quer fazer isso?",
+                    icon: "warning",
+                    dangerMode: true,
+                    buttons: ["Calma aí", "Rejeitar!"]
+                }).then(isRejecting => {
+                    if (isRejecting) {
+                        axios.post(comp.staff.api.decline_hacker, {
+                            unique_id: unique_id
+                        })
+                        .then(function(data) {
+                            toast("Atenção", data.data.message, "info");
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                            toast("Opa!", "Algo de errado aconteceu :(", "error");
+                        });
+                    };
+                });
+            },
+            admitHacker(unique_id) {
+                this.openAnalyzeModal = false;
+                let useridx = this.users.findIndex(u => u.unique_id == unique_id);
+                let user = this.users[useridx];
+                var comp = this;
+                swal({
+                    title: "Admitir " + user.full_name,
+                    text: "Tem certeza de que quer fazer isso?",
+                    icon: "warning",
+                    buttons: ["Calma aí", "Admitir!"]
+                }).then(isAdmitting => {
+                    if (isAdmitting) {
+                        axios.post(comp.staff.api.admit_hacker, {
+                            unique_id: unique_id
+                        })
+                        .then(function(data) {
+                            toast("Sucesso", data.data.message, "success");
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                            toast("Opa!", "Algo de errado aconteceu :(", "error");
+                        });
+                    }
+                });
+            },
+            unWaitlistHacker(unique_id) {
+                let useridx = this.users.findIndex(u => u.unique_id == unique_id);
+                let user = this.users[useridx];
+                var comp = this;
+                swal({
+                    title: "Tirar da fila de espera ",
+                    text:
+                    "Tem certeza de que quer tirar " +
+                    user.full_name +
+                    " da fila de espera?",
+                    icon: "warning",
+                    buttons: ["Calma aí", "Sim!"]
+                }).then(isUnwaitlist => {
+                    if (isUnwaitlist) {
+                        axios.post(comp.staff.api.unwaitlist_hacker, {
+                            unique_id: unique_id
+                        })
+                        .then(function(data) {
+                            toast("Sucesso", data.data.message, "success");
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                            toast("Opa!", "Algo de errado aconteceu :(", "error");
+                        });
+                    }
+                });
+            }
         }
-    }
+    };
 </script>
 
 <style scoped>
-.dropdown, .ui.form .fields .field .ui.input input, .ui.form .field .ui.input input {
+.dropdown,
+.ui.form .fields .field .ui.input input,
+.ui.form .field .ui.input input {
     margin-top: 10px;
 }
 .ui.button {
@@ -137,8 +302,5 @@
 }
 .ui.icon.input > i.icon:not(.link) {
     margin-top: 7px;
-}
-.ui.table {
-    font-size: .8em;
-}
+    }
 </style>

@@ -9,11 +9,10 @@
 {% endblock appjs %}
 
 {% block content %}
-{% compress js %}
-<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/transitions.js' %}"></script>
-<script type="text/javascript" src="{% static 'project/plugins/semantic/js/modules/dropdown.js' %}"></script>
-{% endcompress %}
 
+{% compress js %}
+<script type="module" src="{% static 'project/plugins/tablesort/tablesort.js' %}"></script>
+{% endcompress %}
 
 <script type="text/javascript">
     var company_context = JSON.parse('{{ company_context | escapejs }}');

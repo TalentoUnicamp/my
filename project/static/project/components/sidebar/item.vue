@@ -5,18 +5,18 @@
 </template>
 
 <script>
-    export default {
-        props: ['item'],
-        computed: {
-            isActive: function() {
-                // active_tab is provided by project/root.html
-                return this.item.tab == this.item.active_tab;
-            }
-        },
-        methods: {
-            redirect: function() {
-                document.location.href = this.item.link;
-            }
+export default {
+    props: ["item"],
+    computed: {
+        isActive: function() {
+            // active_tab is provided by project/root.html
+            return this.item.tab == this.item.active_tab;
+        }
+    },
+    methods: {
+        redirect: function() {
+            document.location.href = this.item.link;
         }
     }
+};
 </script>

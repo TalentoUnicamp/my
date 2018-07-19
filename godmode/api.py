@@ -1,6 +1,6 @@
 from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
-from rest_framework import views
+from rest_framework import views, generics
 from user_profile.models import Profile
 from user_profile.tasks import send_verify_email
 from .permissions import IsAdmin
@@ -17,14 +17,10 @@ class ToggleIsAdmin(views.APIView):
         return views.Response({'message': 'Permissão alterada'})
 
 
-class DeleteUser(views.APIView):
+class DeleteUser(generics.DestroyAPIView):
     permission_classes = [IsAdmin]
-
-    def post(self, request):
-        unique_id = request.data['unique_id']
-        user = Profile.objects.get(unique_id=unique_id).user
-        user.delete()
-        return views.Response({'message': 'Usuário apagado'})
+    queryset = Profile.objects.all()
+    lookup_field = 'unique_id'
 
 
 class BatchCreateUsers(views.APIView):

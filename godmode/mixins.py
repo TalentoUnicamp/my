@@ -24,7 +24,7 @@ class AdminContextMixin(ContextMixin):
                 'toggle_is_staff': reverse('staff:api:toggle_is_staff'),
 
                 'toggle_is_admin': reverse('godmode:api:toggle_is_admin'),
-                'delete_user': reverse('godmode:api:delete_user'),
+                'delete_user': reverse('godmode:api:delete_user', args=[0])[:-2],
                 'batch_create_users': reverse('godmode:api:batch_create_users'),
 
                 'list_companies': reverse('company:api:company-list'),
@@ -34,6 +34,8 @@ class AdminContextMixin(ContextMixin):
                 'list_employees': reverse('company:api:employee-list'),
                 'create_employee': reverse('company:api:employee-list'),
                 'delete_employee': reverse('company:api:employee-detail', args=[0])[:-2],
+
+                'update_settings': reverse('settings:api:get_update')
             }
         }
         context['admin_context'] = json.dumps(admin_context)

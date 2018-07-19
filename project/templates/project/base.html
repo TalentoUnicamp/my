@@ -11,6 +11,7 @@
 {% block subscriptionapp %}
 {% compress js %}
 <script type="module" src="{% static 'project/apps/self_subs.js' %}"></script>
+<script type="module" src="{% static 'project/apps/settings_subs.js' %}"></script>
 {% endcompress %}
 {% endblock subscriptionapp %}
 
@@ -19,10 +20,12 @@
 <script type="text/javascript">
     var sidebar_context = JSON.parse('{{ sidebar_context | escapejs }}');
     var user_context = JSON.parse('{{ user_context | escapejs }}');
+    var settings_context = JSON.parse('{{ settings_context | escapejs }}');
 </script>
 
 <!-- Base subscriptions app element -->
 <div id="selfsub-app"></div>
+<div id="settingssub-app"></div>
 
 <div id="base">
 <div id="sidebar-app"></div>

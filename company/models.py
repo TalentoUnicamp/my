@@ -6,9 +6,10 @@ from django.db.models.signals import post_save, pre_delete
 
 class Company(models.Model):
     msocks_allow = True
-    msocks_fields = ['name', 'id']
+    msocks_fields = ['name', 'id', 'access_level']
 
     name = models.CharField(max_length=40)
+    access_level = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -16,7 +17,12 @@ class Company(models.Model):
 
 class Employee(models.Model):
     msocks_allow = True
-    msocks_fields = ['profile.full_name', 'profile.unique_id', 'profile.email', 'company.name']
+    msocks_fields = [
+        ('full_name', 'profile.full_name'),
+        ('unique_id', 'profile.unique_id'),
+        ('email', 'profile.email'),
+        ('company_name', 'company.name')
+    ]
 
     profile = models.OneToOneField(
         Profile,
@@ -36,7 +42,17 @@ class Scan(models.Model):
     """Scanned people that appear in reports"""
 
     msocks_allow = True
-    msocks_fields = ['scannee.full_name', 'scannee.unique_id', 'scanner.full_name', 'scanner.unique_id']
+    msocks_fields = [
+        'id',
+        'rating',
+        'comments',
+        ('scannee_full_name', 'scannee.full_name'),
+        ('scannee_unique_id', 'scannee.unique_id'),
+        ('scannee_email', 'scannee.email'),
+        ('scanner_full_name', 'scanner.full_name'),
+        ('scanner_unique_id', 'scanner.unique_id'),
+        ('scanner_email', 'scanner.email')
+    ]
 
     # Person who was scanned
     scannee = models.ForeignKey(
@@ -51,6 +67,9 @@ class Scan(models.Model):
         related_name='i_scanned'
     )
     created = models.DateTimeField(auto_now_add=True)
+
+    rating = models.IntegerField(default=0)
+    comments = models.CharField(max_length=200, default='', blank=True)
 
     @staticmethod
     def scan_person(scannee, scanner):

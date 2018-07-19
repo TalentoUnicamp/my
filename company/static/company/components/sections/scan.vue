@@ -1,12 +1,8 @@
 <template>
     <div v-bind:class="{ui: loadingCamera, segment: loadingCamera}">
-        <sui-dimmer v-if="loadingCamera"active>
+        <sui-dimmer v-if="loadingCamera" active>
             <sui-loader>Carregando...</sui-loader>
         </sui-dimmer>
-        <br>
-        <div class="small title">
-            Escanear Participantes
-        </div>
         <br>
         <div v-if="error.length > 0" class="ui negative message">
             <div class="header">
@@ -17,9 +13,9 @@
             </p>
         </div>
         <div v-if="!userAllowed">
-            <h2 class="ui header">
+            <h2 class="ui header centered">
                 <div class="content">
-                    Atenção!
+                    Escanear participantes
                     <div class="sub header">Leia tudo!</div>
                 </div>
             </h2>
@@ -65,80 +61,93 @@
             :video-constraints="constraints"
             :paused="paused"></qrcode-reader>
         </div>
+        <div v-show="false">
+            <HackerRate v-on:rating_hacker="setRating" v-bind:idx="hacker" v-bind:key="hacker" v-for="hacker in hackerRateList" />
+        </div>
     </div>
 </template>
 
 <script>
-    import axios from 'project/js/axios_csrf';
-    import swal from 'sweetalert';
-    import toast from 'project/js/notifications';
-    import { QrcodeReader } from 'vue-qrcode-reader'
+import axios from "project/js/axios_csrf";
+import swal from "sweetalert";
+import toast from "project/js/notifications";
+import { QrcodeReader } from "vue-qrcode-reader";
+import HackerRate from "./hacker_rate.vue";
 
-    export default {
-        props: ['company_context'],
-        components: { QrcodeReader },
-        data() {
+export default {
+    props: ["company_context"],
+    components: { QrcodeReader, HackerRate },
+    data() {
+        return {
+            company: this.company_context,
+            loadingCamera: false,
+            userAllowed: false,
+            paused: false,
+            cameraMode: "environment",
+            error: "",
+            manualCode: "",
+            hackerRateList: [0],
+            lastHackerRate: 0,
+            rating: 0,
+            comments: ""
+        };
+    },
+    computed: {
+        constraints() {
             return {
-                company: this.company_context,
-                loadingCamera: false,
-                userAllowed: false,
-                paused: false,
-                cameraMode: 'environment',
-                error: '',
-                manualCode: ''
-            }
+                facingMode: { ideal: this.cameraMode }
+            };
+        }
+    },
+    methods: {
+        askPermission() {
+            swal({
+                title: "Tem certeza?",
+                text:
+                    "Não esqueça de aceitar quando o navegador pedir permissão!",
+                icon: "warning",
+                buttons: ["Calma aí", "Entendi e vou aceitar!"]
+            }).then(accepted => {
+                if (accepted) this.userAllowed = true;
+            });
         },
-        computed: {
-            constraints() {
-                return {
-                    facingMode: { ideal: this.cameraMode }
-                }
-            }
-        },
-        methods: {
-            askPermission() {
-                swal({
-                    title: 'Tem certeza?',
-                    text: 'Não esqueça de aceitar quando o navegador pedir permissão!',
-                    icon: "warning",
-                    buttons: ['Calma aí', 'Entendi e vou aceitar!']
-                })
-                .then((accepted) => {
-                    if (accepted)
-                        this.userAllowed = true;
-                })
-            },
-            onDecode (unique_id) {
-                this.paused = true;
-                this.loadingCamera = true;
-                self = this;
-                axios.post(this.company.api.fetch_scan_hacker, {
+        onDecode(unique_id) {
+            this.paused = true;
+            this.loadingCamera = true;
+            self = this;
+            axios
+                .post(this.company.api.fetch_scan_hacker, {
                     unique_id: unique_id
                 })
                 .then(function(data) {
                     swal({
                         title: data.data.title,
                         text: data.data.message,
-                        icon: 'success',
-                        buttons: ['Voltar', 'Continuar!']
-                    })
-                    .then((fazercheckin) => {
+                        icon: "success",
+                        buttons: ["Voltar", "Continuar!"]
+                    }).then(fazercheckin => {
                         // If user wants to checkin hacker, call API
                         if (fazercheckin) {
-                            axios.post(self.company.api.scan_hacker, {
-                                unique_id: unique_id
-                            })
-                            .then(function(data) {
-                                // If OK, do nothing else
-                            })
-                            .catch(function(error) {
-                                // If error, log
-                                console.error(error);
-                                toast('Opa!', 'Algo de errado aconteceu :(', 'error');
-                            })
-                            .then(function() {
-                                self.reloadCamera();
-                            })
+                            axios
+                                .post(self.company.api.scan_hacker, {
+                                    unique_id: unique_id
+                                })
+                                .then(function(data) {
+                                    self.askRating(
+                                        data.data.id,
+                                        data.data.name
+                                    );
+                                })
+                                .catch(function(error) {
+                                    // If error, log
+                                    console.error(error);
+                                    toast(
+                                        "Opa!",
+                                        "Algo de errado aconteceu :(",
+                                        "error"
+                                    );
+                                    self.reloadCamera();
+                                });
                         }
                         // If user does not want to checkin, reload camera
                         else {
@@ -150,68 +159,102 @@
                     let title = error.response.data.title;
                     let message = error.response.data.message;
                     if (error.response.data.title === undefined) {
-                        title = 'Erro ' + error.response.status;
-                        message = 'Algo de errado aconteceu'
+                        title = "Erro " + error.response.status;
+                        message = "Algo de errado aconteceu";
                     }
                     swal({
                         title: title,
                         text: message,
-                        icon: 'error',
-                        buttons: ['Parar', 'Tentar de novo']
-                    })
-                    .then((keepGoing) => {
+                        icon: "error",
+                        buttons: ["Parar", "Tentar de novo"]
+                    }).then(keepGoing => {
                         // Ask if user wants to keep going or stop
                         if (keepGoing) {
                             self.reloadCamera();
-                        }
-                        else {
+                        } else {
                             self.stopCamera();
                         }
-                    })
+                    });
                 });
-            },
-            reloadCamera() {
-                this.paused = false;
-                this.loadingCamera = false;
-            },
-            stopCamera() {
-                this.userAllowed = false;
-                this.reloadCamera();
-            },
-            toggleCamera() {
-                if (this.cameraMode == 'environment')
-                    this.cameraMode = 'user';
-                else
-                    this.cameraMode = 'environment';
-            },
-            async onInit(promise) {
-                this.loadingCamera = true;
-                try {
-                    await promise
-                } catch (error) {
-                    if (error.name === 'NotAllowedError') {
-                        this.error = 'Parece que você não deu permissão ao app :(';
-                        this.userAllowed = false;
-                    } else if (error.name === 'NotFoundError') {
-                        this.error = 'Nenhuma câmera encontrada';
-                        this.userAllowed = false;
-                    } else if (error.name === 'NotSupportedError') {
-                        this.error = 'Você não está acessando esse app de um local seguro';
-                        this.userAllowed = false;
-                    } else if (error.name === 'NotReadableError') {
-                        this.error = 'Parece que sua câmera já está sendo usada em outro lugar';
-                        this.userAllowed = false;
-                    } else if (error.name === 'OverconstrainedError') {
-                        this.error = 'Esse erro é minha culpa. Tente novamente ou contate alguém da equipe';
-                        this.userAllowed = false;
-                    } else {
-                        this.error = 'Seu navegador parece não ter suporte para essa ferramenta';
-                        this.userAllowed = false;
-                    }
-                } finally {
-                    this.loadingCamera = false;
+        },
+        setRating(event) {
+            this.rating = event["rating"];
+            this.comments = event["comments"];
+        },
+        askRating(id, name) {
+            var comp = this;
+            var last = this.lastHackerRate;
+            this.lastHackerRate++;
+            this.hackerRateList.push(this.lastHackerRate);
+            this.comments = "";
+            this.rating = 0;
+            swal({
+                title: "Avaliar " + name + "?",
+                content: $("#hacker_rate_" + last)[0],
+                buttons: ["Não precisa", "Salvar"]
+            }).then(salvar => {
+                if (salvar) {
+                    axios
+                        .patch(comp.company.api.scan_update + id + "/", {
+                            rating: comp.rating,
+                            comments: comp.comments
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            toast(
+                                "Opa!",
+                                "Algo de errado aconteceu :(",
+                                "error"
+                            );
+                        })
                 }
+                comp.reloadCamera();
+            });
+        },
+        reloadCamera() {
+            this.paused = false;
+            this.loadingCamera = false;
+        },
+        stopCamera() {
+            this.userAllowed = false;
+            this.reloadCamera();
+        },
+        toggleCamera() {
+            if (this.cameraMode == "environment") this.cameraMode = "user";
+            else this.cameraMode = "environment";
+        },
+        async onInit(promise) {
+            this.loadingCamera = true;
+            try {
+                await promise;
+            } catch (error) {
+                if (error.name === "NotAllowedError") {
+                    this.error = "Parece que você não deu permissão ao app :(";
+                    this.userAllowed = false;
+                } else if (error.name === "NotFoundError") {
+                    this.error = "Nenhuma câmera encontrada";
+                    this.userAllowed = false;
+                } else if (error.name === "NotSupportedError") {
+                    this.error =
+                        "Você não está acessando esse app de um local seguro";
+                    this.userAllowed = false;
+                } else if (error.name === "NotReadableError") {
+                    this.error =
+                        "Parece que sua câmera já está sendo usada em outro lugar";
+                    this.userAllowed = false;
+                } else if (error.name === "OverconstrainedError") {
+                    this.error =
+                        "Esse erro é minha culpa. Tente novamente ou contate alguém da equipe";
+                    this.userAllowed = false;
+                } else {
+                    this.error =
+                        "Seu navegador parece não ter suporte para essa ferramenta";
+                    this.userAllowed = false;
+                }
+            } finally {
+                this.loadingCamera = false;
             }
         }
     }
+};
 </script>

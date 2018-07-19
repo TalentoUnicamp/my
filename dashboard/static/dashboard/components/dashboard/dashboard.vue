@@ -44,6 +44,9 @@
                     v-if="user.state=='confirmed'"
                     v-bind:settings_context="settings" />
 
+                    <Reminders
+                    v-if="user.state=='confirmed'" />
+
                     <!-- Visível sempre para quem não é hacker ou para hackers confirmados e que fizeram checkin -->
                     <QRid
                     v-if="!user.is_hacker || (user.is_hacker && (user.state=='confirmed' || user.state=='checkedin'))"
@@ -68,19 +71,20 @@
 </template>
 
 <script>
-    import Access from 'dashboard/components/sections/access.vue';
-    import QRid from 'dashboard/components/sections/qr_id.vue';
-    import State from 'dashboard/components/sections/state.vue';
-    import ResendEmail from 'dashboard/components/sections/resend_email.vue';
-    import Confirm from 'dashboard/components/sections/confirm.vue';
-    import UndoWithdraw from 'dashboard/components/sections/undo_withdraw.vue';
-    import Withdraw from 'dashboard/components/sections/withdraw.vue';
-    import Info from 'dashboard/components/sections/important_info.vue';
-    import CompleteApp from 'dashboard/components/sections/complete_app.vue';
+    import Access from 'dashboard/components/sections/access.vue'
+    import QRid from 'dashboard/components/sections/qr_id.vue'
+    import State from 'dashboard/components/sections/state.vue'
+    import ResendEmail from 'dashboard/components/sections/resend_email.vue'
+    import Confirm from 'dashboard/components/sections/confirm.vue'
+    import UndoWithdraw from 'dashboard/components/sections/undo_withdraw.vue'
+    import Withdraw from 'dashboard/components/sections/withdraw.vue'
+    import Info from 'dashboard/components/sections/important_info.vue'
+    import CompleteApp from 'dashboard/components/sections/complete_app.vue'
+    import Reminders from 'dashboard/components/sections/reminders.vue'
 
     export default {
         props: ['user_context', 'dashboard_context', 'settings_context', 'sidebar_context'],
-        components: {Access, QRid, State, ResendEmail, Confirm, UndoWithdraw, Withdraw, Info, CompleteApp},
+        components: {Access, QRid, State, ResendEmail, Confirm, UndoWithdraw, Withdraw, Info, CompleteApp, Reminders},
         data() {
             return {
                 user: this.user_context,

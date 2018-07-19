@@ -77,14 +77,13 @@ class Hacker(models.Model):
 
     def decline(self):
         self.admitted = False
+        self.confirmed = False
         self.declined = True
         self.waitlist = False
         self.withdraw = False
         self.save()
         tasks.send_notify_decline.delay(self.id)
-        # TODO: If this hacker was admitted and later
-        # declined, cycle waitlist so that wailisted
-        # hackers can confirm presence
+        Hacker.cycle_waitlist()
 
     def put_on_waitlist(self, send_email=True):
         # Put hacker on waitlist (Done automatically by the server
@@ -95,11 +94,14 @@ class Hacker(models.Model):
         if send_email:
             tasks.send_notify_waitlist.delay(self.id)
 
-    def unwaitlist(self):
-        # Manually remove hacker from waitlist
-        # This ignores the maximum number of hackers allowed
-        self.waitlist = False
-        self.save()
+    def unwaitlist(self, force=False):
+        # Remove hacker from waitlist
+        if not force:
+            self.admit(False)
+        else:
+            # This ignores the maximum number of hackers allowed
+            self.waitlist = False
+            self.save()
         tasks.send_notify_unwaitlist.delay(self.id)
 
     def withdraw_from_event(self):
@@ -108,7 +110,7 @@ class Hacker(models.Model):
         self.withdraw = True
         self.admitted = False
         self.save()
-        # TODO: Cycle waitlist
+        Hacker.cycle_waitlist()
 
     def confirm(self):
         # Hacker confirmed presence
@@ -118,6 +120,17 @@ class Hacker(models.Model):
     def check_in(self):
         self.checked_in = True
         self.save()
+
+    @staticmethod
+    def cycle_waitlist():
+        # get the current waitlist
+        waitlist = list(Hacker.objects.filter(waitlist=True).order_by('waitlist_date'))
+        # while the event is not full and there are waitlisted hackers
+        while not Settings.is_full() and len(waitlist) > 0:
+            hacker = waitlist.pop(0)
+            # Hacker can be waitlisted but not in waitlist(e.g late)
+            if hacker.profile.state == 'waitlist':
+                hacker.unwaitlist()
 
     def __str__(self):
         return f'Hacker {self.profile.full_name}'

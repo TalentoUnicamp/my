@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import selfsub from 'project/js/self_subscriptions';
+import Vue from "vue";
+import selfsub from "project/js/self_subscriptions";
 
 var sub = new Vue({
-    el: '#selfsub-app',
+    el: "#selfsub-app",
     data() {
         return {
             sidebar_context: sidebar_context,
             user_context: user_context,
             sub: selfsub
-        }
+        };
     },
     methods: {
         updateUser(data) {
@@ -22,12 +22,11 @@ var sub = new Vue({
             //     is_verified: 'is_verified',
             //     email: 'email'
             // }
-            for (let key in data)
-                this.user_context[key] = data[key];
+            for (let key in data) this.user_context[key] = data[key];
         }
     },
     mounted() {
         this.sub.subscribe(this.updateUser);
     },
-    template: '',
-})
+    template: ""
+});

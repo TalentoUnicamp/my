@@ -4,7 +4,7 @@
             <div class="content">
                 <sui-segment>
                     <div class="logo">
-                        <img v-bind:src="context.event_logo">
+                        <img v-bind:src="context.event_logo_text">
                     </div>
                     <sui-divider horizontal></sui-divider>
                     <div v-if="loginState === 'login'">
@@ -66,41 +66,41 @@
     </div>
 </template>
 <script>
-    import axios from 'axios';
+import axios from "axios";
 
-    export default {
-        props: ['login_context'],
-        data() {
-            return {
-                errorMessage: login_context.error != '' ? login_context.error : '',
-                successMessage: '',
-                loginState: 'login',
-                tokenLoading: false,
-                emailLoading: false,
-                resetEmail: '',
-                token: '',
-                context: login_context
-            }
+export default {
+    props: ["login_context"],
+    data() {
+        return {
+            errorMessage: login_context.error != "" ? login_context.error : "",
+            successMessage: "",
+            loginState: "login",
+            tokenLoading: false,
+            emailLoading: false,
+            resetEmail: "",
+            token: "",
+            context: login_context
+        };
+    },
+    computed: {
+        error: function() {
+            return this.errorMessage != "" ? true : false;
         },
-        computed: {
-            error: function() {
-                return this.errorMessage != '' ? true : false;
-            },
-            success: function() {
-                return this.successMessage != '' ? true : false;
-            }
+        success: function() {
+            return this.successMessage != "" ? true : false;
+        }
+    },
+    methods: {
+        setLoginState(state) {
+            this.loginState = state;
         },
-        methods: {
-            setLoginState(state) {
-                this.loginState = state;
-            },
-            tokenLogin() {
-                self.errorMessage = '';
-                if (this.token === '')
-                    return;
-                self = this;
-                this.tokenLoading = true;
-                axios.post(this.context.check_token_url, {
+        tokenLogin() {
+            self.errorMessage = "";
+            if (this.token === "") return;
+            self = this;
+            this.tokenLoading = true;
+            axios
+                .post(this.context.check_token_url, {
                     token: this.token
                 })
                 .then(function(response) {
@@ -110,13 +110,13 @@
                     self.errorMessage = error.response.data.error;
                     self.tokenLoading = false;
                 });
-            },
-            sendResetEmail() {
-                if (this.resetEmail === '')
-                    return;
-                self = this;
-                this.emailLoading = true;
-                axios.post(this.context.reset_email_url, {
+        },
+        sendResetEmail() {
+            if (this.resetEmail === "") return;
+            self = this;
+            this.emailLoading = true;
+            axios
+                .post(this.context.reset_email_url, {
                     email: self.resetEmail
                 })
                 .then(function(response) {
@@ -128,18 +128,18 @@
                 .then(function() {
                     self.emailLoading = false;
                 });
-            },
-            socialLogin(login) {
-                if (login === 'facebook') {
-                    window.location.pathname = this.context.social_urls.facebook;
-                }
-                if (login === 'github') {
-                    window.location.pathname = this.context.social_urls.github;
-                }
-                if (login === 'google') {
-                    window.location.pathname = this.context.social_urls.google;
-                }
+        },
+        socialLogin(login) {
+            if (login === "facebook") {
+                window.location.pathname = this.context.social_urls.facebook;
+            }
+            if (login === "github") {
+                window.location.pathname = this.context.social_urls.github;
+            }
+            if (login === "google") {
+                window.location.pathname = this.context.social_urls.google;
             }
         }
     }
+};
 </script>

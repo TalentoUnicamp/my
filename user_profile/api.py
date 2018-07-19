@@ -70,4 +70,5 @@ class ListHackerProfiles(ListAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return [profile for profile in queryset if profile.state in ['checkedin', 'confirmed', 'waitlist', 'admitted', 'submitted']]
+        hacker_list = [profile for profile in queryset if profile.state in ['checkedin', 'confirmed', 'waitlist', 'admitted', 'submitted', 'declined']]
+        return hacker_list

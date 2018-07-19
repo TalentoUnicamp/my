@@ -1,0 +1,57 @@
+{
+  "_from": "semantic-ui-calendar",
+  "_id": "semantic-ui-calendar@0.0.8",
+  "_inBundle": false,
+  "_integrity": "sha1-rhZQTk2AFsrFupoArYzNSkMN4+8=",
+  "_location": "/semantic-ui-calendar",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "semantic-ui-calendar",
+    "name": "semantic-ui-calendar",
+    "escapedName": "semantic-ui-calendar",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/semantic-ui-calendar/-/semantic-ui-calendar-0.0.8.tgz",
+  "_shasum": "ae16504e4d8016cac5ba9a00ad8ccd4a430de3ef",
+  "_spec": "semantic-ui-calendar",
+  "_where": "/Users/Maronato/Documents/learning_vue/future_quill",
+  "author": {
+    "name": "Michael de Hoog",
+    "url": "https://github.com/mdehoog/"
+  },
+  "bugs": {
+    "url": "https://github.com/mdehoog/semantic-ui-calendar/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Calendar module for Semantic UI",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-clone": "^1.0.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-less": "^3.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^2.0.0",
+    "require-dot-file": "^0.4.0",
+    "semantic-ui-less": "^2.2.4"
+  },
+  "homepage": "https://github.com/mdehoog/semantic-ui-calendar#readme",
+  "license": "MIT",
+  "name": "semantic-ui-calendar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdehoog/semantic-ui-calendar.git"
+  },
+  "version": "0.0.8"
+}

@@ -22,6 +22,13 @@ class IsAdmitted(IsHacker):
         return parent and request.user.profile.state == 'admitted'
 
 
+class IsAdmittedOrConfirmed(IsHacker):
+
+    def has_permission(self, request, view):
+        parent = super().has_permission(request, view)
+        return parent and (request.user.profile.state == 'admitted' or request.user.profile.state == 'confirmed')
+
+
 class IsWithdraw(IsHacker):
 
     def has_permission(self, request, view):

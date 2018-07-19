@@ -4,7 +4,7 @@ from settings.permissions import CanConfirm
 from godmode.permissions import IsAdmin
 from staff.permissions import IsStaff
 from user_profile.models import Profile
-from .permissions import IsAdmitted, IsWithdraw, IsHacker
+from .permissions import IsAdmitted, IsWithdraw, IsAdmittedOrConfirmed
 from .models import Hacker
 
 
@@ -20,7 +20,7 @@ class ConfirmPresence(views.APIView):
 
 class Withdraw(views.APIView):
 
-    permission_classes = [IsHacker]
+    permission_classes = [IsAdmittedOrConfirmed]
 
     def post(self, request):
         hacker = request.user.profile.hacker
@@ -36,6 +36,45 @@ class UndoWithdraw(views.APIView):
         hacker = request.user.profile.hacker
         hacker.admit(False)
         return views.Response({'message': 'Desistência desfeita', 'state': hacker.profile.state})
+
+
+class Admit(views.APIView):
+
+    permission_classes = [IsStaff]
+
+    def post(self, request):
+        unique_id = request.data.get('unique_id')
+        hacker = get_object_or_404(Hacker, profile__unique_id=unique_id)
+        if hacker.profile.state not in ['submitted', 'declined']:
+            return views.Response({'message': 'State is not submitted or declined'}, status=400)
+        hacker.admit()
+        return views.Response({'message': 'Hacker admitido'})
+
+
+class Decline(views.APIView):
+
+    permission_classes = [IsStaff]
+
+    def post(self, request):
+        unique_id = request.data.get('unique_id')
+        hacker = get_object_or_404(Hacker, profile__unique_id=unique_id)
+        if hacker.profile.state not in ['submitted', 'admitted', 'confirmed']:
+            return views.Response({'message': "State is not in 'submitted', 'admitted', 'confirmed'"}, status=400)
+        hacker.decline()
+        return views.Response({'message': 'Hacker rejeitado'})
+
+
+class Unwaitlist(views.APIView):
+
+    permission_classes = [IsStaff]
+
+    def post(self, request):
+        unique_id = request.data.get('unique_id')
+        hacker = get_object_or_404(Hacker, profile__unique_id=unique_id)
+        if hacker.profile.state != 'waitlist':
+            return views.Response({'message': "State is not waitlist"}, status=400)
+        hacker.unwaitlist(True)
+        return views.Response({'message': 'Hacker tirado da fila'})
 
 
 class ToggleIsHacker(views.APIView):

@@ -5,7 +5,7 @@
                 <div class="sixteen wide field">
                     <div class="ui left icon fluid input">
                         <i class="search icon"></i>
-                        <input type="text" class="searchText" placeholder="Pesquisar por nome, email ou empresa" v-model="searchEmployees">
+                        <input type="text" class="searchText" placeholder="Pesquisar por nome, email ou empresa" v-model="searchEmployees" />
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="employee in filteredEmployees">
+                <tr v-for="employee in filteredEmployees" v-bind:key="employee.unique_id">
                     <td>
                         <strong>
                             {{ employee.full_name }}
@@ -44,35 +44,45 @@
 </template>
 
 <script>
-
-    export default {
-        props: ['data'],
-        data() {
-            return {
-                searchEmployees: '',
-                employees: [],
-            }
-        },
-        watch: {
-            data: function(val) {
-                this.employees = val;
-            }
-        },
-        computed: {
-            filteredEmployees() {
-                return this.employees.filter(employee => {
-                    let name = employee.full_name.toLowerCase().indexOf(this.searchEmployees.toLowerCase()) > -1
-                    let email = employee.email.toLowerCase().indexOf(this.searchEmployees.toLowerCase()) > -1
-                    let company = employee.company_name.toLowerCase().indexOf(this.searchEmployees.toLowerCase()) > -1
-                    return name || email || company;
-                });
-            }
+export default {
+    props: ["data"],
+    data() {
+        return {
+            searchEmployees: "",
+            employees: []
+        };
+    },
+    watch: {
+        data: function(val) {
+            this.employees = val;
+        }
+    },
+    computed: {
+        filteredEmployees() {
+            return this.employees.filter(employee => {
+                let name =
+                    employee.full_name
+                        .toLowerCase()
+                        .indexOf(this.searchEmployees.toLowerCase()) > -1;
+                let email =
+                    employee.email
+                        .toLowerCase()
+                        .indexOf(this.searchEmployees.toLowerCase()) > -1;
+                let company =
+                    employee.company_name
+                        .toLowerCase()
+                        .indexOf(this.searchEmployees.toLowerCase()) > -1;
+                return name || email || company;
+            });
         }
     }
+};
 </script>
 
 <style scoped>
-.dropdown, .ui.form .fields .field .ui.input input, .ui.form .field .ui.input input {
+.dropdown,
+.ui.form .fields .field .ui.input input,
+.ui.form .field .ui.input input {
     margin-top: 10px;
 }
 .ui.button {
@@ -84,8 +94,5 @@
 }
 .ui.icon.input > i.icon:not(.link) {
     margin-top: 7px;
-}
-.ui.table {
-    font-size: .8em;
 }
 </style>

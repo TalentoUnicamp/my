@@ -2,8 +2,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, mixins
 from godmode.permissions import IsAdmin
 from user_profile.models import Profile
-from .permissions import IsAdminOrEmployeeReadOnly, IsEmployee
-from .serializers import CompanySerializer, ReadEmployeeSerializer, CreateEmployeeSerializer
+from .permissions import IsAdminOrEmployeeReadOnly, EmployeeHasAccess
+from .serializers import CompanySerializer, ReadEmployeeSerializer, CreateEmployeeSerializer, ScanSerializer
 from .models import Company, Employee, Scan
 
 
@@ -29,8 +29,21 @@ class EmployeeViewset(
         return CreateEmployeeSerializer
 
 
+class ScanViewset(
+        mixins.ListModelMixin,
+        mixins.DestroyModelMixin,
+        mixins.UpdateModelMixin,
+        viewsets.GenericViewSet):
+    permission_classes = [EmployeeHasAccess]
+    queryset = Scan.objects.all()
+    serializer_class = ScanSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(scanner__employee__company=self.request.user.profile.employee.company)
+
+
 class FetchScanHacker(views.APIView):
-    permission_classes = [IsEmployee]
+    permission_classes = [EmployeeHasAccess]
 
     def post(self, request):
         unique_id = request.data['unique_id']
@@ -64,7 +77,7 @@ class FetchScanHacker(views.APIView):
 
 
 class ScanHacker(views.APIView):
-    permission_classes = [IsEmployee]
+    permission_classes = [EmployeeHasAccess]
 
     def post(self, request):
         unique_id = request.data['unique_id']
@@ -77,4 +90,4 @@ class ScanHacker(views.APIView):
 
         scan = Scan(scanner=scanner, scannee=profile)
         scan.save()
-        return views.Response({'message': 'Scan complete'})
+        return views.Response({'message': 'Scan complete', 'id': scan.id, 'name': profile.full_name})

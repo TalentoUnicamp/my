@@ -127,11 +127,9 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        axios.post(this.admin.api.delete_user, {
-                            unique_id: unique_id
-                        })
+                        axios.delete(this.admin.api.delete_user + unique_id)
                         .then(function(data) {
-                            toast('Aviso', data.data.message, 'info');
+                            toast('Aviso', 'Usuário removido', 'info');
                         })
                         .catch(function (error) {
                             console.error(error);

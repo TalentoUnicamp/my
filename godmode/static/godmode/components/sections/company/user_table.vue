@@ -33,7 +33,7 @@
                 </tr>
             </thead>
             <tbody class="user_list">
-                <tr v-for="user in filteredUsers">
+                <tr v-for="user in filteredUsers" v-bind:key="user.unique_id">
                     <td>
                         <sui-checkbox v-bind:inputValue="selectedUsers.indexOf(user.unique_id) > -1" v-on:change="toggleUser(user.unique_id, $event)">
                         </sui-checkbox>
@@ -53,78 +53,88 @@
 </template>
 
 <script>
-
-    export default {
-        props: ['userdata', 'companydata'],
-        data() {
-            return {
-                searchUsers: '',
-                users: [],
-                selectedUsers: [],
-                companies: [],
-                selectedCompany: null,
-                selectAll: false
+export default {
+    props: ["userdata", "companydata"],
+    data() {
+        return {
+            searchUsers: "",
+            users: [],
+            selectedUsers: [],
+            companies: [],
+            selectedCompany: null,
+            selectAll: false
+        };
+    },
+    watch: {
+        userdata: function(val) {
+            this.users = val;
+            this.selectedUsers = this.selectedUsers.filter(suser => {
+                return (
+                    this.users.findIndex(user => {
+                        user.unique_id == suser;
+                    }) > -1
+                );
+            });
+        },
+        companydata: function(val) {
+            this.companies = val.map(company => {
+                return {
+                    key: company.id,
+                    text: company.name,
+                    value: company.id
+                };
+            });
+        },
+        selectAll: function(val) {
+            this.toggleAll(val);
+        }
+    },
+    computed: {
+        filteredUsers() {
+            return this.users.filter(user => {
+                let name =
+                    user.full_name
+                        .toLowerCase()
+                        .indexOf(this.searchUsers.toLowerCase()) > -1;
+                let email =
+                    user.email
+                        .toLowerCase()
+                        .indexOf(this.searchUsers.toLowerCase()) > -1;
+                return (name || email) && !user.is_employee;
+            });
+        },
+        canAdd() {
+            return (
+                this.selectedCompany != null && this.selectedUsers.length > 0
+            );
+        }
+    },
+    methods: {
+        toggleUser(unique_id, event) {
+            if (!event) {
+                let idx = this.selectedUsers.indexOf(unique_id);
+                this.selectedUsers.splice(idx, 1);
+            } else {
+                this.selectedUsers.push(unique_id);
             }
         },
-        watch: {
-            userdata: function(val) {
-                this.users = val;
-                this.selectedUsers = this.selectedUsers.filter(suser => {
-                    return this.users.findIndex(user => {user.unique_id == suser}) > -1
-                })
-
-            },
-            companydata: function(val) {
-                this.companies = val.map(company => {
-                    return {
-                        key: company.id,
-                        text: company.name,
-                        value: company.id
-                    }
-                })
-            },
-            selectAll: function(val) {
-                this.toggleAll(val);
-            }
-        },
-        computed: {
-            filteredUsers() {
-                return this.users.filter(user => {
-                    let name = user.full_name.toLowerCase().indexOf(this.searchUsers.toLowerCase()) > -1
-                    let email = user.email.toLowerCase().indexOf(this.searchUsers.toLowerCase()) > -1
-                    return (name || email) && !user.is_employee;
+        toggleAll(event) {
+            if (event) {
+                this.selectedUsers = this.users.map(user => {
+                    return user.unique_id;
                 });
-            },
-            canAdd() {
-                return this.selectedCompany != null && this.selectedUsers.length > 0;
-            }
-        },
-        methods: {
-            toggleUser(unique_id, event) {
-                if (!event) {
-                    let idx = this.selectedUsers.indexOf(unique_id);
-                    this.selectedUsers.splice(idx, 1);
-                }
-                else {
-                    this.selectedUsers.push(unique_id);
-                }
-            },
-            toggleAll(event) {
-                if (event) {
-                    this.selectedUsers = this.users.map(user => {
-                        return user.unique_id;
-                    })
-                }
-                else {
-                    this.selectedUsers = [];
-                }
+            } else {
+                this.selectedUsers = [];
             }
         }
     }
+};
 </script>
 
 <style scoped>
-.dropdown, .ui.form .fields .field .ui.input input, .ui.form .field .ui.input input {
+.dropdown,
+.ui.form .fields .field .ui.input input,
+.ui.form .field .ui.input input {
     margin-top: 10px;
 }
 .ui.button {
@@ -136,8 +146,5 @@
 }
 .ui.icon.input > i.icon:not(.link) {
     margin-top: 7px;
-}
-.ui.table {
-    font-size: .8em;
 }
 </style>

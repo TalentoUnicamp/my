@@ -5,6 +5,7 @@ from . import api, views
 router = DefaultRouter()
 router.register(r'company', api.CompanyViewset)
 router.register(r'employee', api.EmployeeViewset)
+router.register(r'scan', api.ScanViewset)
 
 apipatterns = router.urls
 
