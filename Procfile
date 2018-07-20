@@ -1,3 +1,3 @@
 web: daphne project.asgi:application
-celery: celery -A project worker -l info
+worker: celery -A project worker -l info
 release: ./release.sh
