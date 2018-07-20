@@ -2,6 +2,7 @@ from django.conf import settings
 from django.apps import AppConfig
 from .custom_appconf import NoPrefixAppConf
 from .models import load_subscriptions
+import os
 
 
 class ModelSocketsConfig(AppConfig):
@@ -13,7 +14,7 @@ class ModelSocketsConfig(AppConfig):
 
 class ModelSocketsSettings(NoPrefixAppConf):
     ASGI_APPLICATION = "model_sockets.router_application.application"
-    REDIS_URL = 'redis://localhost:6379/0'
+    REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
     REDIS_URL_LIST = [REDIS_URL]
     CHANNEL_LAYERS = {
         'default': {
