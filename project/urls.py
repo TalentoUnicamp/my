@@ -1,5 +1,7 @@
 from django.urls import path, include
 from django.contrib import admin
+from django.conf import settings
+import debug_toolbar
 from .views import LoginView
 admin.autodiscover()
 # from app import views
@@ -17,3 +19,9 @@ urlpatterns = [
     path('godmode/', include('godmode.urls')),
     path('company/', include('company.urls')),
 ]
+
+if not settings.DEBUG:
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns

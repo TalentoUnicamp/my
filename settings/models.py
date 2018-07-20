@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import Q
 import datetime
 import pytz
 # Create your models here.
@@ -48,8 +49,9 @@ class Settings(models.Model):
     hackathon_end = models.DateTimeField(default=timezone.now)
 
     @staticmethod
-    def get():
-
+    def get(settings=None):
+        if settings is not None:
+            return settings
         settings = Settings.objects.first()
         if settings is None:
             settings = Settings()
@@ -58,75 +60,78 @@ class Settings(models.Model):
 
     # Defaults when creating new users
     @staticmethod
-    def default_hacker():
-        return Settings.get()._default_hacker
+    def default_hacker(settings=None):
+        return Settings.get(settings)._default_hacker
 
     @staticmethod
-    def default_staff():
-        return Settings.get()._default_staff
+    def default_staff(settings=None):
+        return Settings.get(settings)._default_staff
 
     @staticmethod
-    def auto_admit_hackers():
-        return Settings.get().auto_admit
+    def auto_admit_hackers(settings=None):
+        return Settings.get(settings).auto_admit
 
     # Registration
     @staticmethod
-    def registration_opened():
-        op = Settings.get().registration_open
+    def registration_opened(settings=None):
+        op = Settings.get(settings).registration_open
         return timezone.now() > op
 
     @staticmethod
-    def registration_is_open():
-        op = Settings.get().registration_open
-        ed = Settings.get().registration_close
+    def registration_is_open(settings=None):
+        settings = Settings.get(settings)
+        op = settings.registration_open
+        ed = settings.registration_close
         return timezone.now() > op and timezone.now() < ed
 
     @staticmethod
-    def can_confirm(extend=0):
+    def can_confirm(extend=0, settings=None):
         # Extend parameter extends the confirmation date
-        op = Settings.get().registration_open
-        ed = Settings.get().confirmation
+        settings = Settings.get(settings)
+        op = settings.registration_open
+        ed = settings.confirmation
         ed += datetime.timedelta(days=extend)
         return timezone.now() > op and timezone.now() < ed
 
     @staticmethod
-    def is_full():
+    def is_full(settings=None):
         from hacker.models import Hacker
-        maximum = Settings.get().max_hackers
+        maximum = Settings.get(settings).max_hackers
         if maximum <= 0:
             return False
-        hackers = [None for hacker in Hacker.objects.all() if hacker.profile.state in ['admitted', 'confirmed', 'checked_in']]
+        hackers = Hacker.objects.filter(Q(checked_in=True) | Q(confirmed=True) | Q(admitted=True)).distinct()
         return len(hackers) > maximum
 
     @staticmethod
-    def hackathon_is_happening():
-        op = Settings.get().hackathon_start
-        ed = Settings.get().hackathon_end
+    def hackathon_is_happening(settings=None):
+        settings = Settings.get(settings)
+        op = settings.hackathon_start
+        ed = settings.hackathon_end
         return timezone.now() > op and timezone.now() < ed
 
     @staticmethod
-    def hackathon_ended():
-        return timezone.now() > Settings.get().hackathon_end
+    def hackathon_ended(settings=None):
+        return timezone.now() > Settings.get(settings).hackathon_end
 
     @staticmethod
-    def registration_open_seconds():
-        return int((Settings.get().registration_open - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+    def registration_open_seconds(settings=None):
+        return int((Settings.get(settings).registration_open - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
 
     @staticmethod
-    def registration_close_seconds():
-        return int((Settings.get().registration_close - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+    def registration_close_seconds(settings=None):
+        return int((Settings.get(settings).registration_close - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
 
     @staticmethod
-    def confirmation_seconds():
-        return int((Settings.get().confirmation - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+    def confirmation_seconds(settings=None):
+        return int((Settings.get(settings).confirmation - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
 
     @staticmethod
-    def hackathon_start_seconds():
-        return int((Settings.get().hackathon_start - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+    def hackathon_start_seconds(settings=None):
+        return int((Settings.get(settings).hackathon_start - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
 
     @staticmethod
-    def hackathon_end_seconds():
-        return int((Settings.get().hackathon_end - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
+    def hackathon_end_seconds(settings=None):
+        return int((Settings.get(settings).hackathon_end - datetime.datetime(1970, 1, 1).replace(tzinfo=pytz.UTC)).total_seconds() * 1000)
 
     def __str__(self):
         return 'Settings'
