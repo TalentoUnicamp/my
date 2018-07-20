@@ -1,3 +1,3 @@
-web: gunicorn project.wsgi --log-file -
-worker: celery -A project worker -l info
+web: daphne project.asgi:application
+celery: celery -A project worker -l info
 release: ./release.sh
