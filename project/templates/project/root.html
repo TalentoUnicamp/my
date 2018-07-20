@@ -7,15 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"">
     <title></title>
 
-    <script src="{% static 'project/plugins/jquery/dist/jquery.min.js' %}"></script>
-    <script src="{% static 'project/plugins/semantic/dist/semantic.js' %}"></script>
+    {% compress js %}
+    <script src="{% static 'project/plugins/jquery/dist_show/jquery.min.js' %}"></script>
+    <script src="{% static 'project/plugins/semantic/dist_show/semantic.js' %}"></script>
+    {% endcompress %}
     {% compress css %}
     <link rel="stylesheet" type="text/css" href="{% static 'project/css/normalize.css' %}">
     {% endcompress %}
 
     <!-- Semantic-UI -->
-    <link rel="stylesheet" type="text/less" href="{% static 'project/plugins/semantic/dist/semantic.css' %}">
+    {% compress css %}
+    <link rel="stylesheet" type="text/less" href="{% static 'project/plugins/semantic/dist_show/semantic.css' %}">
     <link rel="stylesheet" type="text/less" href="{% static 'project/plugins/izitoast/izitoast.min.css' %}">
+    {% endcompress %}
 
     <!-- Custom styling -->
     {% compress css %}

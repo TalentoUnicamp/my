@@ -9,9 +9,14 @@
 {% endblock appjs %}
 
 {% block content %}
-<script type="text/javascript" src="{% static 'project/plugins/semantic-ui-calendar/dist/calendar.min.js' %}"
+
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/semantic-ui-calendar/dist_show/calendar.min.js' %}"
 ></script>
-<link rel="stylesheet" href="{% static 'project/plugins/semantic-ui-calendar/dist/calendar.min.css' %}" />
+{% endcompress %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'project/plugins/semantic-ui-calendar/dist_show/calendar.min.css' %}" />
+{% endcompress %}
 
 <script type="text/javascript">
     var admin_context = JSON.parse('{{ admin_context | escapejs }}');

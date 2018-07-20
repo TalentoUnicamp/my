@@ -9,7 +9,9 @@
 {% endblock appjs %}
 
 {% block content %}
+{% compress js %}
 <script type="module" src="{% static 'project/plugins/tablesort/tablesort.js' %}"></script>
+{% endcompress %}
 
 <script type="text/javascript">
     var company_context = JSON.parse('{{ company_context | escapejs }}');
