@@ -1,7 +1,7 @@
 from rest_framework_csv.renderers import CSVRenderer
 
 
-class NotNestedMixin:
+class NotNestedMixin(object):
 
     def nest_flat_item(self, flat_item, prefix):
             """

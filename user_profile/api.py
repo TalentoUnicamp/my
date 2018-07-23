@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.conf import settings
 from godmode.permissions import IsAdmin
 from staff.permissions import IsStaff
+from project.generics import PrefetchListAPIView
 from .models import Profile, User
 from .tasks import send_recover_token_email
 from .serializers import ListProfileSerializer, ListHackerProfileSerializer
@@ -57,18 +58,18 @@ class ChangeToken(views.APIView):
         return views.Response({'message': 'Token alterado', 'token': token})
 
 
-class ListProfiles(ListAPIView):
+class ListProfiles(PrefetchListAPIView):
     serializer_class = ListProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = [IsAdmin]
 
 
-class ListHackerProfiles(ListAPIView):
+class ListHackerProfiles(PrefetchListAPIView):
     serializer_class = ListHackerProfileSerializer
     queryset = Profile.objects.all()
     permission_classes = [IsStaff]
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        hacker_list = [profile for profile in queryset if profile.state in ['checkedin', 'confirmed', 'waitlist', 'admitted', 'submitted', 'declined']]
-        return hacker_list
+        queryset = queryset.filter(shortcuts__state__in=['checkedin', 'confirmed', 'waitlist', 'admitted', 'submitted', 'declined'])
+        return queryset

@@ -17,4 +17,6 @@ class ExportScannedHackers(ExportMixin, generics.ListAPIView):
 
     def get_queryset(self):
         company = self.request.user.profile.employee.company
-        return User.objects.filter(profile__scanned_me__scanner__employee__company=company)
+        queryset = User.objects.filter(profile__scanned_me__scanner__employee__company=company)
+        queryset = self.get_serializer_class().setup_eager_loading(queryset, company)
+        return queryset

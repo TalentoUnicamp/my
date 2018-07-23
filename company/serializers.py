@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from user_profile.models import Profile
+from project.mixins import PrefetchMixin
 from .models import Company, Employee, Scan
 
 
@@ -10,32 +11,40 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
 
 
-class ScanSerializer(serializers.ModelSerializer):
+class ScanSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
 
-    scannee_full_name = serializers.CharField(source='scannee.full_name')
+    scannee_full_name = serializers.CharField(source='scannee.shortcuts.full_name')
     scannee_unique_id = serializers.CharField(source='scannee.unique_id')
-    scannee_email = serializers.CharField(source='scannee.email')
-    scanner_full_name = serializers.CharField(source='scanner.full_name')
+    scannee_email = serializers.CharField(source='scannee.user.email')
+    scanner_full_name = serializers.CharField(source='scanner.shortcuts.full_name')
     scanner_unique_id = serializers.CharField(source='scanner.unique_id')
-    scanner_email = serializers.CharField(source='scanner.email')
+    scanner_email = serializers.CharField(source='scanner.user.email')
 
     class Meta:
         fields = ['id', 'rating', 'comments', 'scannee_full_name', 'scannee_unique_id', 'scannee_email', 'scanner_full_name', 'scanner_unique_id', 'scanner_email']
         model = Scan
+        select_related_fields = ['scannee__user', 'scanner__user', 'scannee__shortcuts', 'scanner__shortcuts']
 
 
-class ReadEmployeeSerializer(serializers.ModelSerializer):
-    full_name = serializers.CharField(source='profile.full_name')
-    email = serializers.CharField(source='profile.email')
+class ReadEmployeeSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
+    full_name = serializers.CharField(source='profile.shortcuts.full_name')
+    email = serializers.CharField(source='profile.user.email')
     unique_id = serializers.CharField(source='profile.unique_id')
     company_name = serializers.CharField(source='company.name')
 
     class Meta:
         fields = ['full_name', 'email', 'unique_id', 'company_name']
         model = Employee
+        select_related_fields = ['profile__user', 'company', 'profile__shortcuts']
 
 
-class CreateEmployeeSerializer(serializers.ModelSerializer):
+class CreateEmployeeSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
     unique_id = serializers.CharField(source='profile.unique_id')
     company_id = serializers.IntegerField(source='company.id')
 
@@ -61,3 +70,4 @@ class CreateEmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['unique_id', 'company_id']
         model = Employee
+        select_related_fields = ['profile', 'company']

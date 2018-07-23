@@ -4,10 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.conf import settings as dj_settings
 from rest_framework_csv.renderers import CSVRenderer
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework_yaml.renderers import YAMLRenderer
 from rest_framework_xml.renderers import XMLRenderer
 from rest_framework_msgpack.renderers import MessagePackRenderer
+from rest_framework.response import Response
 import json
 from .renderers import NotNestedCSVRenderer, TSVRenderer, NotNestedTSVRenderer
 from settings.mixins import SettingsContextMixin
@@ -101,12 +102,13 @@ class LoginContextMixin(ContextMixin):
         return context
 
 
-class ExportMixin:
+class ExportMixin(object):
     """
     Enables exporting in various formats
     Can be used with the DownloadButton.vue component
     """
     renderer_classes = (
+        BrowsableAPIRenderer,
         JSONRenderer,
         CSVRenderer,
         NotNestedCSVRenderer,
@@ -116,3 +118,38 @@ class ExportMixin:
         XMLRenderer,
         MessagePackRenderer
     )
+
+
+class PrefetchListModelMixin(object):
+    """Lists a prefetched version of the model list
+
+    To be used with PrefetchMixin
+    """
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if hasattr(self.get_serializer_class(), 'setup_eager_loading'):
+            queryset = self.get_serializer_class().setup_eager_loading(queryset)
+        queryset = self.filter_queryset(queryset)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class PrefetchMixin(object):
+
+    @classmethod
+    def setup_eager_loading(cls, queryset):
+        meta = cls.Meta
+        print("Eager loading")
+        if hasattr(meta, "select_related_fields"):
+            print('select related', meta.select_related_fields)
+            queryset = queryset.select_related(*meta.select_related_fields)
+        if hasattr(meta, "prefetch_related_fields"):
+            queryset = queryset.prefetch_related(*meta.prefetch_related_fields)
+        return queryset

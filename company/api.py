@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, mixins
+from project.mixins import PrefetchListModelMixin
 from godmode.permissions import IsAdmin
 from user_profile.models import Profile
 from .permissions import IsAdminOrEmployeeReadOnly, EmployeeHasAccess
@@ -7,7 +8,9 @@ from .serializers import CompanySerializer, ReadEmployeeSerializer, CreateEmploy
 from .models import Company, Employee, Scan
 
 
-class CompanyViewset(viewsets.ModelViewSet):
+class CompanyViewset(
+        PrefetchListModelMixin,
+        viewsets.ModelViewSet):
     permission_classes = [IsAdminOrEmployeeReadOnly]
     serializer_class = CompanySerializer
     queryset = Company.objects.all()
@@ -15,7 +18,7 @@ class CompanyViewset(viewsets.ModelViewSet):
 
 class EmployeeViewset(
         mixins.RetrieveModelMixin,
-        mixins.ListModelMixin,
+        PrefetchListModelMixin,
         mixins.CreateModelMixin,
         mixins.DestroyModelMixin,
         viewsets.GenericViewSet):
@@ -30,7 +33,7 @@ class EmployeeViewset(
 
 
 class ScanViewset(
-        mixins.ListModelMixin,
+        PrefetchListModelMixin,
         mixins.DestroyModelMixin,
         mixins.UpdateModelMixin,
         viewsets.GenericViewSet):

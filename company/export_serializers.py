@@ -1,12 +1,16 @@
 from rest_framework import serializers
+from project.mixins import PrefetchMixin
 from .models import Scan
 
 
-class ExportScanSerializer(serializers.ModelSerializer):
+class ExportScanSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
 
-    scanner_name = serializers.CharField(source='scanner.full_name')
-    scanner_email = serializers.CharField(source='scanner.email')
+    scanner_full_name = serializers.CharField(source='scanner.shortcuts.first_name')
+    scanner_email = serializers.CharField(source='scanner.user.email')
 
     class Meta:
         model = Scan
-        fields = ['rating', 'comments', 'scanner_name', 'scanner_email']
+        fields = ['rating', 'comments', 'scanner_full_name', 'scanner_email']
+        select_related_fields = ['scanner__user', 'scanner__shortcuts']

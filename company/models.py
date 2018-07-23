@@ -18,9 +18,9 @@ class Company(models.Model):
 class Employee(models.Model):
     msocks_allow = True
     msocks_fields = [
-        ('full_name', 'profile.full_name'),
+        ('full_name', 'profile.shortcuts.full_name'),
         ('unique_id', 'profile.unique_id'),
-        ('email', 'profile.email'),
+        ('email', 'profile.user.email'),
         ('company_name', 'company.name')
     ]
 
@@ -35,7 +35,7 @@ class Employee(models.Model):
     )
 
     def __str__(self):
-        return f'{self.profile.full_name} em {self.company.name}'
+        return f'{self.profile} em {self.company.name}'
 
 
 class Scan(models.Model):
@@ -46,12 +46,12 @@ class Scan(models.Model):
         'id',
         'rating',
         'comments',
-        ('scannee_full_name', 'scannee.full_name'),
+        ('scannee_full_name', 'scannee.shortcuts.full_name'),
         ('scannee_unique_id', 'scannee.unique_id'),
-        ('scannee_email', 'scannee.email'),
-        ('scanner_full_name', 'scanner.full_name'),
+        ('scannee_email', 'scannee.user.email'),
+        ('scanner_full_name', 'scanner.shortcuts.full_name'),
         ('scanner_unique_id', 'scanner.unique_id'),
-        ('scanner_email', 'scanner.email')
+        ('scanner_email', 'scanner.user.email')
     ]
 
     # Person who was scanned
@@ -80,7 +80,7 @@ class Scan(models.Model):
         scan.save()
 
     def __str__(self):
-        return f'{self.scanner.employee} escaneou {self.scannee.full_name}'
+        return f'{self.scanner.employee} escaneou {self.scannee}'
 
 
 def update_employee(sender, **kwargs):

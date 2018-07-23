@@ -11,7 +11,7 @@ class Staff(models.Model):
     )
 
     def __str__(self):
-        return f'Staff {self.profile.full_name}'
+        return f'Staff {self.profile}'
 
 
 def update_staff(sender, **kwargs):

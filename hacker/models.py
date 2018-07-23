@@ -11,7 +11,12 @@ class Hacker(models.Model):
 
     # Subscription fields
     msocks_allow = True
-    msocks_fields = ['profile.unique_id', 'profile.email', 'profile.full_name', 'profile.state']
+    msocks_fields = [
+        ('unique_id', 'profile.unique_id'),
+        ('email', 'profile.user.email'),
+        ('full_name', 'profile.shortcuts.full_name'),
+        ('state', 'profile.shortcuts.state')
+    ]
 
     profile = models.OneToOneField(
         Profile,
@@ -133,7 +138,7 @@ class Hacker(models.Model):
                 hacker.unwaitlist()
 
     def __str__(self):
-        return f'Hacker {self.profile.full_name}'
+        return f'Hacker {self.profile}'
 
 
 def update_hacker(sender, **kwargs):

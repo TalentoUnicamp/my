@@ -33,7 +33,20 @@ class Profile(models.Model):
 
     # Subscription permissions
     msocks_allow = True
-    msocks_fields = ['unique_id', 'full_name', 'email', 'state', 'is_verified', 'is_hacker', 'is_staff', 'is_admin', 'is_employee', 'has_facebook', 'has_github', 'has_google']
+    msocks_fields = [
+        'unique_id',
+        'full_name',
+        'email',
+        'state',
+        'is_verified',
+        'is_hacker',
+        'is_staff',
+        'is_admin',
+        'is_employee',
+        'has_facebook',
+        'has_github',
+        'has_google'
+    ]
 
     user = models.OneToOneField(
         User,
@@ -66,14 +79,11 @@ class Profile(models.Model):
             return self.hacker.hacker_state
         return 'verified'
 
-    # Update attribute
-    # Used so that changes in other models can trigger sockets
-    _update_field = models.BooleanField(default=False)
-
     def trigger_update(self):
         """Trigger Update
         Used to manually trigger signal updates on this model
         """
+        update_shortcuts(self)
         post_save.send(Profile, instance=self, created=False)
 
     # Social logins
@@ -87,7 +97,8 @@ class Profile(models.Model):
 
     @property
     def has_google(self):
-        return self.social_logins.filter(provider='google').exists()
+        # return self.social_logins.filter(provider='google').exists()
+        return False
 
     # Hacker and staff attributes
     @property
@@ -152,6 +163,9 @@ def create_profile(sender, **kwargs):
     if kwargs['created']:
         profile = Profile(user=user)
         profile.save()
+        shortcuts = Shortcuts(profile=profile)
+        shortcuts.save()
+        update_shortcuts(profile)
     # Trigger profile update on user update
     else:
         if hasattr(user, 'profile'):
@@ -159,3 +173,48 @@ def create_profile(sender, **kwargs):
 
 
 post_save.connect(create_profile, sender=User)
+
+
+class Shortcuts(models.Model):
+    profile = models.OneToOneField(
+        Profile,
+        on_delete=models.CASCADE
+    )
+    # Social attributes
+    has_facebook = models.BooleanField(default=False)
+    has_github = models.BooleanField(default=False)
+    has_google = models.BooleanField(default=False)
+
+    # Belonging attributes
+    is_hacker = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+
+    # Control attributes
+    state = models.CharField(default='', max_length=20)
+    is_verified = models.BooleanField(default=False)
+
+    full_name = models.CharField(default='', max_length=100)
+
+
+def update_shortcuts(profile):
+    data = {
+        'has_facebook': profile.has_facebook,
+        'has_github': profile.has_github,
+        'has_google': profile.has_google,
+        'is_hacker': profile.is_hacker,
+        'is_staff': profile.is_staff,
+        'is_employee': profile.is_employee,
+        'is_admin': profile.is_admin,
+        'state': profile.state,
+        'is_verified': profile.is_verified,
+        'full_name': profile.full_name,
+    }
+    Shortcuts.objects.update_or_create(
+        profile=profile,
+        defaults=data
+    )
+
+    def __str__(self):
+        return f'Shortcut de {self.profile}'

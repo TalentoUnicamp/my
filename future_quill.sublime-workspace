@@ -4,16 +4,64 @@
 		"selected_items":
 		[
 			[
+				"Pref",
+				"PrefetchModelSerializer\tclass"
+			],
+			[
+				"res",
+				"rest_framework\tmodule"
+			],
+			[
+				"on",
+				"on_delete\tparam"
+			],
+			[
+				"defa",
+				"defaultItems"
+			],
+			[
+				"Vue",
+				"VueCookie"
+			],
+			[
+				"ite",
+				"items"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"delet",
+				"deleteItem"
+			],
+			[
+				"com",
+				"company_data"
+			],
+			[
+				"new",
+				"newCompanyAccess"
+			],
+			[
+				"Em",
+				"EmployeeHasAccess\tclass"
+			],
+			[
+				"is",
+				"is_employee\tstatement"
+			],
+			[
+				"Is",
+				"IsEmployeeMixin\tclass"
+			],
+			[
 				"Me",
 				"MessagePackRenderer\tclass"
 			],
 			[
 				"M",
 				"MessagePackRenderer\tclass"
-			],
-			[
-				"res",
-				"rest_framework_msgpack\tmodule"
 			],
 			[
 				"ex",
@@ -78,10 +126,6 @@
 			[
 				"Ex",
 				"ExportScannedHackersSerializer\tclass"
-			],
-			[
-				"com",
-				"company\tstatement"
 			],
 			[
 				"get_sri",
@@ -176,10 +220,6 @@
 				"ScanViewset\tclass"
 			],
 			[
-				"Is",
-				"IsEmployee\tclass"
-			],
-			[
 				"gene",
 				"GenericViewSet\tclass"
 			],
@@ -194,10 +234,6 @@
 			[
 				"ad",
 				"admit\tfunction"
-			],
-			[
-				"is",
-				"is_full\tfunction"
 			],
 			[
 				"get",
@@ -304,16 +340,8 @@
 				"findIndex"
 			],
 			[
-				"in",
-				"indexOf"
-			],
-			[
 				"fu",
 				"fun\tFunction"
-			],
-			[
-				"on",
-				"onChecked"
 			],
 			[
 				"cehc",
@@ -330,10 +358,6 @@
 			[
 				"user",
 				"userList"
-			],
-			[
-				"Em",
-				"EmployeeList"
 			],
 			[
 				"comp",
@@ -490,35 +514,65 @@
 			[
 				"ur",
 				"urlCopied"
-			],
-			[
-				"cur",
-				"cursor\tproperty"
-			],
-			[
-				"background-c",
-				"background-color\tproperty"
-			],
-			[
-				"sub",
-				"submitForm"
-			],
-			[
-				"log",
-				"loginUrl"
-			],
-			[
-				"pr",
-				"print\tfunction"
-			],
-			[
-				"send",
-				"send_verify_email\tfunction"
 			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "user_profile/serializers.py",
+			"settings":
+			{
+				"buffer_size": 812,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/Maronato/Downloads/client_id.json",
+			"settings":
+			{
+				"buffer_size": 353,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "project/serializers.py",
+			"settings":
+			{
+				"buffer_size": 614,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "company/serializers.py",
+			"settings":
+			{
+				"buffer_size": 2542,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "user_profile/api.py",
+			"settings":
+			{
+				"buffer_size": 3947,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "from django.db import models\nfrom django.utils.crypto import get_random_string\nfrom django.db.models.signals import post_save\nfrom django.conf import settings\nfrom django.contrib.auth.models import User\n\nimport re\n\nfrom .tasks import send_verify_email\n# Create your models here.\n\n\ndef gen_token():\n    TOKEN_SIZE = settings.TOKEN_SIZE\n    token = get_random_string(length=TOKEN_SIZE)\n    return token\n\n\ndef gen_verification_code():\n    TOKEN_SIZE = settings.TOKEN_SIZE\n    verification_code = get_random_string(length=TOKEN_SIZE)\n    return verification_code\n\n\ndef gen_unique_id():\n    TOKEN_SIZE = settings.TOKEN_SIZE\n    unique_id = get_random_string(length=TOKEN_SIZE)\n    return unique_id\n\n\nclass Profile(models.Model):\n    # Fields to subscribe to\n\n    # Subscription permissions\n    msocks_allow = True\n    msocks_fields = ['unique_id', 'full_name', 'email', 'state', 'is_verified', 'is_hacker', 'is_staff', 'is_admin', 'is_employee', 'has_facebook', 'has_github', 'has_google']\n\n    user = models.OneToOneField(\n        User,\n        on_delete=models.CASCADE\n    )\n\n    # Public unique ID\n    unique_id = models.CharField(max_length=20, unique=True, default=gen_unique_id)\n\n    # Log in token\n    token = models.CharField(max_length=20, unique=True, default=gen_token)\n\n    # Email verification\n    verified = models.BooleanField(default=False)\n    verification_code = models.CharField(max_length=20, unique=True, default=gen_verification_code)\n\n    @property\n    def is_verified(self):\n        \"\"\"Profile's email is verified and ready to use\"\"\"\n        temp_email = re.match(r'^temp_\\d+@email.com$', self.user.email)\n        return self.verified and temp_email is None\n\n    @property\n    def state(self):\n        if self.is_hacker and self.hacker.hacker_state == 'incomplete':\n            return 'incomplete'\n        if not self.is_verified:\n            return 'unverified'\n        if self.is_hacker:\n            return self.hacker.hacker_state\n        return 'verified'\n\n    # Update attribute\n    # Used so that changes in other models can trigger sockets\n    _update_field = models.BooleanField(default=False)\n\n    def trigger_update(self):\n        \"\"\"Trigger Update\n        Used to manually trigger signal updates on this model\n        \"\"\"\n        post_save.send(Profile, instance=self, created=False)\n\n    # Social logins\n    @property\n    def has_facebook(self):\n        return self.social_logins.filter(provider='facebook').exists()\n\n    @property\n    def has_github(self):\n        return self.social_logins.filter(provider='github').exists()\n\n    @property\n    def has_google(self):\n        return self.social_logins.filter(provider='google').exists()\n\n    # Hacker and staff attributes\n    @property\n    def is_hacker(self):\n        return hasattr(self, 'hacker')\n\n    @property\n    def is_staff(self):\n        return hasattr(self, 'staff')\n\n    @property\n    def is_admin(self):\n        return self.user.is_superuser\n\n    @property\n    def is_employee(self):\n        return hasattr(self, 'employee')\n\n    @property\n    def full_name(self):\n        return self.user.get_full_name()\n\n    @property\n    def email(self):\n        return self.user.email\n\n    # Methods\n    def new_token(self):\n        self.token = gen_token()\n        self.save()\n        return self.token\n\n    def new_verification_code(self):\n        self.verification_code = gen_verification_code()\n        self.save()\n        return self.verification_code\n\n    def change_email(self, email):\n        user = self.user\n        user.email = email\n        user.save()\n        self.verified = False\n        self.new_verification_code()\n        send_verify_email.delay(self.id)\n\n    def verify_email(self):\n        self.verified = True\n        self.save()\n        self.new_verification_code()\n\n    def unlink_social_provider(self, provider):\n        social = self.social_logins.filter(provider=provider)\n        if social.exists():\n            social.first().delete()\n\n    def __str__(self):\n        return f\"{self.user.get_full_name()} ({self.user.email})\"\n\n\ndef create_profile(sender, **kwargs):\n    user = kwargs['instance']\n    if kwargs['created']:\n        profile = Profile(user=user)\n        profile.save()\n    # Trigger profile update on user update\n    else:\n        if hasattr(user, 'profile'):\n            user.profile.trigger_update()\n\n\npost_save.connect(create_profile, sender=User)\n\n\nclass Shortcuts(models.Model):\n    profile = models.OneToOneField(\n        Profile,\n        on_delete=models.CASCADE\n    )\n    # Social logins\n    @property\n    def has_facebook(self):\n        return self.social_logins.filter(provider='facebook').exists()\n\n    @property\n    def has_github(self):\n        return self.social_logins.filter(provider='github').exists()\n\n    @property\n    def has_google(self):\n        return self.social_logins.filter(provider='google').exists()\n\n    # Hacker and staff attributes\n    @property\n    def is_hacker(self):\n        return hasattr(self, 'hacker')\n\n    @property\n    def is_staff(self):\n        return hasattr(self, 'staff')\n\n    @property\n    def is_admin(self):\n        return self.user.is_superuser\n\n    @property\n    def is_employee(self):\n        return hasattr(self, 'employee')\n",
+			"file": "user_profile/models.py",
+			"file_size": 4497,
+			"file_write_time": 131766677900845241,
+			"settings":
+			{
+				"buffer_size": 5200,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -531,6 +585,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"reset",
+				"Git: Reset (hard) HEAD"
+			],
 			[
 				"prett",
 				"JsPrettier: Format Code"
@@ -602,10 +660,6 @@
 			[
 				"r",
 				"Indentation: Reindent Lines"
-			],
-			[
-				"reset",
-				"Git: Reset (hard) HEAD"
 			],
 			[
 				"stash",
@@ -960,54 +1014,88 @@
 	"expanded_folders":
 	[
 		"/Users/Maronato/Documents/learning_vue/future_quill",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/extra",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login"
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile"
 	],
 	"file_history":
 	[
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/extra/download_button.vue",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/mixins.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/renderers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/api.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/generics.py",
+		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/.env",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/urls.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/settings.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/views.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/settings/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/base.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/root.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/subscriptions/base.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/requirements.txt",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/dashboard/dashboard.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/subscription.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/router_application.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/models.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_custom.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_login.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/app.json",
+		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/apps.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/Procfile",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/asgi.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/run.sh",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/templates/company/company.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/templates/godmode/admin.html",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_sidebar.scss",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login/login.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/package.json",
+		"/Users/Maronato/Documents/learning_vue/future_quill/bin/run_compress",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/node_modules/less/test/css/urls.css",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components/dashboard/dashboard.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/serializers.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components/sections/reminders.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/company_table.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/components/sections/reminder_item.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/static/dashboard/apps/dashboard.js",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/sidebar.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/mixins.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/exports.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/api.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/permissions.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/company/views.py",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/extra/download_button.vue",
+		"/Users/Maronato/Documents/learning_vue/future_quill/project/renderers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/company.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/scan_list.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/settings.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/exports.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/user_table.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/list/user_table.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/mixins.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/export_serializers.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/serializers.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/export_serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/export_serializers.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/export_serializers.py",
 		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/renderers.py",
-		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/generics.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/urls.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/api.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/hacker_rate.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/models.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/components/sections/scan.vue",
-		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/mixins.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/mixins.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/models.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/urls.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/api.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/templates/company/company.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/tablesort/tablesort.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/js/settings_subscriptions.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/api.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/list.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/api.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/permissions.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/api.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/urls.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/hacker_table.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/hacker/models.py",
@@ -1017,29 +1105,18 @@
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/urls.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/settings_subs.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/settings.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/templates/godmode/admin.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/admin.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/settings/api.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/company_table.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company/employee_table.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/subscriptions/base.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/settings/models.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/settings/mixins.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/templates/staff/staff.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/templates/application/application.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/root.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/package.json",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/js/modules/popup.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/apps/admin.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_animation.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_application.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_base.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_branding.scss",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_custom.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_dashboard.scss",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_login.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_page.scss",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_sidebar.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_staff.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_team.scss",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_verify.scss",
@@ -1053,54 +1130,29 @@
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/action/style.css",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/basic/html.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/email/basic/style.css",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/templates/project/base.html",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/apps/staff.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/checkin.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/sections/register.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/staff/static/staff/components/staff.vue",
 		"/Users/Maronato/Library/Application Support/Sublime Text 3/Packages/Terminal/Terminal.sublime-settings",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/css/_admin.scss",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/sidebar.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/sidebar/item.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/components/login/login.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/sidebar.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/self_subs.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/apps/login.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/ws_wrapper.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/subscription.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/msocks.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/msocks_bkp.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/static/model_sockets/js/reconnecting-websocket.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/company.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/create_users.vue",
 		"/Users/Maronato/Documents/learning_vue/future_quill/company/static/company/apps/company.js",
 		"/Users/Maronato/Documents/learning_vue/future_quill/application/views.py",
 		"/Users/Maronato/Documents/learning_vue/future_quill/.eslintrc.json",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/views.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/dashboard/templates/dashboard/dashboard.html",
-		"/Users/Maronato/Documents/learning_vue/future_quill/.env",
-		"/Users/Maronato/Documents/learning_vue/future_quill/social/models.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/staff/models.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/application/models.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/admin.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/db.sqlite3",
-		"/Users/Maronato/Documents/learning_vue/future_quill/godmode/static/godmode/components/sections/user_table.vue",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/views.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/static/project/plugins/semantic/js/modules/checkbox.js",
-		"/Users/Maronato/Documents/learning_vue/future_quill/project/urls.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/company/permissions.py",
-		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/serializers.py",
-		"/Users/Maronato/pyenvs/_Users_Maronato_Documents_learning_vue_future_quill/venv/lib/python3.6/site-packages/rest_framework/permissions.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/consumers.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/apps.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/model_sockets/subscriptions/generics.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/staff/api.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/staff/urls.py",
-		"/Users/Maronato/Documents/learning_vue/future_quill/user_profile/tasks.py"
+		"/Users/Maronato/Documents/learning_vue/future_quill/social/models.py"
 	],
 	"find":
 	{
-		"height": 72.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -1115,6 +1167,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Response",
+			".get()",
+			"djdt",
+			"compress",
+			"staticf",
+			"logo",
+			"content",
 			"rest",
 			"data-sort-value",
 			"button",
@@ -1172,6 +1231,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			".get(settings)",
 			"",
 			"d"
 		],
@@ -1184,8 +1244,1296 @@
 	"groups":
 	[
 		{
+			"selected": 1,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "user_profile/serializers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 812,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								236,
+								236
+							],
+							[
+								303,
+								303
+							],
+							[
+								368,
+								368
+							],
+							[
+								545,
+								545
+							],
+							[
+								572,
+								572
+							],
+							[
+								595,
+								595
+							]
+						],
+						"settings":
+						{
+							"SL.579.region_keys":
+							[
+							],
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										604,
+										605
+									],
+									"2":
+									[
+										604,
+										605
+									],
+									"3":
+									[
+										604,
+										605
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/square_bracket.png",
+										"region.bluish"
+									],
+									"2":
+									[
+										"Packages/BracketHighlighter/icons/square_bracket.png",
+										"region.bluish"
+									],
+									"3":
+									[
+										"Packages/BracketHighlighter/icons/square_bracket.png",
+										"region.bluish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										491,
+										492
+									],
+									"2":
+									[
+										491,
+										492
+									],
+									"3":
+									[
+										491,
+										492
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/Maronato/Downloads/client_id.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 353,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										352,
+										353
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/curly_bracket.png",
+										"region.purplish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										0,
+										1
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content"
+							],
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 2035.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "project/serializers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 614,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								259,
+								259
+							]
+						],
+						"settings":
+						{
+							"SL.594.region_keys":
+							[
+							],
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										347,
+										348
+									],
+									"2":
+									[
+										408,
+										409
+									],
+									"3":
+									[
+										484,
+										485
+									],
+									"4":
+									[
+										536,
+										537
+									],
+									"5":
+									[
+										617,
+										618
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									],
+									"2":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									],
+									"3":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									],
+									"4":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									],
+									"5":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										317,
+										318
+									],
+									"2":
+									[
+										367,
+										368
+									],
+									"3":
+									[
+										456,
+										457
+									],
+									"4":
+									[
+										504,
+										505
+									],
+									"5":
+									[
+										587,
+										588
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "company/serializers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2542,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 230.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "user_profile/api.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3947,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2271,
+								2271
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										2270,
+										2271
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										2238,
+										2239
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1863.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "user_profile/models.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5200,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5199,
+								5199
+							]
+						],
+						"settings":
+						{
+							"SL.586.region_keys":
+							[
+							],
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.clone": -1,
+							"bracket_highlighter.clone_locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										2552,
+										2553
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										2541,
+										2542
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.clone_regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+									"1":
+									[
+										5198,
+										5199
+									]
+								},
+								"icon":
+								{
+									"1":
+									[
+										"Packages/BracketHighlighter/icons/round_bracket.png",
+										"region.yellowish"
+									]
+								},
+								"open":
+								{
+									"1":
+									[
+										5181,
+										5182
+									]
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
+							],
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4299.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -1231,6 +2579,10 @@
 	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 192.0
 	},
 	"output.mdpopups":
 	{

@@ -130,7 +130,7 @@ class Social(models.Model):
         return social, user_created, social_created, request
 
     def __str__(self):
-        return f"{self.provider.capitalize()} de {self.profile.user.get_full_name()} ({self.profile.user.email})"
+        return f"{self.provider.capitalize()} de {self.profile}"
 
 
 def update_social(sender, **kwargs):

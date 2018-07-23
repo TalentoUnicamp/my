@@ -56,4 +56,4 @@ class Application(models.Model):
     essay = models.TextField(null=True, blank=False)
 
     def __str__(self):
-        return f'Aplicação de {self.hacker.profile.full_name}'
+        return f'Aplicação de {self.hacker.profile}'
