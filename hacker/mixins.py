@@ -21,4 +21,7 @@ class IsAdmittedMixin(IsHackerMixin):
 class IsSubmittedOrIncompleteMixin(IsHackerMixin):
     def test_func(self):
         parent = super().test_func()
-        return parent and (self.request.user.profile.state == 'submitted' or self.request.user.profile.state == 'incomplete')
+        return parent and (
+            self.request.user.profile.state == 'submitted'or
+            self.request.user.profile.state == 'incomplete' or
+            self.request.user.profile.state == 'unverified')

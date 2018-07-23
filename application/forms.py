@@ -15,29 +15,46 @@ class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
-        fields = ['first_name', 'last_name', 'email', 'phone', 'gender', 'age', 'university', 'enroll_year', 'diet', 'special_needs', 'shirt_size', 'shirt_style', 'cv_type', 'cv', 'cv2_type', 'cv2', 'description', 'essay']
+        exclude = ['hacker']
         labels = {
-            'phone': 'Telefone',
+            'phone': 'Telefone*',
             'gender': 'Gênero*',
             'age': 'Idade*',
-            'university': 'Universidade*',
-            'enroll_year': 'Ano de Ingresso*',
-            'diet': 'Restrição alimentar',
-            'special_needs': 'Necessidades especiais',
-            'shirt_size': 'Tamanho da Camisa*',
-            'shirt_style': 'Estilo da Camisa*',
+            'cpf': 'CPF*',
+
+            'education': 'Educação atual*',
+            'enroll_year': 'Ano de ingresso*',
+            'school': 'Faculdade*',
+            'course': 'Curso*',
+
             'cv_type': 'Tipo de Currículo',
             'cv': 'URL do Currículo',
             'cv2_type': 'Outro tipo de Currículo',
             'cv2': 'URL de outro Currículo',
-            'description': 'Eu me descreveria como...*',
-            'essay': 'Por que você quer participar do {}?*'.format(settings.EVENT_NAME),
+
+            'referrer': f'Como ficou sabendo da {settings.EVENT_NAME}*',
+            'first_timer': f'É sua primeira vez na {settings.EVENT_NAME}?*',
+            'dream_company': 'Qual sua empresa dos sonhos?',
+            'interests': 'Quais são suas áreas de interesse?*',
+
+            'country': 'País',
+            'state': 'Estado',
+            'city': 'Cidade',
+            'can_move': 'Pode se mudar para trabalhar?',
+            'time_slots': 'Seus horários livres',
+            'extra_courses': 'Cursos ou treinamentos',
+            'english_level': 'Nível de inglês',
+            'excel_level': 'Nível no Excel',
+            'other_languages': 'Outras línguas',
         }
 
         widgets = {
-            'description': forms.fields.TextInput(attrs={'placeholder': 'iOS Master, Data Scientist, Hacker, Designer...'}),
-            'special_needs': forms.fields.TextInput(attrs={'placeholder': 'Só responder se tiver'}),
-            'diet': forms.fields.TextInput(attrs={'placeholder': 'Só responder se tiver'}),
+            'cpf': forms.fields.TextInput(attrs={'placeholder': '111.222.333-45'}),
+            'referrer': forms.fields.TextInput(attrs={'placeholder': 'Amigo, Facebook, carta...'}),
+            'interests': forms.fields.TextInput(attrs={'placeholder': 'Consultoria, financeiro, pesquisa...'}),
+            'time_slots': forms.fields.TextInput(attrs={'placeholder': 'Seg a sexta, 9 às 17...'}),
+            'extra_courses': forms.fields.TextInput(attrs={'placeholder': 'Cozinhando 101, Coursera...'}),
+            'other_languages': forms.fields.TextInput(attrs={'placeholder': 'Klingon avançado'}),
         }
 
     def clean_cv(self):
@@ -72,6 +89,20 @@ class ApplicationForm(forms.ModelForm):
         if pattern.match(email):
             raise forms.ValidationError('Você precisa fornecer um email válido!')
         return email
+
+    def clean_school(self):
+        school = self.cleaned_data.get('school').strip()
+        education = self.cleaned_data.get('education').strip()
+        if education not in ['Ensino Fundamental', 'Ensino Médio'] and not school:
+            raise forms.ValidationError('Faculdade necessária')
+        return school
+
+    def clean_course(self):
+        course = self.cleaned_data.get('course').strip()
+        education = self.cleaned_data.get('education').strip()
+        if education not in ['Ensino Fundamental', 'Ensino Médio'] and not course:
+            raise forms.ValidationError('Curso necessário')
+        return course
 
     def save(self, commit=True, hacker=None):
         data = self.cleaned_data

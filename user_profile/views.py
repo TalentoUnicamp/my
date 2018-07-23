@@ -2,12 +2,15 @@ from django.views.generic import View
 from django.shortcuts import redirect
 from django.contrib.messages import add_message, ERROR, SUCCESS
 from django.contrib.auth import login
+from settings.mixins import RegistrationOpenMixin
 from .models import Profile
 import time
 # Create your views here.
 
 
-class VerifyEmailView(View):
+class VerifyEmailView(
+        RegistrationOpenMixin,
+        View):
 
     http_method_names = ['get']
 
@@ -33,6 +36,8 @@ class TokenLoginView(View):
         try:
             profile = Profile.objects.get(token=token)
             login(request, profile.user)
+            # Force profile update on login
+            profile.trigger_update()
         except Profile.DoesNotExist:
             add_message(request, ERROR, 'Token inválido')
             time.sleep(2)

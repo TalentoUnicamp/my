@@ -1,221 +1,270 @@
-{% extends 'project/base.html' %} {% load compress %} {% load staticfiles %} {% block content %}
+{% extends 'project/base.html' %}
+{% load staticfiles %}
+{% block content %}
 
 <div id="application"
-    class="page">
+class="page">
 
-    <div class="divided title">Aplicação
-    </div>
+<div class="divided title">Aplicação</div>
 
-    <div class="ui stackable page grid">
+<div class="ui stackable page grid">
 
-        <div class="column">
+    <div class="column">
 
-            <div class="ui form">
+        <div class="ui form">
 
-                <form method="post">{% csrf_token %}
-                    <div class="subheader">* Obrigatório</div>
-                    <br>
+            <form method="post">{% csrf_token %}
+                <div class="subheader">* Obrigatório</div>
+                <br>
 
-                    <div class="diviAded title">Informações Básicas</div>
+                <div class="divided title">Informações Básicas</div>
 
-                    <div class="two fields">
+                <div class="three fields">
 
-                        <div class="field {% if form.first_name.errors.as_text %}error{% endif %}">
-                            <label>{{ form.first_name.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.first_name.errors.as_text }}
-                            </span>{{ form.first_name }}
-                        </div>
-
-                        <div class="field {% if form.last_name.errors.as_text %}error{% endif %}">
-                            <label>{{ form.last_name.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.last_name.errors.as_text }}
-                            </span>{{ form.last_name }}
-                        </div>
+                    <div class="field {% if form.first_name.errors.as_text %}error{% endif %}">
+                        <label>{{ form.first_name.label}}</label>
+                        <span style="color: red" class="small">{{ form.first_name.errors.as_text }}
+                        </span>{{ form.first_name }}
                     </div>
 
-                    <div class="two fields">
-
-                        <div class="field {% if form.email.errors.as_text %}error{% endif %}">
-                            <label>{{ form.email.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.email.errors.as_text }}
-                            </span>{{ form.email }}
-                        </div>
-
-                        <div class="field {% if form.phone.errors.as_text %}error{% endif %}">
-                            <label>{{ form.phone.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.phone.errors.as_text }}
-                            </span>{{ form.phone }}
-                        </div>
+                    <div class="field {% if form.last_name.errors.as_text %}error{% endif %}">
+                        <label>{{ form.last_name.label}}</label>
+                        <span style="color: red" class="small">{{ form.last_name.errors.as_text }}
+                        </span>{{ form.last_name }}
                     </div>
 
-                    <div class="two fields">
+                    <div class="field {% if form.age.errors.as_text %}error{% endif %}">
+                        <label>{{ form.age.label}}</label>
+                        <span style="color: red" class="small">{{ form.age.errors.as_text }}
+                        </span>{{ form.age }}
+                    </div>
+                </div>
 
-                        <div class="field {% if form.age.errors.as_text %}error{% endif %}">
-                            <label>{{ form.age.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.age.errors.as_text }}
-                            </span>{{ form.age }}
-                        </div>
+                <div class="two fields">
 
-                        <div class="field {% if form.gender.errors.as_text %}error{% endif %}">
-                            <label>{{ form.gender.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.gender.errors.as_text }}
-                            </span>{{ form.gender }}
-                        </div>
+                    <div class="field {% if form.email.errors.as_text %}error{% endif %}">
+                        <label>{{ form.email.label}}</label>
+                        <span style="color: red" class="small">{{ form.email.errors.as_text }}
+                        </span>{{ form.email }}
                     </div>
 
-                    <div class="two fields">
+                    <div class="field {% if form.phone.errors.as_text %}error{% endif %}">
+                        <label>{{ form.phone.label}}</label>
+                        <span style="color: red" class="small">{{ form.phone.errors.as_text }}
+                        </span>{{ form.phone }}
+                    </div>
+                </div>
 
-                        <div class="field {% if form.shirt_size.errors.as_text %}error{% endif %}">
-                            <label>{{ form.shirt_size.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.shirt_size.errors.as_text }}
-                            </span>{{ form.shirt_size }}
-                        </div>
+                <div class="two fields">
 
-                        <div class="field {% if form.shirt_style.errors.as_text %}error{% endif %}">
-                            <label>{{ form.shirt_style.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.shirt_style.errors.as_text }}
-                            </span>{{ form.shirt_style }}
-                        </div>
+                    <div class="field {% if form.gender.errors.as_text %}error{% endif %}">
+                        <label>{{ form.gender.label}}</label>
+                        <span style="color: red" class="small">{{ form.gender.errors.as_text }}
+                        </span>{{ form.gender }}
+                    </div>
+                    <div class="field {% if form.cpf.errors.as_text %}error{% endif %}">
+                        <label>{{ form.cpf.label}}</label>
+                        <span style="color: red" class="small">{{ form.cpf.errors.as_text }}
+                        </span>{{ form.cpf }}
+                    </div>
+                </div>
+
+                <br>
+                <div class="divided title">Educação</div>
+
+                <div class="two fields">
+
+                    <div class="field {% if form.education.errors.as_text %}error{% endif %}">
+                        <label>{{ form.education.label}}</label>
+                        <span style="color: red" class="small">{{ form.education.errors.as_text }}
+                        </span>{{ form.education }}
                     </div>
 
-                    <div class="two fields">
+                    <div class="field {% if form.enroll_year.errors.as_text %}error{% endif %}">
+                        <label>{{ form.enroll_year.label}}</label>
+                        <span style="color: red" class="small">{{ form.enroll_year.errors.as_text }}
+                        </span>{{ form.enroll_year }}
+                    </div>
+                </div>
 
-                        <div class="field  {% if form.university.errors.as_text %}error{% endif %}">
-                            <label>{{ form.university.label }}</label>
+                <div id="education_details" style="display: none;" class="two fields">
 
-                            <select value="{{form.university.value}}"
-                                id="id_university"
-                                name="university"
-                                class="ui fluid search dropdown">
-                                <option value>Digite sua Universidade</option>
-                                <option value="Unicamp">Unicamp</option>
-                                <option value="USP SP">USP SP</option>
-                                <option value="USP SC">USP SC</option>
-                                <option value="PUCCAMP">PUCCAMP</option>
-                                <option value="UFSCAR">UFSCAR</option>
-                                <option value="PUC SP">PUC SP</option>
-                                <option value="UNIFESP">UNIFESP</option>
-                            </select>
-                        </div>
+                    <div class="field {% if form.school.errors.as_text %}error{% endif %}">
+                        <label>{{ form.school.label}}</label>
+                        <span style="color: red" class="small">{{ form.school.errors.as_text }}
+                        </span>{{ form.school }}
+                    </div>
 
-                        <div class="field {% if form.enroll_year.errors.as_text %}error{% endif %}">
-                            <label>{{ form.enroll_year.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.enroll_year.errors.as_text }}
-                            </span>{{ form.enroll_year }}
+                    <div class="field {% if form.course.errors.as_text %}error{% endif %}">
+                        <label>{{ form.course.label}}</label>
+                        <span style="color: red" class="small">{{ form.course.errors.as_text }}
+                        </span>{{ form.course }}
+                    </div>
+                </div>
+
+                <br>
+                <div class="divided title">Currículo</div>
+
+                <div class="two fields">
+
+                    <div class="field {% if form.cv_type.errors.as_text %}error{% endif %}">
+                        <label>{{ form.cv_type.label}}</label>
+                        <span style="color: red" class="small">{{ form.cv_type.errors.as_text }}
+                        </span>{{ form.cv_type }}
+                    </div>
+
+                    <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
+                        <label>{{ form.cv.label | safe}}</label>
+                        <span style="color: red" class="small">{{ form.cv.errors.as_text }}
+                        </span>
+
+                        <div class="ui input labeled">
+
+                            <div id="cv_label" class="ui label">http://
+                            </div>{{ form.cv }}
                         </div>
                     </div>
-                    <br>
+                </div>
 
-                    <div class="divided title">Logístico</div>
+                <div class="two fields">
 
-                    <div class="two fields">
+                    <div class="field {% if form.cv2_type.errors.as_text %}error{% endif %}">
+                        <label>{{ form.cv2_type.label}}</label>
+                        <span style="color: red" class="small">{{ form.cv2_type.errors.as_text }}
+                        </span>{{ form.cv2_type }}
+                    </div>
 
-                        <div class="field {% if form.diet.errors.as_text %}error{% endif %}">
-                            <label>{{ form.diet.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.diet.errors.as_text }}
-                            </span>{{ form.diet }}
-                        </div>
+                    <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
+                        <label>{{ form.cv2.label}}</label>
+                        <span style="color: red" class="small">{{ form.cv2.errors.as_text }}
+                        </span>
 
-                        <div class="field {% if form.special_needs.errors.as_text %}error{% endif %}">
-                            <label>{{ form.special_needs.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.special_needs.errors.as_text }}
-                            </span>{{ form.special_needs }}
+                        <div class="ui input labeled">
+
+                            <div id="cv2_label" class="ui label">http://
+                            </div>{{ form.cv2 }}
                         </div>
                     </div>
-                    <br>
+                </div>
 
-                    <div class="divided title">Currículo</div>
+                <br>
+                <div class="divided title">Interesses</div>
 
-                    <div class="two fields">
+                <div class="two fields">
+                    <div class="field {% if form.dream_company.errors.as_text %}error{% endif %}">
+                        <label>{{ form.dream_company.label}}</label>
+                        <span style="color: red" class="small">{{ form.dream_company.errors.as_text }}
+                        </span>{{ form.dream_company }}
+                    </div>
 
-                        <div class="field {% if form.cv_type.errors.as_text %}error{% endif %}">
-                            <label>{{ form.cv_type.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.cv_type.errors.as_text }}
-                            </span>{{ form.cv_type }}
-                        </div>
+                    <div class="field {% if form.interests.errors.as_text %}error{% endif %}">
+                        <label>{{ form.interests.label}}</label>
+                        <span style="color: red" class="small">{{ form.interests.errors.as_text }}
+                        </span>{{ form.interests }}
+                    </div>
+                </div>
 
-                        <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
-                            <label>{{ form.cv.label | safe}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.cv.errors.as_text }}
+                <br>
+                <div class="divided title">Talento</div>
+                <div class="two fields">
+                    <div class="field {% if form.referrer.errors.as_text %}error{% endif %}">
+                        <label>{{ form.referrer.label}}</label>
+                        <span style="color: red" class="small">{{ form.referrer.errors.as_text }}
+                        </span>{{ form.referrer }}
+                    </div>
+
+                    <div class="field {% if form.first_timer.errors.as_text %}error{% endif %}">
+                        <label>{{ form.first_timer.label}}</label>
+                            <span style="color: red" class="small">{{ form.first_timer.errors.as_text }}
                             </span>
+                        <div class="ui toggle checkbox">
+                            {{ form.first_timer }}
+                            <label></label>
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="ui input labeled">
+                <br>
+                <div class="divided title">Opcionais</div>
+                <p>
+                    Todos os campos abaixo são opcionais, mas recomendamos que você os preencha pois eles aumentam suas chances de conseguir um estágio/emprego!
+                </p>
 
-                                <div id="cv_label"
-                                    class="ui label">http://
-                                </div>{{ form.cv }}
-                            </div>
+                <div class="two fields">
+                    <div class="field {% if form.country.errors.as_text %}error{% endif %}">
+                        <label>{{ form.country.label}}</label>
+                        <span style="color: red" class="small">{{ form.country.errors.as_text }}
+                        </span>{{ form.country }}
+                    </div>
+
+                    <div class="field {% if form.state.errors.as_text %}error{% endif %}">
+                        <label>{{ form.state.label}}</label>
+                        <span style="color: red" class="small">{{ form.state.errors.as_text }}
+                        </span>{{ form.state }}
+                    </div>
+                </div>
+
+                <div class="three fields">
+                    <div class="field {% if form.city.errors.as_text %}error{% endif %}">
+                        <label>{{ form.city.label}}</label>
+                        <span style="color: red" class="small">{{ form.city.errors.as_text }}
+                        </span>{{ form.city }}
+                    </div>
+
+                    <div class="field {% if form.can_move.errors.as_text %}error{% endif %}">
+                        <label>{{ form.can_move.label}}</label>
+                        <span style="color: red" class="small">{{ form.can_move.errors.as_text }}
+                        </span>
+                        <div class="ui toggle checkbox">
+                            {{ form.can_move }}
+                            <label></label>
                         </div>
                     </div>
 
-                    <div class="two fields">
-
-                        <div class="field {% if form.cv2_type.errors.as_text %}error{% endif %}">
-                            <label>{{ form.cv2_type.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.cv2_type.errors.as_text }}
-                            </span>{{ form.cv2_type }}
-                        </div>
-
-                        <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
-                            <label>{{ form.cv2.label}}</label>
-                            <span style="color: red"
-                                class="small">{{ form.cv2.errors.as_text }}
-                            </span>
-
-                            <div class="ui input labeled">
-
-                                <div id="cv2_label"
-                                    class="ui label">http://
-                                </div>{{ form.cv2 }}
-                            </div>
-                        </div>
+                    <div class="field {% if form.time_slots.errors.as_text %}error{% endif %}">
+                        <label>{{ form.time_slots.label}}</label>
+                        <span style="color: red" class="small">{{ form.time_slots.errors.as_text }}
+                        </span>{{ form.time_slots }}
                     </div>
-                    <br>
+                </div>
 
-                    <div class="divided title">Nos fale um pouco mais</div>
+                <div class="field {% if form.extra_courses.errors.as_text %}error{% endif %}">
+                    <label>{{ form.extra_courses.label}}</label>
+                    <span style="color: red" class="small">{{ form.extra_courses.errors.as_text }}
+                    </span>{{ form.extra_courses }}
+                </div>
 
-                    <div class="field {% if form.description.errors.as_text %}error{% endif %}">
-                        <label>{{ form.description.label}}</label>
-                        <span style="color: red"
-                            class="small">{{ form.description.errors.as_text }}
-                        </span>{{ form.description }}
+                <div class="two fields">
+                    <div class="field {% if form.english_level.errors.as_text %}error{% endif %}">
+                        <label>{{ form.english_level.label}}</label>
+                        <span style="color: red" class="small">{{ form.english_level.errors.as_text }}
+                        </span>{{ form.english_level }}
                     </div>
 
-                    <div class="field {% if form.essay.errors.as_text %}error{% endif %}">
-                        <label>{{ form.essay.label}}</label>
-                        <span style="color: red"
-                            class="small">{{ form.essay.errors.as_text }}
-                        </span>{{ form.essay }}
+                    <div class="field {% if form.excel_level.errors.as_text %}error{% endif %}">
+                        <label>{{ form.excel_level.label}}</label>
+                        <span style="color: red" class="small">{{ form.excel_level.errors.as_text }}
+                        </span>{{ form.excel_level }}
                     </div>
-                    <br>
+                </div>
 
-                    <div class="ui divider" />
+                <div class="field {% if form.other_languages.errors.as_text %}error{% endif %}">
+                    <label>{{ form.other_languages.label}}</label>
+                    <span style="color: red" class="small">{{ form.other_languages.errors.as_text }}
+                    </span>{{ form.other_languages }}
+                </div>
 
-                    <br>
+                <br>
+                <div class="ui divider"></div>
+                <br>
 
 
-                    <div class="field">
+                <div class="field">
 
-                        <button type="submit"
-                            class="fluid ui purple button">Submeter
-                        </button>
-                    </div>
-                </form>
-            </div>
+                    <button type="submit" class="fluid ui purple button">Submeter
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -237,15 +286,15 @@
         }
         if ($(cv_id_select).val() == "") {
             $(cv_label_select)
-                .parent()
-                .removeClass("labeled");
+            .parent()
+            .removeClass("labeled");
             $(cv_label_select).removeClass("ui label");
             $(cv_label_select).text("");
         } else {
             $(cv_label_select).addClass("ui label");
             $(cv_label_select)
-                .parent()
-                .addClass("labeled");
+            .parent()
+            .addClass("labeled");
             $(cv_label_select).text(ll[$(cv_id_select).val()]);
         }
     }
@@ -262,20 +311,54 @@
         change_cv_option(1);
     });
 
-    $("#id_university").dropdown({
-        allowAdditions: true
-    });
+    $('#id_education').addClass('ui search selection dropdown');
+    $('#id_school').addClass('ui search selection dropdown');
+    $('#id_course').addClass('ui search selection dropdown');
+    $('#id_country').addClass('ui search selection dropdown');
+
 
     $("#id_gender").dropdown();
-    $("#id_shirt_size").dropdown();
-    $("#id_shirt_style").dropdown();
+    $("#id_education").dropdown({
+        allowAdditions: true,
+        onChange: function(value, text, $selectedItem) {
+            var not_allowed = ['Ensino Fundamental', 'Ensino Médio'];
+            if (not_allowed.indexOf(text) === -1) {
+                $('#education_details').show();
+                return;
+            }
+            $('#education_details').hide();
+            return;
+        }
+    });
+    $("#id_school").dropdown({
+        allowAdditions: true
+    });
+    $("#id_course").dropdown({
+        allowAdditions: true
+    });
     $("#id_cv_type").dropdown();
     $("#id_cv2_type").dropdown();
+    $("#id_country").dropdown();
+    $("#id_english_level").dropdown();
+    $("#id_excel_level").dropdown();
 
-    if ("{{ form.university.value }}" != "None")
-        $("#id_university").dropdown(
+
+    if ("{{ form.education.value }}" != "None")
+        $("#id_education").dropdown(
             "set selected",
-            "{{ form.university.value }}"
-        );
+            "{{ form.education.value }}"
+            );
+    if ("{{ form.school.value }}" != "None")
+        $("#id_school").dropdown(
+            "set selected",
+            "{{ form.school.value }}"
+            );
+    if ("{{ form.course.value }}" != "None") {
+        $("#id_course").dropdown(
+            "set selected",
+            "{{ form.course.value }}"
+            );
+    }
 
-</script>{% endblock %}
+</script>
+{% endblock %}

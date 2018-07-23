@@ -6,7 +6,7 @@
             Mudar de ideia
         </div>
         <div class="description">
-            <b>Você ainda tem até {{ reg_close }} para reativar sua aplicação!</b>
+            <b>Você ainda tem até {{ conf_close }} para reativar sua aplicação!</b>
         </div>
         <br>
         <sui-button primary @click="undo_withdraw()" content="Mudei de ideia!" />
@@ -36,12 +36,12 @@
                 user: this.user_context,
                 settings: this.settings_context,
                 dashboard: this.dashboard_context,
-                reg_close_raw: this.settings_context.registration_close_seconds
+                conf_close_raw: this.settings_context.confirmation_seconds
             }
         },
         computed: {
-            reg_close() {
-                return moment(this.reg_close_raw).calendar();
+            conf_close() {
+                return moment(this.conf_close_raw).calendar();
             }
         },
         methods: {

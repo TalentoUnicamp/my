@@ -6,7 +6,7 @@
             Confirmar presença
         </div>
         <div class="description">
-            <b>Atenção!</b> Você ainda precisa confirmar sua presença até {{ reg_close }}
+            <b>Atenção!</b> Você ainda precisa confirmar sua presença até {{ conf_close }}
         <br>
         <br>
             <b>Não confirmar sua presença até esse dia significará a perda de seu lugar no evento!</b>
@@ -44,12 +44,16 @@
                 user: this.user_context,
                 settings: this.settings_context,
                 dashboard: this.dashboard_context,
-                reg_close_raw: this.settings_context.registration_close_seconds
+                reg_close_raw: this.settings_context.registration_close_seconds,
+                conf_close_raw: this.settings_context.confirmation_seconds
             }
         },
         computed: {
             reg_close() {
                 return moment(this.reg_close_raw).calendar();
+            },
+            conf_close() {
+                return moment(this.conf_close_raw).calendar();
             }
         },
         methods: {

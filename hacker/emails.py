@@ -17,7 +17,7 @@ def notify_admitted(hacker):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = hacker.profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
 
@@ -43,7 +43,7 @@ def nag_admitted(hacker):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = hacker.profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
 
@@ -69,7 +69,7 @@ def notify_waitlist(hacker):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = hacker.profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
 
@@ -95,7 +95,7 @@ def notify_unwaitlist(hacker):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = hacker.profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
 
@@ -119,7 +119,7 @@ def notify_decline(hacker):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = hacker.profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/basic/text.txt', context)
     msg_html = render_to_string('project/email/basic/html.html', context)
 

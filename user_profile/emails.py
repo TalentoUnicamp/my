@@ -17,10 +17,9 @@ def verify_email(profile):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
-
     send_mail(
         '[{}] Verificar email'.format(hack_name),
         msg_plain,
@@ -43,7 +42,7 @@ def recover_token_email(profile):
         'facebookHandle': settings.FACEBOOK_HANDLE
     }
     to = profile.user.email
-    fr = hack_name
+    fr = settings.DEFAULT_FROM_EMAIL
     msg_plain = render_to_string('project/email/action/text.txt', context)
     msg_html = render_to_string('project/email/action/html.html', context)
 

@@ -7,6 +7,7 @@ django-extensions==2.0.7
 requests==2.19.1
 django-debug-toolbar
 django-debug-panel
+pycpfcnpj==1.5
 
 # Async
 celery==4.2.0
