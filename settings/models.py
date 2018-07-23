@@ -61,6 +61,7 @@ class Settings(models.Model):
         if settings is None:
             settings = Settings()
             settings.save()
+        cache.set('settings', settings)
         return settings
 
     # Defaults when creating new users
