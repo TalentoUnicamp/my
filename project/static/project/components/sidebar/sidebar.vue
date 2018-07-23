@@ -82,21 +82,21 @@ export default {
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["team"],
                     tab: "team",
-                    condition: true
+                    condition: false
                 },
                 {
                     title: "Helper",
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["helper"],
                     tab: "helper",
-                    condition: true
+                    condition: false
                 },
                 {
                     title: "Judge",
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["judge"],
                     tab: "judge",
-                    condition: true
+                    condition: false
                 },
                 {
                     title: "Logout",
