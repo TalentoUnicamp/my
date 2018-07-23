@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'debug_panel',
     'compressor',
     'compressor_toolkit',
+    'storages',
 
     'rest_framework',
 
@@ -162,6 +163,19 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder'
 )
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# AWS Storage settings
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_QUERYSTRING_AUTH = False
 
 
 # Compressor settings
@@ -182,19 +196,11 @@ COMPRESS_ES6_COMPILER_CMD = (
 if not DEBUG:
     COMPRESS_ES6_COMPILER_CMD = COMPRESS_ES6_COMPILER_CMD.replace("{browserify_bin}", "NODE_ENV=production {browserify_bin} -g envify")
 
+COMPRESS_URL = 'https://{}.s3.amazonaws.com/'.format(AWS_STORAGE_BUCKET_NAME)
+COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Celery stuff
 CELERY_BROKER_URL = os.environ.get('REDIS_URL')
-
-
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
 
 # Update database configuration with $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -239,6 +245,6 @@ MSOCKS_SELF_SUBSCRIPTION_FIELDS = [
 ]
 
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda r: True,  # disables it
+    'SHOW_TOOLBAR_CALLBACK': lambda r: eval(os.environ.get('SHOW_TOOLBAR_CALLBACK', 'True'))  # disables it
     # '...
 }

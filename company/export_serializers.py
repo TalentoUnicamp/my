@@ -7,7 +7,7 @@ class ExportScanSerializer(
         PrefetchMixin,
         serializers.ModelSerializer):
 
-    scanner_full_name = serializers.CharField(source='scanner.shortcuts.first_name')
+    scanner_full_name = serializers.CharField(source='scanner.shortcuts.full_name')
     scanner_email = serializers.CharField(source='scanner.user.email')
 
     class Meta:

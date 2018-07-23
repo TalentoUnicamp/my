@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models.signals import post_save
 from django.db.models import Q
+from django.core.cache import cache
 import datetime
 import pytz
 # Create your models here.
@@ -52,6 +54,9 @@ class Settings(models.Model):
     def get(settings=None):
         if settings is not None:
             return settings
+        cached_settings = cache.get('settings')
+        if cached_settings is not None:
+            return cached_settings
         settings = Settings.objects.first()
         if settings is None:
             settings = Settings()
@@ -135,3 +140,11 @@ class Settings(models.Model):
 
     def __str__(self):
         return 'Settings'
+
+
+def cache_settings(sender, **kwargs):
+    settings = kwargs['instance']
+    cache.set('settings', settings)
+
+
+post_save.connect(cache_settings, sender=Settings)
