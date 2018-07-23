@@ -7,10 +7,10 @@
         </div>
         <sui-list id="info_list">
             <sui-list-item>O evento começa {{ event_start }} e vai até {{ event_end }}</sui-list-item>
-            <sui-list-item><b>O período de check-in é das 7:30 às 8:30, {{ event_start_day }}.</b> Não aceitaremos hackers após esse horário</sui-list-item>
-            <sui-list-item><b>Se informe!</b> Leia as <a target="_blank" href="">regras do evento e os critérios de avaliação!</a></sui-list-item>
+            <sui-list-item><b>O período de check-in é das 9:00 às 19:00, {{ event_start_day }}.</b> Não aceitaremos hackers após esse horário</sui-list-item>
+            <!-- <sui-list-item><b>Se informe!</b> Leia as <a target="_blank" href="">regras do evento e os critérios de avaliação!</a></sui-list-item> -->
             <sui-list-item>
-                Precisa de mais informações? <a href="mailto:">Fale conosco</a>!
+                Precisa de mais informações? <a target="_blank" href="https://mte.org.br/contato/">Fale conosco</a>!
             </sui-list-item>
         </sui-list>
         <br>
