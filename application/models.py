@@ -78,7 +78,7 @@ class Application(models.Model):
     education = models.CharField(max_length=20, choices=EDUCATION_CHOICES, default='', blank=False)
     school = models.CharField(max_length=100, null=True, blank=True, choices=SCHOOL_CHOICES)
     enroll_year = models.IntegerField(validators=[MinValueValidator(1900, "Hmm, como?"), MaxValueValidator(timezone.now().year + 1, "Hmm, como?")], null=True, blank=False)
-    course = models.CharField(max_length=30, null=True, blank=True, choices=COURSE_CHOICES)
+    course = models.CharField(max_length=100, null=True, blank=True, choices=COURSE_CHOICES)
     # CV
     cv_type = models.CharField(max_length=3, choices=CV_TYPES, null=True, blank=True)
     cv = models.CharField(max_length=300, null=True, blank=True)
