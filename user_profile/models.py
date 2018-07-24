@@ -96,8 +96,7 @@ class Profile(models.Model):
 
     @property
     def has_google(self):
-        # return self.social_logins.filter(provider='google').exists()
-        return False
+        return self.social_logins.filter(provider='google').exists()
 
     # Hacker and staff attributes
     @property

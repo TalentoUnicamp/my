@@ -95,7 +95,7 @@ class LoginContextMixin(ContextMixin):
             'social_urls': {
                 'facebook': reverse('social:login', kwargs={'provider': 'facebook'}),
                 'github': reverse('social:login', kwargs={'provider': 'github'}),
-                'google': reverse('dashboard:index'),
+                'google': reverse('social:login', kwargs={'provider': 'google'}),
             }
         }
         context['login_context'] = json.dumps(login_context)

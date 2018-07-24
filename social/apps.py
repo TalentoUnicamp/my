@@ -16,3 +16,6 @@ class SocialSettings(NoPrefixAppConf):
     GITHUB_KEY = os.environ.get('GITHUB_KEY', '')
     GITHUB_SECRET = os.environ.get('GITHUB_SECRET', '')
     GITHUB_PERMISSIONS = eval(os.environ.get('GITHUB_PERMISSIONS', '["email"]'))
+    GOOGLE_KEY = os.environ.get('GOOGLE_KEY', '')
+    GOOGLE_SECRET = os.environ.get('GOOGLE_SECRET', '')
+    GOOGLE_PERMISSIONS = eval(os.environ.get('GOOGLE_PERMISSIONS', '["profile", "email"]'))

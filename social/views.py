@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.views.generic import RedirectView
-from .providers import facebook, github
+from .providers import facebook, github, google
 from .util import decode_state_data, login_canceled
 
 
 # Create your views here.
 providers = {
     'facebook': facebook,
-    'github': github
+    'github': github,
+    'google': google,
 }
 
 

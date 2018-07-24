@@ -22,10 +22,10 @@
             <div class="header">Acesso pelo GitHub</div>
             <sui-button color="black" v-bind:content="gh_text" @click="ghLogin" />
         </p>
-        <!-- <p>
+        <p>
             <div class="header">Acesso pelo Google</div>
             <sui-button social="youtube" v-bind:content="go_text" @click="goLogin" />
-        </p> -->
+        </p>
         <br>
     </div>
 </template>

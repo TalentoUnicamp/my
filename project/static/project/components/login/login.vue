@@ -26,9 +26,9 @@
                             <sui-form-field>
                                 <sui-button type="button" @click="socialLogin('github')" fluid color="black" content="Entrar com GitHub" icon="github"/>
                             </sui-form-field>
-                            <!-- <sui-form-field>
+                            <sui-form-field>
                                 <sui-button type="button" @click="socialLogin('google')" fluid social="youtube" content="Entrar com Google" icon="google"/>
-                            </sui-form-field> -->
+                            </sui-form-field>
                         </sui-form>
                     </div>
                     <div v-if="loginState === 'forgot'">
