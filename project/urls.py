@@ -20,7 +20,7 @@ urlpatterns = [
     path('company/', include('company.urls')),
 ]
 
-if not settings.DEBUG:
+if settings.SHOW_TOOLBAR_CALLBACK:
 
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),

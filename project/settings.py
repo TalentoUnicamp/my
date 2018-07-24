@@ -163,13 +163,17 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder'
 )
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+if not DEBUG:
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # AWS Storage settings
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -195,9 +199,8 @@ COMPRESS_ES6_COMPILER_CMD = (
 )
 if not DEBUG:
     COMPRESS_ES6_COMPILER_CMD = COMPRESS_ES6_COMPILER_CMD.replace("{browserify_bin}", "NODE_ENV=production {browserify_bin} -g envify")
-
-COMPRESS_URL = 'https://{}.s3.amazonaws.com/'.format(AWS_STORAGE_BUCKET_NAME)
-COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    COMPRESS_URL = 'https://{}.s3.amazonaws.com/'.format(AWS_STORAGE_BUCKET_NAME)
+    COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Celery stuff
 CELERY_BROKER_URL = os.environ.get('REDIS_URL')
@@ -244,7 +247,9 @@ MSOCKS_SELF_SUBSCRIPTION_FIELDS = [
     'email',
 ]
 
+SHOW_TOOLBAR_CALLBACK = eval(os.environ.get('SHOW_TOOLBAR_CALLBACK', 'True'))
+
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda r: eval(os.environ.get('SHOW_TOOLBAR_CALLBACK', 'True'))  # disables it
+    'SHOW_TOOLBAR_CALLBACK': lambda r: SHOW_TOOLBAR_CALLBACK  # disables it
     # '...
 }

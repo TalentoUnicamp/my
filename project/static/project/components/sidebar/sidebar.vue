@@ -12,7 +12,7 @@
             ></Item>
 
             <div class="note">
-                {{ sidebar.event_name }} - <a target="_blank" href="https://github.com/TalentoUnicamp">Código fonte</a>
+                {{ sidebar.event_name }} - <sui-icon @click="sourcecode" size="big" name="github" />
             </div>
 
         </div>
@@ -111,7 +111,16 @@ export default {
     methods: {
         toggleSidebar: function() {
             this.showSidebar = !this.showSidebar;
+        },
+        sourcecode() {
+            window.location.href = "https://github.com/TalentoUnicamp/my";
         }
     }
 };
 </script>
+
+<style scoped>
+.github {
+    cursor: pointer;
+}
+</style>
