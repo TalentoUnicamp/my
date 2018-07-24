@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'application',
     'godmode',
     'company',
+    'announcement',
 ]
 
 

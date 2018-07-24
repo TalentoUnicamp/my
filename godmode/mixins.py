@@ -35,7 +35,11 @@ class AdminContextMixin(ContextMixin):
                 'create_employee': reverse('company:api:employee-list'),
                 'delete_employee': reverse('company:api:employee-detail', args=[0])[:-2],
 
-                'update_settings': reverse('settings:api:get_update')
+                'update_settings': reverse('settings:api:get_update'),
+
+                'list_announcement': reverse('announcement:api:announcement-list'),
+                'create_announcement': reverse('announcement:api:announcement-list'),
+                'delete_announcement': reverse('announcement:api:announcement-detail', args=[0])[:-2],
             }
         }
         context['admin_context'] = json.dumps(admin_context)

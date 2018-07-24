@@ -5,7 +5,9 @@
         </div>
 
         <div class="ui stackable centered page grid">
-            <div class="column">
+            <LatestAnnouncement />
+            <div class="row">
+                <div class="column">
                     <sui-menu class="stackable two item">
                         <a
                         is="sui-menu-item"
@@ -24,31 +26,33 @@
                     v-bind:company_context="company"
                     v-show="isActive('Escaneados')" />
                 </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import Scan from "./sections/scan.vue";
-import ScanList from "./sections/scan_list.vue";
+    import Scan from "./sections/scan.vue";
+    import ScanList from "./sections/scan_list.vue";
+    import LatestAnnouncement from "announcement/components/latest_announcement.vue";
 
-export default {
-    props: ["company_context"],
-    components: { Scan, ScanList },
-    data() {
-        return {
-            company: this.company_context,
-            active: "Escanear",
-            items: ["Escanear", "Escaneados"]
-        };
-    },
-    methods: {
-        isActive(name) {
-            return this.active === name;
+    export default {
+        props: ["company_context"],
+        components: { Scan, ScanList, LatestAnnouncement },
+        data() {
+            return {
+                company: this.company_context,
+                active: "Escanear",
+                items: ["Escanear", "Escaneados"]
+            };
         },
-        select(name) {
-            this.active = name;
+        methods: {
+            isActive(name) {
+                return this.active === name;
+            },
+            select(name) {
+                this.active = name;
+            }
         }
-    }
-};
+    };
 </script>

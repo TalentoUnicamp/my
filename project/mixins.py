@@ -37,6 +37,9 @@ class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin
                 'admin': reverse('godmode:index'),
                 'staff': reverse('staff:index'),
                 'logout': reverse('profile:logout'),
+            },
+            'api': {
+                'get_announcement': reverse('announcement:api:announcement-list'),
             }
         }
         context['sidebar_context'] = json.dumps(sidebar_context)
@@ -146,9 +149,7 @@ class PrefetchMixin(object):
     @classmethod
     def setup_eager_loading(cls, queryset):
         meta = cls.Meta
-        print("Eager loading")
         if hasattr(meta, "select_related_fields"):
-            print('select related', meta.select_related_fields)
             queryset = queryset.select_related(*meta.select_related_fields)
         if hasattr(meta, "prefetch_related_fields"):
             queryset = queryset.prefetch_related(*meta.prefetch_related_fields)

@@ -1,5 +1,7 @@
 import json
 import warnings
+from datetime import datetime
+from rest_framework.fields import DateTimeField
 
 
 def filter_unserializable_list(data):
@@ -31,9 +33,14 @@ def filter_unserializable_dict(data):
     return result
 
 
+def serialize_datetime(data):
+    return DateTimeField().to_representation(data)
+
+
 mapper = {
     list: filter_unserializable_list,
-    dict: filter_unserializable_dict
+    dict: filter_unserializable_dict,
+    datetime: serialize_datetime
 }
 
 
