@@ -19,8 +19,8 @@ class ToggleIsAdmin(views.APIView):
 
 class DeleteUser(generics.DestroyAPIView):
     permission_classes = [IsAdmin]
-    queryset = Profile.objects.all()
-    lookup_field = 'unique_id'
+    queryset = User.objects.all()
+    lookup_field = 'profile__unique_id'
 
 
 class BatchCreateUsers(views.APIView):

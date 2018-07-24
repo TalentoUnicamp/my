@@ -37,10 +37,14 @@ class BaseSubscriptionReceiver:
                     raise ValueError(f'Field {field} has {len(field)}. Should have 2')
                 field_value = field[1]
                 field = field[0]
-            obj = eval('self.instance.' + field_value)
-            if callable(obj):
-                obj = obj()
-            data[field] = obj
+            try:
+                obj = eval('self.instance.' + field_value)
+                if callable(obj):
+                    obj = obj()
+                data[field] = obj
+            except Exception as e:
+                print(e)
+                pass
         return data
 
     def dispatch(self):
