@@ -21,6 +21,7 @@ class DeleteUser(generics.DestroyAPIView):
     permission_classes = [IsAdmin]
     queryset = User.objects.all()
     lookup_field = 'profile__unique_id'
+    lookup_url_kwarg = 'unique_id'
 
 
 class BatchCreateUsers(views.APIView):
