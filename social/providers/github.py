@@ -110,7 +110,11 @@ def login_successful(code, request):
     scopes = token_info.get('scope', "").split(',')
 
     # Get some user info like name and url
-    names = debug.get('name', ' ').split(' ')
+    names = debug.get('name', ' ')
+    if names is not None:
+        names = names.split(' ')
+    else:
+        names = ['']
     first_name = names[0]
     last_name = ' '.join(names[1:]) if len(names) > 1 else ''
     email = debug.get('email', None)
