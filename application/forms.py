@@ -7,6 +7,31 @@ from .boto_helper import upload
 import re
 
 
+def format_phone(phone):
+    phone = str(phone).strip()
+    numbers = re.sub('[^0-9]', '', phone)
+    pattern = re.compile(r"^\(?0?\d{2}\)?\s{0,}?\d{4,5}-?\d{4}$")
+    if pattern.match(phone) is None:
+        return None
+    # (011)98888-8888 | (011)8888-8888
+    if re.match(r"^0\d{2}\d{4,5}\d{4}$", numbers):
+        if len(numbers) == 11:
+            # (011)8888-8888
+            numbers = f"({numbers[1:3]}){numbers[3:7]}-{numbers[7:11]}"
+        else:
+            # (011)98888-8888
+            numbers = f"({numbers[1:3]}){numbers[3:8]}-{numbers[8:12]}"
+    # (11)98888-8888 | (11)8888-8888
+    else:
+        if len(numbers) == 10:
+            # (11)8888-8888
+            numbers = f"({numbers[0:2]}){numbers[2:6]}-{numbers[6:10]}"
+        else:
+            # (11)98888-8888
+            numbers = f"({numbers[0:2]}){numbers[2:7]}-{numbers[7:11]}"
+    return numbers
+
+
 class ContentTypeRestrictedFileField(forms.FileField):
 
     def __init__(self, *args, **kwargs):
@@ -83,6 +108,7 @@ class ApplicationForm(forms.ModelForm):
         }
 
         widgets = {
+            'phone': forms.fields.TextInput(attrs={'placeholder': '(42)98888-8888'}),
             'cpf': forms.fields.TextInput(attrs={'placeholder': '111.222.333-45'}),
             'referrer': forms.fields.TextInput(attrs={'placeholder': 'Amigo, Facebook, carta...'}),
             'interests': forms.fields.TextInput(attrs={'placeholder': 'Consultoria, financeiro, pesquisa...'}),
@@ -123,6 +149,18 @@ class ApplicationForm(forms.ModelForm):
         if pattern.match(email):
             raise forms.ValidationError('Você precisa fornecer um email válido!')
         return email
+
+    def clean_phone(self):
+        phone = str(self.cleaned_data['phone']).strip()
+        numbers = re.sub('[^0-9]', '', phone)
+        pattern = re.compile(r"^\(?0?\d{2}\)?\s{0,}?\d{4,5}-?\d{4}$")
+        if pattern.match(phone) is None:
+            message = 'Celular inválido!'
+            if len(numbers) < 10:
+                message = "Será que falta o DDD?"
+            raise forms.ValidationError(message)
+        numbers = format_phone(phone)
+        return numbers
 
     def clean_school(self):
         school = self.cleaned_data.get('school', '')
