@@ -12,7 +12,7 @@
             ></Item>
 
             <div class="note">
-                {{ sidebar.event_name }}
+                {{ sidebar.event_name }} - <a target="_blank" href="https://github.com/TalentoUnicamp">Código fonte</a>
             </div>
 
         </div>
