@@ -13,7 +13,7 @@ class="page">
 
         <div class="ui form">
 
-            <form method="post">{% csrf_token %}
+            <form enctype="multipart/form-data" method="post">{% csrf_token %}
                 <div class="subheader">* Obrigatório</div>
                 <br>
 
@@ -113,16 +113,19 @@ class="page">
                         </span>{{ form.cv_type }}
                     </div>
 
-                    <div class="field {% if form.cv.errors.as_text %}error{% endif %}">
+                    <div id="cv_container" class="field {% if form.cv.errors.as_text %}error{% endif %}">
                         <label>{{ form.cv.label | safe}}</label>
                         <span style="color: red" class="small">{{ form.cv.errors.as_text }}
                         </span>
-
                         <div class="ui input labeled">
-
                             <div id="cv_label" class="ui label">http://
                             </div>{{ form.cv }}
                         </div>
+                    </div>
+                    <div id="cv_file_container" style="display: none;" class="field {% if form.file_cv.errors.as_text %}error{% endif %}">
+                        <label>{{ form.file_cv.label}}</label>
+                        <span style="color: red" class="small">{{ form.file_cv.errors.as_text }}
+                        </span>{{ form.file_cv }}
                     </div>
                 </div>
 
@@ -284,12 +287,18 @@ class="page">
             cv_id_select = "#id_cv2_type";
             cv_label_select = "#cv2_label";
         }
+        $('#cv_file_container').hide();
+        $('#cv_container').show();
+        console.log($(cv_id_select).val());
         if ($(cv_id_select).val() == "") {
             $(cv_label_select)
             .parent()
             .removeClass("labeled");
             $(cv_label_select).removeClass("ui label");
             $(cv_label_select).text("");
+        } else if ($(cv_id_select).val() == "UP") {
+            $('#cv_file_container').show();
+            $('#cv_container').hide();
         } else {
             $(cv_label_select).addClass("ui label");
             $(cv_label_select)
@@ -360,5 +369,6 @@ class="page">
             );
     }
 
+    $('#id_file_cv').attr("accept", "application/pdf")
 </script>
 {% endblock %}

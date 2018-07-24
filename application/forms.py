@@ -1,8 +1,34 @@
 from django import forms
 from .models import Application
 from django.conf import settings
+from django.template.defaultfilters import filesizeformat
 from settings.models import Settings
+from .boto_helper import upload
 import re
+
+
+class ContentTypeRestrictedFileField(forms.FileField):
+
+    def __init__(self, *args, **kwargs):
+        self.content_types = kwargs.pop("content_types")
+        self.max_upload_size = kwargs.pop("max_upload_size")
+
+        super().__init__(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        file = super().clean(*args, **kwargs)
+
+        try:
+            content_type = file.content_type
+            if content_type in self.content_types:
+                if file.size > self.max_upload_size:
+                    raise forms.ValidationError(f'O tamanho máximo permitido é {filesizeformat(self.max_upload_size)}. Tamanho atual: {filesizeformat(file.size)}')
+            else:
+                raise forms.ValidationError('Arquivo deve ser um PDF.')
+        except AttributeError:
+            pass
+
+        return file
 
 
 class ApplicationForm(forms.ModelForm):
@@ -12,6 +38,13 @@ class ApplicationForm(forms.ModelForm):
     first_name = forms.CharField(max_length=50, required=True, label='Primeiro nome*')
     last_name = forms.CharField(max_length=50, required=True, label='Sobrenome*')
     email = forms.EmailField(required=True, label='Email*')
+    file_cv = ContentTypeRestrictedFileField(
+        allow_empty_file=False,
+        content_types=['application/pdf'],
+        max_upload_size=10485760,
+        label="Arquivo com CV",
+        required=False
+    )
 
     class Meta:
         model = Application
@@ -27,6 +60,7 @@ class ApplicationForm(forms.ModelForm):
             'school': 'Faculdade*',
             'course': 'Curso*',
 
+            'file_cv': 'Arquivo com CV',
             'cv_type': 'Tipo de Currículo',
             'cv': 'URL do Currículo',
             'cv2_type': 'Outro tipo de Currículo',
@@ -91,18 +125,39 @@ class ApplicationForm(forms.ModelForm):
         return email
 
     def clean_school(self):
-        school = self.cleaned_data.get('school').strip()
-        education = self.cleaned_data.get('education').strip()
+        school = self.cleaned_data.get('school', '')
+        education = self.cleaned_data.get('education', '')
         if education not in ['Ensino Fundamental', 'Ensino Médio'] and not school:
             raise forms.ValidationError('Faculdade necessária')
         return school
 
     def clean_course(self):
-        course = self.cleaned_data.get('course').strip()
-        education = self.cleaned_data.get('education').strip()
+        course = self.cleaned_data.get('course', '')
+        education = self.cleaned_data.get('education', '')
         if education not in ['Ensino Fundamental', 'Ensino Médio'] and not course:
             raise forms.ValidationError('Curso necessário')
         return course
+
+    def upload(self, data=None):
+        file = data
+        if not file:
+            return
+        try:
+            url = upload(file.temporary_file_path())
+        except Exception as e:
+            raise forms.ValidationError("Erro fazendo upload do arquivo")
+        return url
+
+    def clean(self):
+        data = super().clean()
+        if data.get('cv_type') == 'UP':
+            file = data.get('file_cv', None)
+            url = self.upload(file)
+            if not url:
+                self.add_error('cv_type', 'Nenhum arquivo encontrado')
+                raise forms.ValidationError('Nenhum arquivo encontrado')
+            data['cv'] = url
+        return data
 
     def save(self, commit=True, hacker=None):
         data = self.cleaned_data

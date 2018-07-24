@@ -38,6 +38,13 @@ SHIRT_STYLE = (
     ('Normal', 'Normal'),
     ('Babylook', 'Babylook'),
 )
+CV1_TYPES = (
+    ('LI', 'LinkedIn'),
+    ('GH', 'GitHub'),
+    ('WS', 'Website'),
+    ('UP', 'Upload'),
+    ('OT', 'Outro')
+)
 CV_TYPES = (
     ('LI', 'LinkedIn'),
     ('GH', 'GitHub'),
@@ -80,7 +87,7 @@ class Application(models.Model):
     enroll_year = models.IntegerField(validators=[MinValueValidator(1900, "Hmm, como?"), MaxValueValidator(timezone.now().year + 1, "Hmm, como?")], null=True, blank=False)
     course = models.CharField(max_length=100, null=True, blank=True, choices=COURSE_CHOICES)
     # CV
-    cv_type = models.CharField(max_length=3, choices=CV_TYPES, null=True, blank=True)
+    cv_type = models.CharField(max_length=3, choices=CV1_TYPES, null=True, blank=True)
     cv = models.CharField(max_length=300, null=True, blank=True)
     cv2_type = models.CharField(max_length=3, choices=CV_TYPES, null=True, blank=True)
     cv2 = models.CharField(max_length=300, null=True, blank=True)
