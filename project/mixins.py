@@ -36,6 +36,7 @@ class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin
                 'team': reverse('dashboard:index'),
                 'admin': reverse('godmode:index'),
                 'staff': reverse('staff:index'),
+                'stats': reverse('stats:index'),
                 'logout': reverse('profile:logout'),
             },
             'api': {

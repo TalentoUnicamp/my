@@ -1,0 +1,19 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'stats/apps/stats.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+
+
+<script type="text/javascript">
+    var stats_context = JSON.parse('{{ stats_context | escapejs }}');
+</script>
+
+<div id="stats-app"></div>
+{% endblock content %}

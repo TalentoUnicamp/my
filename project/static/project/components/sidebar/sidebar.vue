@@ -99,6 +99,13 @@ export default {
                     condition: false
                 },
                 {
+                    title: "Stats",
+                    active_tab: this.sidebar.active_tab,
+                    link: this.sidebar.redirect_urls["stats"],
+                    tab: "stats",
+                    condition: true
+                },
+                {
                     title: "Logout",
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["logout"],
