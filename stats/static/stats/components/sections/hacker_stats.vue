@@ -17,7 +17,7 @@
             </sui-statistic>
 
             <br>
-            <sui-statistics-group :columns="3">
+            <sui-statistics-group :columns="4">
                 <sui-statistic in-group>
                     <sui-statistic-value>{{ stats.checked_in }}</sui-statistic-value>
                     <sui-statistic-label>Fizeram check-in</sui-statistic-label>
@@ -29,6 +29,10 @@
                 <sui-statistic in-group>
                     <sui-statistic-value>{{ stats.admitted }}</sui-statistic-value>
                     <sui-statistic-label>Admitidos</sui-statistic-label>
+                </sui-statistic>
+                <sui-statistic in-group>
+                    <sui-statistic-value>{{ stats.submitted }}</sui-statistic-value>
+                    <sui-statistic-label>Submetidos</sui-statistic-label>
                 </sui-statistic>
             </sui-statistics-group>
             <br>
