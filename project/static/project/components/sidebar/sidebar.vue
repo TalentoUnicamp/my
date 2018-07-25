@@ -103,7 +103,7 @@ export default {
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["stats"],
                     tab: "stats",
-                    condition: true
+                    condition: this.user.is_admin || this.user.is_staff || (this.user.is_employee && this.user.employee_company_access >= 0)
                 },
                 {
                     title: "Logout",

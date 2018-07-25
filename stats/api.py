@@ -1,11 +1,17 @@
 from rest_framework import views, response
 from django.db.models import Case, Count, Q, When
+from rest_condition import Or
 from settings.models import Settings
 from user_profile.models import Profile
+from godmode.permissions import IsAdmin
+from staff.permissions import IsStaff
+from company.permissions import EmployeeHasAccess
 from .util import db_bool
 
 
 class HackerStats(views.APIView):
+
+    permission_classes = [Or(IsAdmin, IsStaff, EmployeeHasAccess)]
 
     def get(self, request):
         settings = Settings.get()

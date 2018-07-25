@@ -1,16 +1,17 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import views
+from rest_condition import Or, And
 from settings.permissions import CanConfirm
 from godmode.permissions import IsAdmin
 from staff.permissions import IsStaff
 from user_profile.models import Profile
-from .permissions import IsAdmitted, IsWithdraw, IsAdmittedOrConfirmed
+from .permissions import IsAdmitted, IsWithdraw, IsConfirmed
 from .models import Hacker
 
 
 class ConfirmPresence(views.APIView):
 
-    permission_classes = [IsAdmitted, CanConfirm]
+    permission_classes = [And(IsAdmitted, CanConfirm)]
 
     def post(self, request):
         hacker = request.user.profile.hacker
@@ -20,7 +21,7 @@ class ConfirmPresence(views.APIView):
 
 class Withdraw(views.APIView):
 
-    permission_classes = [IsAdmittedOrConfirmed]
+    permission_classes = [Or(IsAdmitted, IsConfirmed)]
 
     def post(self, request):
         hacker = request.user.profile.hacker
@@ -30,7 +31,7 @@ class Withdraw(views.APIView):
 
 class UndoWithdraw(views.APIView):
 
-    permission_classes = [IsWithdraw, CanConfirm]
+    permission_classes = [And(IsWithdraw, CanConfirm)]
 
     def post(self, request):
         hacker = request.user.profile.hacker

@@ -1,5 +1,4 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.generics import ListAPIView
 from rest_framework import views
 from django.contrib.auth import login
 from django.conf import settings

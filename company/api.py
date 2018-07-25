@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, mixins
 from project.mixins import PrefetchListModelMixin
+from rest_condition import Or
 from godmode.permissions import IsAdmin
 from user_profile.models import Profile
-from .permissions import IsAdminOrEmployeeReadOnly, EmployeeHasAccess
+from .permissions import EmployeeHasAccess
 from .serializers import CompanySerializer, ReadEmployeeSerializer, CreateEmployeeSerializer, ScanSerializer
 from .models import Company, Employee, Scan
 
@@ -11,7 +12,7 @@ from .models import Company, Employee, Scan
 class CompanyViewset(
         PrefetchListModelMixin,
         viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrEmployeeReadOnly]
+    permission_classes = [Or(IsAdmin, EmployeeHasAccess)]
     serializer_class = CompanySerializer
     queryset = Company.objects.all()
 
