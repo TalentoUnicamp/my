@@ -77,7 +77,8 @@ class="page">
                     <div class="field {% if form.education.errors.as_text %}error{% endif %}">
                         <label>{{ form.education.label}}</label>
                         <span style="color: red" class="small">{{ form.education.errors.as_text }}
-                        </span>{{ form.education }}
+                        </span>
+                        <select name="{{ form.education.name }}" value="{{ form.education.value }}" id="{{ form.education.auto_id }}"></select>
                     </div>
 
                     <div class="field {% if form.enroll_year.errors.as_text %}error{% endif %}">
@@ -92,13 +93,15 @@ class="page">
                     <div class="field {% if form.school.errors.as_text %}error{% endif %}">
                         <label>{{ form.school.label}}</label>
                         <span style="color: red" class="small">{{ form.school.errors.as_text }}
-                        </span>{{ form.school }}
+                        </span>
+                        <select name="{{ form.school.name }}" value="{{ form.school.value }}" id="{{ form.school.auto_id }}"></select>
                     </div>
 
                     <div class="field {% if form.course.errors.as_text %}error{% endif %}">
                         <label>{{ form.course.label}}</label>
                         <span style="color: red" class="small">{{ form.course.errors.as_text }}
-                        </span>{{ form.course }}
+                        </span>
+                        <select name="{{ form.course.name }}" value="{{ form.course.value }}" id="{{ form.course.auto_id }}"></select>
                     </div>
                 </div>
 
@@ -287,18 +290,19 @@ class="page">
             cv_id_select = "#id_cv2_type";
             cv_label_select = "#cv2_label";
         }
-        $('#cv_file_container').hide();
-        $('#cv_container').show();
-        console.log($(cv_id_select).val());
-        if ($(cv_id_select).val() == "") {
+        if (cv == 0) {
+            $('#cv_file_container').hide();
+            $('#cv_container').show();
+        }
+        if ($(cv_id_select).val() === "UP" || $(cv_id_select).val() === "Upload") {
+            $('#cv_file_container').show();
+            $('#cv_container').hide();
+        } else if ($(cv_id_select).val() == "") {
             $(cv_label_select)
             .parent()
             .removeClass("labeled");
             $(cv_label_select).removeClass("ui label");
             $(cv_label_select).text("");
-        } else if ($(cv_id_select).val() == "UP") {
-            $('#cv_file_container').show();
-            $('#cv_container').hide();
         } else {
             $(cv_label_select).addClass("ui label");
             $(cv_label_select)
@@ -316,8 +320,8 @@ class="page">
     });
 
     $(document).ready(function() {
-        change_cv_option(0);
         change_cv_option(1);
+        change_cv_option(0);
     });
 
     $('#id_education').addClass('ui search selection dropdown');
@@ -337,13 +341,31 @@ class="page">
             }
             $('#education_details').hide();
             return;
-        }
+        },
+        apiSettings: {
+            url: '{% url "application:api:form_options" "education" %}'
+
+        },
+        saveRemoteData: false,
+        filterRemoteData: true
     });
     $("#id_school").dropdown({
-        allowAdditions: true
+        allowAdditions: true,
+        apiSettings: {
+            url: '{% url "application:api:form_options" "schools" %}'
+
+        },
+        saveRemoteData: false,
+        filterRemoteData: true
     });
     $("#id_course").dropdown({
-        allowAdditions: true
+        allowAdditions: true,
+        apiSettings: {
+            url: '{% url "application:api:form_options" "courses" %}'
+
+        },
+        saveRemoteData: false,
+        filterRemoteData: true
     });
     $("#id_cv_type").dropdown();
     $("#id_cv2_type").dropdown();
@@ -351,7 +373,11 @@ class="page">
     $("#id_english_level").dropdown();
     $("#id_excel_level").dropdown();
 
-
+    if ("{{ form.school.value }}" != "None")
+        $("#id_school").dropdown(
+            "set selected",
+            "{{ form.school.value }}"
+            );
     if ("{{ form.education.value }}" != "None")
         $("#id_education").dropdown(
             "set selected",

@@ -23,3 +23,13 @@ class ApplicationRetrieveSerializer(
             return expanded_fields + self.Meta.extra_fields
         else:
             return expanded_fields
+
+
+class FormOptionSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    value = serializers.CharField()
+
+
+class FormOptionsSerializer(serializers.Serializer):
+    success = serializers.BooleanField(default=True, required=False)
+    results = FormOptionSerializer(many=True)

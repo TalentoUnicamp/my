@@ -1,8 +1,8 @@
 from django import forms
-from .models import Application
 from django.conf import settings
 from django.template.defaultfilters import filesizeformat
 from settings.models import Settings
+from .models import Application
 from .boto_helper import upload
 import re
 
@@ -195,6 +195,9 @@ class ApplicationForm(forms.ModelForm):
                 self.add_error('cv_type', 'Nenhum arquivo encontrado')
                 raise forms.ValidationError('Nenhum arquivo encontrado')
             data['cv'] = url
+        data['school'] = data['school']
+        data['education'] = data['education']
+        data['course'] = data['course']
         return data
 
     def save(self, commit=True, hacker=None):

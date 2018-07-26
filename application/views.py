@@ -19,6 +19,8 @@ class ApplicationView(
     active_tab = 'application'
 
     def form_valid(self, form):
+        print("Checking valid")
+        print(form.fields['education'])
         form.save(hacker=self.request.user.profile.hacker)
         return super().form_valid(form)
 
@@ -39,3 +41,10 @@ class ApplicationView(
         initial['last_name'] = self.request.user.last_name
         initial['email'] = self.request.user.email
         return initial
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        print("here")
+        print(context['form'].fields['education'])
+        print(context['form'].errors)
+        return context
