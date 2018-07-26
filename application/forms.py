@@ -195,9 +195,6 @@ class ApplicationForm(forms.ModelForm):
                 self.add_error('cv_type', 'Nenhum arquivo encontrado')
                 raise forms.ValidationError('Nenhum arquivo encontrado')
             data['cv'] = url
-        data['school'] = data['school']
-        data['education'] = data['education']
-        data['course'] = data['course']
         return data
 
     def save(self, commit=True, hacker=None):
