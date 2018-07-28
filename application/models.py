@@ -1,9 +1,10 @@
 from django.db import models
-from hacker.models import Hacker
+from django.db.models.signals import post_save, post_delete
 from django.core.validators import MinValueValidator, BaseValidator, MaxValueValidator
 from django.utils import timezone
 import csv
 from pycpfcnpj import cpf
+from hacker.models import Hacker
 # Create your models here.
 
 
@@ -89,3 +90,11 @@ class Application(models.Model):
 
     def __str__(self):
         return f'Aplicação de {self.hacker.profile}'
+
+
+def update_application(sender, **kwargs):
+    # Updates profile
+    kwargs['instance'].hacker.profile.trigger_update()
+
+
+post_save.connect(update_application, sender=Application)
