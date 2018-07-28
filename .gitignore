@@ -6,6 +6,7 @@ __pycache__/
 *.sublime-project
 *.sublime-workspace
 SpottedBot.sublime-workspace
+maintenance_mode_state.txt
 # C extensions
 
 

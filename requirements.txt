@@ -8,6 +8,7 @@ requests==2.19.1
 django-debug-toolbar
 django-debug-panel
 pycpfcnpj==1.5
+django-maintenance-mode==0.10.0
 
 # Async
 celery==4.2.0
