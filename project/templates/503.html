@@ -1,0 +1,16 @@
+{% extends 'project/root.html' %}
+{% load compress %}
+{% load staticfiles %}
+{% block root %}
+
+
+<div class="ui center aligned container">
+    <img style="max-width: 200px; margin-top: 50px" src="{% static 'project/img/logo_text.svg' %}">
+    <h2 class="ui header">
+        <div class="content">
+            Manutenção programada
+            <div class="sub header">Perdão, mas estamos em manutenção. Voltaremos em breve com novidades!</div>
+        </div>
+    </h2>
+</div>
+{% endblock root %}
