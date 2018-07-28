@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save, pre_delete
 from django.db import models
+from django.db import IntegrityError
 from user_profile.models import Profile, User
 from settings.models import Settings
 from django.utils.text import slugify
@@ -64,7 +65,7 @@ class Social(models.Model):
         request = kwargs.pop('request', None)
         first_name = kwargs.pop('first_name')
         last_name = kwargs.pop('last_name')
-        social_id = kwargs['social_id']
+        social_id = kwargs.pop('social_id')
         name = f'{first_name} {last_name}'
         user_created = False
         social_created = False
@@ -121,12 +122,16 @@ class Social(models.Model):
                     Staff(profile=user.profile).save()
 
         profile = user.profile
-        social, social_created = Social.objects.update_or_create(
-            profile=profile,
-            social_id=social_id,
-            provider=kwargs['provider'],
-            defaults=kwargs
-        )
+        try:
+            social, social_created = Social.objects.update_or_create(
+                profile=profile,
+                social_id=social_id,
+                provider=kwargs['provider'],
+                defaults=kwargs
+            )
+        except IntegrityError:
+            messages.add_message(request, messages.ERROR, f"Parece que alguém já tentou se inscrever com esse perfil do {kwargs['provider']}")
+            return None, user_created, social_created, request
         return social, user_created, social_created, request
 
     def __str__(self):
