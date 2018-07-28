@@ -1,6 +1,22 @@
 from rest_framework import serializers
+from django.db.models.functions import Concat
+from django.db.models import CharField, Value
 from project.mixins import PrefetchMixin
 from .models import Profile
+
+
+class SimpleProfileSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
+
+    full_name = serializers.CharField(source='shortcuts.full_name')
+    email = serializers.EmailField(source='user.email')
+    state = serializers.CharField(source='shortcuts.state')
+
+    class Meta:
+        model = Profile
+        fields = ['unique_id', 'full_name', 'email', 'state']
+        select_related_fields = ['shortcuts', 'user']
 
 
 class ListProfileSerializer(
@@ -37,15 +53,30 @@ class ListProfileSerializer(
         select_related_fields = ['shortcuts', 'user']
 
 
-class ListHackerProfileSerializer(
+class ListHackerProfileSerializer(SimpleProfileSerializer):
+    pass
+
+
+class SUIProfileListSerializer(
         PrefetchMixin,
         serializers.ModelSerializer):
 
-    full_name = serializers.CharField(source='shortcuts.full_name')
-    email = serializers.EmailField(source='user.email')
-    state = serializers.CharField(source='shortcuts.state')
+    name = serializers.CharField()
+    value = serializers.EmailField(source='unique_id')
+
+    def setup_eager_loading(self, queryset):
+        meta = self.Meta
+        if hasattr(meta, "select_related_fields"):
+            queryset = queryset.select_related(*meta.select_related_fields)
+        if hasattr(meta, "prefetch_related_fields"):
+            queryset = queryset.prefetch_related(*meta.prefetch_related_fields)
+
+        queryset = queryset.annotate(
+            name=Concat('shortcuts__full_name', Value(' ('), 'user__email', Value(')'), output_field=CharField())
+        )
+        return queryset
 
     class Meta:
         model = Profile
-        fields = ['unique_id', 'email', 'full_name', 'state']
+        fields = ['name', 'value']
         select_related_fields = ['shortcuts', 'user']

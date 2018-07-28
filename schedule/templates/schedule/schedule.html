@@ -1,0 +1,27 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'schedule/apps/schedule.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+
+{% compress js %}
+<script type="text/javascript" src="{% static 'project/plugins/semantic-ui-calendar/dist_show/calendar.min.js' %}"
+></script>
+<script type="module" src="{% static 'project/plugins/tablesort/tablesort.js' %}"></script>
+{% endcompress %}
+{% compress css %}
+<link rel="stylesheet" href="{% static 'project/plugins/semantic-ui-calendar/dist_show/calendar.min.css' %}" />
+{% endcompress %}
+
+<script type="text/javascript">
+    var schedule_context = JSON.parse('{{ schedule_context | escapejs }}');
+</script>
+
+<div id="schedule-app"></div>
+{% endblock content %}

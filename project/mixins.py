@@ -37,6 +37,7 @@ class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin
                 'admin': reverse('godmode:index'),
                 'staff': reverse('staff:index'),
                 'stats': reverse('stats:index'),
+                'schedule': reverse('schedule:index'),
                 'logout': reverse('profile:logout'),
             },
             'api': {
@@ -65,6 +66,8 @@ class UserContextMixin(ContextMixin):
             'is_hacker': profile.is_hacker,
             'is_staff': profile.is_staff,
             'is_employee': profile.is_employee,
+            'is_mentor': False,
+            'is_judge': False,
             'employee_company_access': (profile.employee.company.access_level if profile.is_employee else -1),
             'state': profile.state,
             'email': user.email,
@@ -124,25 +127,18 @@ class ExportMixin(object):
     )
 
 
-class PrefetchListModelMixin(object):
+class PrefetchQuerysetModelMixin(object):
     """Lists a prefetched version of the model list
 
     To be used with PrefetchMixin
     """
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+    def get_queryset(self):
+        assert self.queryset is not None
+        queryset = self.queryset
         if hasattr(self.get_serializer_class(), 'setup_eager_loading'):
-            queryset = self.get_serializer_class().setup_eager_loading(queryset)
-        queryset = self.filter_queryset(queryset)
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+            queryset = self.get_serializer().setup_eager_loading(queryset)
+        return queryset
 
 
 class PrefetchMixin(object):

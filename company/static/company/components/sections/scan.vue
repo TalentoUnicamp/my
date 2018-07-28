@@ -68,11 +68,11 @@
 </template>
 
 <script>
-import axios from "project/js/axios_csrf";
-import swal from "sweetalert";
-import toast from "project/js/notifications";
-import { QrcodeReader } from "vue-qrcode-reader";
-import HackerRate from "./hacker_rate.vue";
+import axios from "project/js/axios_csrf"
+import swal from "sweetalert"
+import toast from "project/js/notifications"
+import { QrcodeReader } from "vue-qrcode-reader"
+import HackerRate from "./hacker_rate.vue"
 
 export default {
     props: ["company_context"],

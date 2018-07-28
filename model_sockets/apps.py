@@ -39,4 +39,4 @@ class ModelSocketsSettings(NoPrefixAppConf):
     # Self subscriptions fields
     MSOCKS_SELF_SUBSCRIPTION_FIELDS = ['id', 'first_name', 'email', 'username', 'full_name']
     # Events to subscribe all models to
-    MSOCKS_MODEL_EVENTS = ['create', 'update', 'delete']
+    MSOCKS_MODEL_EVENTS = ['create', 'update', 'delete', 'm2m_add', 'm2m_remove', 'm2m_clear']

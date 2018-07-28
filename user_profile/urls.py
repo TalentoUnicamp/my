@@ -11,6 +11,7 @@ apipattens = [
     path('reset_token_email/', api.ResetTokenEmail.as_view(), name='reset_token_email'),
     path('list_profiles/', api.ListProfiles.as_view(), name='list_profiles'),
     path('list_hacker_profiles/', api.ListHackerProfiles.as_view(), name='list_hacker_profiles'),
+    path('sui_list_profiles/', api.SUIListProfiles.as_view(), name='sui_list_profiles'),
 ]
 
 app_name = 'profile'

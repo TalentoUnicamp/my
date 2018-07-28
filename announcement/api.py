@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from project.mixins import PrefetchListModelMixin
+from project.mixins import PrefetchQuerysetModelMixin
 from rest_condition import Or
 from godmode.permissions import IsAdmin
 from user_profile.permissions import UserReadOnly
@@ -8,7 +8,7 @@ from .models import Announcement
 
 
 class AnnouncementViewset(
-        PrefetchListModelMixin,
+        PrefetchQuerysetModelMixin,
         viewsets.ModelViewSet):
     serializer_class = AnnouncementSerializer
     permission_classes = [Or(IsAdmin, UserReadOnly)]

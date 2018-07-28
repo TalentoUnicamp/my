@@ -75,7 +75,9 @@ export default {
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["company"],
                     tab: "company",
-                    condition: this.user.is_employee && this.user.employee_company_access >= 0
+                    condition:
+                        this.user.is_employee &&
+                        this.user.employee_company_access >= 0
                 },
                 {
                     title: "Equipe",
@@ -83,6 +85,23 @@ export default {
                     link: this.sidebar.redirect_urls["team"],
                     tab: "team",
                     condition: false
+                },
+                {
+                    title: "Eventos",
+                    active_tab: this.sidebar.active_tab,
+                    link: this.sidebar.redirect_urls["schedule"],
+                    tab: "schedule",
+                    condition:
+                        !(
+                            this.user.is_hacker &&
+                            this.user.state != 'confirmed' &&
+                            this.user.state != 'checkedin'
+                        ) ||
+                        this.user.is_staff ||
+                        this.user.is_admin ||
+                        this.user.is_employee ||
+                        this.user.is_judge ||
+                        this.user.is_mentor
                 },
                 {
                     title: "Helper",
@@ -103,7 +122,13 @@ export default {
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["stats"],
                     tab: "stats",
-                    condition: this.user.is_admin || this.user.is_staff || (this.user.is_employee && this.user.employee_company_access >= 0)
+                    condition:
+                        this.user.is_admin ||
+                        this.user.is_staff ||
+                        (
+                            this.user.is_employee &&
+                            this.user.employee_company_access >= 0
+                        )
                 },
                 {
                     title: "Logout",

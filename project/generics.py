@@ -1,11 +1,20 @@
-from rest_framework.generics import GenericAPIView
-from .mixins import PrefetchListModelMixin
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from .mixins import PrefetchQuerysetModelMixin
 
 
-class PrefetchListAPIView(PrefetchListModelMixin, GenericAPIView):
+class PrefetchListAPIView(
+        PrefetchQuerysetModelMixin,
+        ListAPIView):
     """
-    Concrete view for listing a queryset.
+    Concrete view for listing a prefetched queryset.
     """
+    pass
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+
+class PrefetchRetrieveAPIView(
+        PrefetchQuerysetModelMixin,
+        RetrieveAPIView):
+    """
+    Concrete view for retrieving a prefetched queryset.
+    """
+    pass

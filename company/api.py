@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, views, mixins
-from project.mixins import PrefetchListModelMixin
+from project.mixins import PrefetchQuerysetModelMixin
 from rest_condition import Or
 from godmode.permissions import IsAdmin
 from user_profile.models import Profile
@@ -10,7 +10,7 @@ from .models import Company, Employee, Scan
 
 
 class CompanyViewset(
-        PrefetchListModelMixin,
+        PrefetchQuerysetModelMixin,
         viewsets.ModelViewSet):
     permission_classes = [Or(IsAdmin, EmployeeHasAccess)]
     serializer_class = CompanySerializer
@@ -18,8 +18,9 @@ class CompanyViewset(
 
 
 class EmployeeViewset(
+        PrefetchQuerysetModelMixin,
         mixins.RetrieveModelMixin,
-        PrefetchListModelMixin,
+        mixins.ListModelMixin,
         mixins.CreateModelMixin,
         mixins.DestroyModelMixin,
         viewsets.GenericViewSet):
@@ -34,7 +35,8 @@ class EmployeeViewset(
 
 
 class ScanViewset(
-        PrefetchListModelMixin,
+        PrefetchQuerysetModelMixin,
+        mixins.ListModelMixin,
         mixins.DestroyModelMixin,
         mixins.UpdateModelMixin,
         viewsets.GenericViewSet):
@@ -43,7 +45,8 @@ class ScanViewset(
     serializer_class = ScanSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(scanner__employee__company=self.request.user.profile.employee.company)
+        self.queryset = self.queryset.filter(scanner__employee__company=self.request.user.profile.employee.company)
+        return super().get_queryset()
 
 
 class FetchScanHacker(views.APIView):

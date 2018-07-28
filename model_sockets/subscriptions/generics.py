@@ -38,6 +38,78 @@ class DeleteReceiver(BaseSubscriptionReceiver):
         self.dispatch()
 
 
+class M2MAddReceiver(BaseSubscriptionReceiver):
+
+    def receive(self, sender, **kwargs):
+        super().receive(sender, **kwargs)
+        action = kwargs['action']
+        if action != 'post_add':
+            return
+        instance = kwargs['instance']
+        self.data = self.get_instance_fields(instance.__class__, instance)
+        self.dispatch()
+        print()
+
+    def is_valid(self):
+        if not getattr(self.instance.__class__, settings.MSOCKS_ALLOW_PARAMETER, False):
+            # This model does not allow subscriptions
+            return False
+        return True
+
+    @property
+    def group_name(self):
+        return f'sub_{self.sender._meta.app_label}_{self.instance.__class__.__name__}{"".join([f"_{arg}" for arg in self.volatile_args])}'
+
+
+class M2MRemoveReceiver(BaseSubscriptionReceiver):
+
+    def receive(self, sender, **kwargs):
+        super().receive(sender, **kwargs)
+        action = kwargs['action']
+        if action != 'post_remove':
+            return
+        instance = kwargs['instance']
+        self.data = {
+            'id': getattr(instance, 'id', None)
+        }
+        self.dispatch()
+        print()
+
+    def is_valid(self):
+        if not getattr(self.instance.__class__, settings.MSOCKS_ALLOW_PARAMETER, False):
+            # This model does not allow subscriptions
+            return False
+        return True
+
+    @property
+    def group_name(self):
+        return f'sub_{self.sender._meta.app_label}_{self.instance.__class__.__name__}{"".join([f"_{arg}" for arg in self.volatile_args])}'
+
+
+class M2MClearReceiver(BaseSubscriptionReceiver):
+
+    def receive(self, sender, **kwargs):
+        super().receive(sender, **kwargs)
+        action = kwargs['action']
+        if action != 'post_clear':
+            return
+        instance = kwargs['instance']
+        self.data = {
+            'id': getattr(instance, 'id', None)
+        }
+        self.dispatch()
+
+    def is_valid(self):
+        if not getattr(self.instance.__class__, settings.MSOCKS_ALLOW_PARAMETER, False):
+            # This model does not allow subscriptions
+            return False
+        return True
+
+    @property
+    def group_name(self):
+        return f'sub_{self.sender._meta.app_label}_{self.instance.__class__.__name__}{"".join([f"_{arg}" for arg in self.volatile_args])}'
+
+
 class SelfUserUpdateReceiver(BaseInstanceUpdateReceiver):
 
     def get_allowed_fields(self, all_fields={}):

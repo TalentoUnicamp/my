@@ -22,6 +22,7 @@ class ExportScannedHackersSerializer(
     @classmethod
     def setup_eager_loading(self, queryset, company):
         meta = self.Meta
+
         if hasattr(meta, "select_related_fields"):
             queryset = queryset.select_related(*meta.select_related_fields)
         if hasattr(meta, "prefetch_related_fields"):
@@ -33,6 +34,7 @@ class ExportScannedHackersSerializer(
         queryset = queryset.prefetch_related(
             Prefetch('profile__scanned_me', queryset=company_scans, to_attr='scan')
         )
+
         return queryset
 
     class Meta:

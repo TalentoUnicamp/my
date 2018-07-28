@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'company',
     'announcement',
     'stats',
+    'schedule',
 ]
 
 

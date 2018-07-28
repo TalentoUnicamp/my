@@ -20,6 +20,7 @@ urlpatterns = [
     path('company/', include('company.urls')),
     path('announcement/', include('announcement.urls')),
     path('stats/', include('stats.urls')),
+    path('schedule/', include('schedule.urls')),
 ]
 
 if settings.SHOW_TOOLBAR_CALLBACK:
