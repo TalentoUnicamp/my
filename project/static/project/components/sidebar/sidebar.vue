@@ -92,11 +92,10 @@ export default {
                     link: this.sidebar.redirect_urls["schedule"],
                     tab: "schedule",
                     condition:
-                        !(
-                            this.user.is_hacker &&
-                            this.user.state != 'confirmed' &&
-                            this.user.state != 'checkedin'
-                        ) ||
+                        (this.user.is_hacker
+                            ? this.user.state == "confirmed" ||
+                              this.user.state == "checkedin"
+                            : false) ||
                         this.user.is_staff ||
                         this.user.is_admin ||
                         this.user.is_employee ||
@@ -125,10 +124,8 @@ export default {
                     condition:
                         this.user.is_admin ||
                         this.user.is_staff ||
-                        (
-                            this.user.is_employee &&
-                            this.user.employee_company_access >= 0
-                        )
+                        (this.user.is_employee &&
+                            this.user.employee_company_access >= 0)
                 },
                 {
                     title: "Logout",

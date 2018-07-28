@@ -32,6 +32,7 @@
                     v-if="isActive('Check-In')" />
                     <Create
                     v-bind:schedule_context="schedule"
+                    v-if="user.is_admin"
                     v-show="isActive('Criar')" />
                     <My
                     v-bind:schedule_context="schedule"

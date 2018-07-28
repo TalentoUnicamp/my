@@ -24,8 +24,8 @@ class EventSerializer(
             queryset = queryset.prefetch_related(*meta.prefetch_related_fields)
 
         queryset = queryset.annotate(
-            n_attendees=Count('attendees'),
-            n_attended=Count('attended'),
+            n_attendees=Count('attendees', distinct=True),
+            n_attended=Count('attended', distinct=True),
         )
         return queryset
 
@@ -107,9 +107,9 @@ class FullEventSerializer(
             queryset = queryset.prefetch_related(*meta.prefetch_related_fields)
 
         queryset = queryset.annotate(
-            n_attendees=Count('attendees'),
-            n_attended=Count('attended'),
-            avg_rating=Avg('feedbacks__rating')
+            n_attendees=Count('attendees', distinct=True),
+            n_attended=Count('attended', distinct=True),
+            avg_rating=Avg('feedbacks__rating', distinct=True)
         )
         return queryset
 
@@ -157,8 +157,8 @@ class AttendedEventSerializer(
             queryset = queryset.prefetch_related(*meta.prefetch_related_fields)
 
         queryset = queryset.annotate(
-            n_attendees=Count('attendees'),
-            n_attended=Count('attended'),
+            n_attendees=Count('attendees', distinct=True),
+            n_attended=Count('attended', distinct=True),
         )
         return queryset
 
