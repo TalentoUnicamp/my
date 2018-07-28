@@ -95,6 +95,7 @@
             },
             select(name) {
                 this.active = name;
+                this.getMyEventsList();
             },
             getMyEventsList(event) {
                 let self = this;
