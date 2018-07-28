@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.com/TalentoUnicamp/my.svg?branch=dev)](https://travis-ci.com/TalentoUnicamp/my)
+[![Build Status](https://travis-ci.com/TalentoUnicamp/my.svg?branch=master)](https://travis-ci.com/TalentoUnicamp/my)
+
+
 # Talento Unicamp
 
 All things Talento
