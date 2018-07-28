@@ -15,7 +15,7 @@ EVENT_TYPES = (
 
 class Event(models.Model):
     msocks_allow = True
-    msocks_fields = ['id']
+    msocks_fields = ['id', 'name', 'description']
 
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
