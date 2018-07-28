@@ -18,7 +18,7 @@
                             </sui-form-field>
                             <sui-button v-bind:loading="tokenLoading" v-bind:disabled="tokenLoading" className='login' fluid content='Entrar com token' type="submit" />
                         </sui-form>
-                        <sui-form>
+                        <sui-form :loading="formLoading">
                             <sui-divider horizontal>Ou</sui-divider>
                             <sui-form-field>
                                 <sui-button type="button" @click="socialLogin('facebook')" fluid social="facebook" content="Entrar com Facebook" icon="facebook"/>
@@ -77,6 +77,7 @@ export default {
             loginState: "login",
             tokenLoading: false,
             emailLoading: false,
+            formLoading: false,
             resetEmail: "",
             token: "",
             context: login_context
@@ -130,6 +131,7 @@ export default {
                 });
         },
         socialLogin(login) {
+            this.formLoading = true;
             if (login === "facebook") {
                 window.location.pathname = this.context.social_urls.facebook;
             }
