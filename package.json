@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-preset-es2015": "^6.24.1",
+    "chart.js": "^2.7.2",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
     "envify": "^4.1.0",
@@ -23,6 +24,7 @@
     "semantic-ui-vue": "^0.2.11",
     "sweetalert": "^2.1.0",
     "vue": "^2.5.16",
+    "vue-chartjs": "^3.3.2",
     "vue-cookie": "^1.1.4",
     "vue-qrcode-component": "^2.1.1",
     "vue-qrcode-reader": "^0.8.5"
