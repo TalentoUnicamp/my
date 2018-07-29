@@ -33,7 +33,7 @@
                 </tr>
             </thead>
             <tbody class="user_list">
-                <tr v-for="user in filteredUsers" v-bind:key="user.unique_id">
+                <tr v-for="user in paginatedUsers" v-bind:key="user.unique_id">
                     <td>
                         <sui-checkbox v-bind:inputValue="selectedUsers.indexOf(user.unique_id) > -1" v-on:change="toggleUser(user.unique_id, $event)">
                         </sui-checkbox>
@@ -48,6 +48,29 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot class="full-width">
+                <tr>
+                    <th colspan="1">
+                        <div class="ui left floated">
+                            <sui-dropdown
+                            selection
+                            :options="pageSizeOptions"
+                            v-model="pageSize" />
+                        </div>
+                    </th>
+                    <th colspan="2">
+                        <div class="ui right floated pagination menu">
+                            <a class="item"
+                            v-for="page in pages"
+                            :class="{active: page === selectedPage}"
+                            :key="page"
+                            @click="selectedPage = page">
+                                {{ page }}
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </template>
@@ -62,7 +85,15 @@ export default {
             selectedUsers: [],
             companies: [],
             selectedCompany: null,
-            selectAll: false
+            selectAll: false,
+            selectedPage: 1,
+            pageSize: 20,
+            pageSizeOptions: [
+                { value: 10, text: "10" },
+                { value: 20, text: "20" },
+                { value: 50, text: "50" },
+                { value: 100, text: "100" }
+            ],
         };
     },
     watch: {
@@ -87,7 +118,13 @@ export default {
         },
         selectAll: function(val) {
             this.toggleAll(val);
-        }
+        },
+        searchUsers: function(val) {
+            this.selectedPage = 1;
+        },
+        pageSize: function(val) {
+            this.selectedPage = 1;
+        },
     },
     computed: {
         filteredUsers() {
@@ -107,6 +144,43 @@ export default {
             return (
                 this.selectedCompany != null && this.selectedUsers.length > 0
             );
+        },
+        // Pagination stuff
+        paginatedUsers() {
+            let users = this.filteredUsers,
+                lower = (this.selectedPage - 1) * this.pageSize,
+                higher = Math.min(
+                    this.selectedPage * this.pageSize - 1,
+                    users.length
+                );
+            return users.slice(lower, higher);
+        },
+        maxPage() {
+            return Math.max(Math.ceil(this.filteredUsers.length / this.pageSize), 1);
+        },
+        pages() {
+            if (this.maxPage < 7)
+                return Array.from({ length: this.maxPage }, (x, i) => i + 1);
+            if (this.selectedPage <= 4) return [1, 2, 3, 4, 5, 6, this.maxPage];
+            if (this.selectedPage + 2 < this.maxPage)
+                return [
+                    1,
+                    this.selectedPage - 2,
+                    this.selectedPage - 1,
+                    this.selectedPage,
+                    this.selectedPage + 1,
+                    this.selectedPage + 2,
+                    this.maxPage
+                ];
+            return [
+                1,
+                this.maxPage - 5,
+                this.maxPage - 4,
+                this.maxPage - 3,
+                this.maxPage - 2,
+                this.maxPage - 1,
+                this.maxPage
+            ];
         }
     },
     methods: {

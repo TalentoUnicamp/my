@@ -40,7 +40,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-bind:key="user.unique_id" v-for="user in filteredUsers">
+                <tr v-bind:key="user.unique_id" v-for="user in paginatedUsers">
                     <td>
                         {{ user.unique_id }}
                     </td>
@@ -74,6 +74,29 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot class="full-width">
+                <tr>
+                    <th colspan="3">
+                        <div class="ui left floated">
+                            <sui-dropdown
+                            selection
+                            :options="pageSizeOptions"
+                            v-model="pageSize" />
+                        </div>
+                    </th>
+                    <th colspan="3">
+                        <div class="ui right floated pagination menu">
+                            <a class="item"
+                            v-for="page in pages"
+                            :class="{active: page === selectedPage}"
+                            :key="page"
+                            @click="selectedPage = page">
+                                {{ page }}
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
 
     </div>
@@ -93,12 +116,29 @@ export default {
                 { text: "Staff", color: "yellow" },
                 { text: "Admin", color: "green" }
             ],
-            users: this.data
+            users: this.data,
+            selectedPage: 1,
+            pageSize: 20,
+            pageSizeOptions: [
+                { value: 10, text: "10" },
+                { value: 20, text: "20" },
+                { value: 50, text: "50" },
+                { value: 100, text: "100" }
+            ]
         };
     },
     watch: {
         data: function(val) {
             this.users = val;
+        },
+        searchText: function(val) {
+            this.selectedPage = 1;
+        },
+        pageSize: function(val) {
+            this.selectedPage = 1;
+        },
+        filter: function(val) {
+            this.selectedPage = 1;
         }
     },
     computed: {
@@ -116,12 +156,54 @@ export default {
             });
             if (this.filter === "") return searched;
             self = this;
-            return searched.filter(function(user) {
+            let filtered = searched.filter(function(user) {
                 if (self.filter === "Hacker") return user.is_hacker == true;
                 if (self.filter === "Staff") return user.is_staff == true;
                 if (self.filter === "Admin") return user.is_admin == true;
                 return true;
             });
+            return filtered;
+        },
+
+        // Pagination stuff
+        paginatedUsers() {
+            let users = this.filteredUsers,
+                lower = (this.selectedPage - 1) * this.pageSize,
+                higher = Math.min(
+                    this.selectedPage * this.pageSize - 1,
+                    users.length
+                );
+            return users.slice(lower, higher);
+        },
+        maxPage() {
+            return Math.max(
+                Math.ceil(this.filteredUsers.length / this.pageSize),
+                1
+            );
+        },
+        pages() {
+            if (this.maxPage < 7)
+                return Array.from({ length: this.maxPage }, (x, i) => i + 1);
+            if (this.selectedPage <= 4) return [1, 2, 3, 4, 5, 6, this.maxPage];
+            if (this.selectedPage + 2 < this.maxPage)
+                return [
+                    1,
+                    this.selectedPage - 2,
+                    this.selectedPage - 1,
+                    this.selectedPage,
+                    this.selectedPage + 1,
+                    this.selectedPage + 2,
+                    this.maxPage
+                ];
+            return [
+                1,
+                this.maxPage - 5,
+                this.maxPage - 4,
+                this.maxPage - 3,
+                this.maxPage - 2,
+                this.maxPage - 1,
+                this.maxPage
+            ];
         }
     },
     filters: {
