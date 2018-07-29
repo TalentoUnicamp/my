@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator, BaseValidator, MaxValueValidator
 from django.utils import timezone
 import csv
