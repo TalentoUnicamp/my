@@ -42,16 +42,16 @@
                 </div>
             </div>
         </div>
-        <table class="ui striped sortable table tablet stackable structured">
+        <table class="ui striped table tablet stackable structured">
             <thead>
                 <tr>
-                    <th class="sorted descending">Avaliação</th>
+                    <th>Avaliação</th>
                     <th>Comentário</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-bind:key="feedback.id" v-for="feedback in filteredFeedbacks">
-                    <td v-bind:data-sort-value="feedback.rating">
+                <tr v-bind:key="feedback.id" v-for="feedback in paginatedObjects">
+                    <td>
                         <div class="ui heart rating view" v-bind:data-rating="feedback.rating" data-max-rating=5></div>
                     </td>
                     <td>
@@ -59,62 +59,151 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot class="full-width">
+                <tr>
+                    <th colspan="1">
+                        <div class="ui left floated">
+                            <sui-dropdown
+                            selection
+                            :options="pageSizeOptions"
+                            v-model="pageSize" />
+                        </div>
+                    </th>
+                    <th colspan="1">
+                        <div class="ui right floated pagination menu">
+                            <a class="item"
+                            v-for="page in pages"
+                            :class="{active: page === selectedPage}"
+                            :key="page"
+                            @click="selectedPage = page">
+                                {{ page }}
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </template>
 
 <script>
-    import DownloadButton from "project/components/extra/download_button.vue";
+import DownloadButton from "project/components/extra/download_button.vue";
 
-    export default {
-        props: ["schedule_context", "event"],
-        components: { DownloadButton },
-        data() {
-            return {
-                schedule: this.schedule_context,
-                searchText: '',
-            };
+export default {
+    props: ["schedule_context", "event"],
+    components: { DownloadButton },
+    data() {
+        return {
+            schedule: this.schedule_context,
+            searchText: "",
+            selectedPage: 1,
+            pageSize: 20,
+            pageSizeOptions: [
+                { value: 10, text: "10" },
+                { value: 20, text: "20" },
+                { value: 50, text: "50" },
+                { value: 100, text: "100" }
+            ]
+        };
+    },
+    watch: {
+        searchText: function(val) {
+            this.selectedPage = 1;
         },
-        computed: {
-            filteredFeedbacks() {
-                return this.event.feedbacks.filter(feedback => {
-                    return (
-                        feedback.comments
+        pageSize: function(val) {
+            this.selectedPage = 1;
+        }
+    },
+    computed: {
+        filteredFeedbacks() {
+            return this.event.feedbacks.filter(feedback => {
+                return (
+                    feedback.comments
                         .toLowerCase()
                         .indexOf(this.searchText.toLowerCase()) > -1
-                        );
-                });
-            },
-            feedbackRatings() {
-                return this.event.feedbacks.map(feedback => {
+                );
+            });
+        },
+        feedbackRatings() {
+            return this.event.feedbacks
+                .map(feedback => {
                     return feedback.rating;
-                }).filter(feedback => {
-                    return feedback && feedback > 0;
                 })
-            },
-            rateColor() {
-                return this.laplaceSmooth(this.feedbackRatings) < 2.5 ? 'red' : 'green';
-            },
-            rateText() {
-                return this.feedbackRatings.length ? this.laplaceSmooth(this.feedbackRatings) : 'N/A';
-            }
+                .filter(feedback => {
+                    return feedback && feedback > 0;
+                });
         },
-        methods: {
-            laplaceSmooth(list) {
-
-                let alpha = 6,
-                    beta = 2,
-                    sum = list.reduce((a, b) => a + b, 0);
-                return ((sum + alpha) / (list.length + beta)).toFixed(1);
-            }
+        rateColor() {
+            return this.laplaceSmooth(this.feedbackRatings) < 2.5
+                ? "red"
+                : "green";
         },
-        mounted() {
-            $(".rating.view").rating();
-            $(".rating.view").rating("disable");
-            $(".table").tablesort();
-            $('.question').popup()
+        rateText() {
+            return this.feedbackRatings.length
+                ? this.laplaceSmooth(this.feedbackRatings)
+                : "N/A";
+        },
+        // Order scans by rating (desc)
+        orderedObjects() {
+            return this.filteredFeedbacks.slice(0).sort((obj1, obj2) => {
+                return obj2.rating - obj1.rating;
+            });
+        },
+        // Pagination stuff
+        paginatedObjects() {
+            let users = this.orderedObjects,
+                lower = (this.selectedPage - 1) * this.pageSize,
+                higher = Math.min(
+                    this.selectedPage * this.pageSize - 1,
+                    users.length
+                );
+            return users.slice(lower, higher);
+        },
+        maxPage() {
+            return Math.max(
+                Math.ceil(this.orderedObjects.length / this.pageSize),
+                1
+            );
+        },
+        pages() {
+            if (this.maxPage < 7)
+                return Array.from({ length: this.maxPage }, (x, i) => i + 1);
+            if (this.selectedPage <= 4) return [1, 2, 3, 4, 5, 6, this.maxPage];
+            if (this.selectedPage + 2 < this.maxPage)
+                return [
+                    1,
+                    this.selectedPage - 2,
+                    this.selectedPage - 1,
+                    this.selectedPage,
+                    this.selectedPage + 1,
+                    this.selectedPage + 2,
+                    this.maxPage
+                ];
+            return [
+                1,
+                this.maxPage - 5,
+                this.maxPage - 4,
+                this.maxPage - 3,
+                this.maxPage - 2,
+                this.maxPage - 1,
+                this.maxPage
+            ];
         }
-    };
+    },
+    methods: {
+        laplaceSmooth(list) {
+            let alpha = 6,
+                beta = 2,
+                sum = list.reduce((a, b) => a + b, 0);
+            return ((sum + alpha) / (list.length + beta)).toFixed(1);
+        }
+    },
+    mounted() {
+        $(".rating.view").rating();
+        $(".rating.view").rating("disable");
+        $(".question").popup();
+    }
+};
 </script>
 
 <style scoped>

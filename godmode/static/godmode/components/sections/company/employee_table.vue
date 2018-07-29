@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="employee in filteredEmployees" v-bind:key="employee.unique_id">
+                <tr v-for="employee in paginatedUsers" v-bind:key="employee.unique_id">
                     <td>
                         <strong>
                             {{ employee.full_name }}
@@ -39,6 +39,29 @@
                     </td>
                 </tr>
             </tbody>
+            <tfoot class="full-width">
+                <tr>
+                    <th colspan="1">
+                        <div class="ui left floated">
+                            <sui-dropdown
+                            selection
+                            :options="pageSizeOptions"
+                            v-model="pageSize" />
+                        </div>
+                    </th>
+                    <th colspan="3">
+                        <div class="ui right floated pagination menu">
+                            <a class="item"
+                            v-for="page in pages"
+                            :class="{active: page === selectedPage}"
+                            :key="page"
+                            @click="selectedPage = page">
+                                {{ page }}
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </template>
@@ -49,13 +72,27 @@ export default {
     data() {
         return {
             searchEmployees: "",
-            employees: []
+            employees: [],
+            selectedPage: 1,
+            pageSize: 20,
+            pageSizeOptions: [
+                { value: 10, text: "10" },
+                { value: 20, text: "20" },
+                { value: 50, text: "50" },
+                { value: 100, text: "100" }
+            ],
         };
     },
     watch: {
         data: function(val) {
             this.employees = val;
-        }
+        },
+        searchEmployees: function(val) {
+            this.selectedPage = 1;
+        },
+        pageSize: function(val) {
+            this.selectedPage = 1;
+        },
     },
     computed: {
         filteredEmployees() {
@@ -74,6 +111,43 @@ export default {
                         .indexOf(this.searchEmployees.toLowerCase()) > -1;
                 return name || email || company;
             });
+        },
+        // Pagination stuff
+        paginatedUsers() {
+            let users = this.filteredEmployees,
+                lower = (this.selectedPage - 1) * this.pageSize,
+                higher = Math.min(
+                    this.selectedPage * this.pageSize - 1,
+                    users.length
+                );
+            return users.slice(lower, higher);
+        },
+        maxPage() {
+            return Math.max(Math.ceil(this.filteredEmployees.length / this.pageSize), 1);
+        },
+        pages() {
+            if (this.maxPage < 7)
+                return Array.from({ length: this.maxPage }, (x, i) => i + 1);
+            if (this.selectedPage <= 4) return [1, 2, 3, 4, 5, 6, this.maxPage];
+            if (this.selectedPage + 2 < this.maxPage)
+                return [
+                    1,
+                    this.selectedPage - 2,
+                    this.selectedPage - 1,
+                    this.selectedPage,
+                    this.selectedPage + 1,
+                    this.selectedPage + 2,
+                    this.maxPage
+                ];
+            return [
+                1,
+                this.maxPage - 5,
+                this.maxPage - 4,
+                this.maxPage - 3,
+                this.maxPage - 2,
+                this.maxPage - 1,
+                this.maxPage
+            ];
         }
     }
 };
