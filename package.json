@@ -19,7 +19,6 @@
     "less": "~3",
     "less-loader": "^4.1.0",
     "moment": "^2.22.2",
-    "semantic-ui": "^2.3.2",
     "semantic-ui-calendar": "0.0.8",
     "semantic-ui-vue": "^0.2.11",
     "sweetalert": "^2.1.0",
