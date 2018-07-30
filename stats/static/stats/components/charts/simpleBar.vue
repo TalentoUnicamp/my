@@ -1,8 +1,8 @@
 <script>
-import { Pie } from "vue-chartjs";
+import { Bar } from "vue-chartjs";
 export default {
     props: ["values", "options", "labels", "title"],
-    extends: Pie,
+    extends: Bar,
     watch: {
         data_points(val) {
             this.renderChart(
@@ -28,6 +28,9 @@ export default {
         },
         defaultOptions() {
             return {
+                legend: {
+                    display: false
+                },
                 responsive: true,
                 maintainAspectRatio: false,
                 title: {
@@ -41,6 +44,7 @@ export default {
                 labels: this.labels,
                 datasets: [
                     {
+                        label: this.label,
                         backgroundColor: this.bgColor,
                         data: this.values
                     }

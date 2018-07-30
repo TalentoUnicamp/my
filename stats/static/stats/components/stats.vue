@@ -7,7 +7,7 @@
         <div class="ui stackable centered page grid">
             <div class="row">
                 <div class="column">
-                    <sui-menu class="stackable two item">
+                    <sui-menu class="stackable three item">
                         <a
                         is="sui-menu-item"
                         v-for="item in items"
@@ -24,6 +24,9 @@
                     <ApplicationStats
                     v-bind:stats_context="stats"
                     v-if="isActive('Aplicações')" />
+                    <RawData
+                    v-bind:stats_context="stats"
+                    v-show="isActive('Dados brutos')" />
 
                 </div>
             </div>
@@ -34,16 +37,17 @@
 <script>
     import HackerStats from './sections/hacker_stats.vue'
     import ApplicationStats from './sections/application_stats.vue'
+    import RawData from './sections/raw_data.vue'
 
     export default {
         props: ["stats_context", "user_context"],
-        components: { HackerStats, ApplicationStats },
+        components: { HackerStats, ApplicationStats, RawData },
         data() {
             return {
                 user: this.user_context,
                 stats: this.stats_context,
                 active: "Participantes",
-                items: ["Participantes", "Aplicações"]
+                items: ["Participantes", "Aplicações", "Dados brutos"]
             };
         },
         methods: {

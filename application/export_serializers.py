@@ -6,4 +6,4 @@ class ExportApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        exclude = ['hacker']
+        exclude = ['hacker', 'id']

@@ -41,3 +41,15 @@ class ExportScannedHackersSerializer(
         model = User
         fields = ['profile', 'scan', 'application']
         select_related_fields = ['profile__hacker__application', 'profile__shortcuts']
+
+
+class ExportAllHackersSerializer(
+        PrefetchMixin,
+        serializers.ModelSerializer):
+    profile = ExportProfileSerializer()
+    application = ExportApplicationSerializer(source="profile.hacker.application")
+
+    class Meta:
+        model = User
+        fields = ['profile', 'application']
+        select_related_fields = ['profile__hacker__application', 'profile__shortcuts']
