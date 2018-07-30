@@ -1,8 +1,12 @@
 from rest_framework import generics
 from django.contrib.auth.models import User
+from rest_condition import Or
+from godmode.permissions import IsAdmin
+from staff.permissions import IsStaff
 from company.permissions import EmployeeHasAccess
 from project.mixins import ExportMixin
-from .export_serializers import ExportScannedHackersSerializer
+from project.generics import PrefetchListAPIView
+from .export_serializers import ExportScannedHackersSerializer, ExportAllHackersSerializer
 
 
 class ExportScannedHackers(ExportMixin, generics.ListAPIView):
@@ -20,3 +24,9 @@ class ExportScannedHackers(ExportMixin, generics.ListAPIView):
         queryset = User.objects.filter(profile__scanned_me__scanner__employee__company=company)
         queryset = self.get_serializer_class().setup_eager_loading(queryset, company)
         return queryset
+
+
+class ExportAllHackers(ExportMixin, PrefetchListAPIView):
+    serializer_class = ExportAllHackersSerializer
+    permission_classes = [Or(IsAdmin, IsStaff, EmployeeHasAccess)]
+    queryset = User.objects.exclude(profile=None)
