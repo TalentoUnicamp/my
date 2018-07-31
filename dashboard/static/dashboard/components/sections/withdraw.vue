@@ -8,7 +8,7 @@
         <div class="description">
             <b>Nos avise!</b> Assim poderemos cancelar sua inscrição e liberar a vaga para outra pessoa :)
             <br>
-            Você ainda pode mudar de ideia até {{ reg_close }}.
+            Você ainda pode mudar de ideia até {{ conf_close }}.
         </div>
         <br>
         <sui-button primary @click="withdraw()" content="Desculpe, não vou conseguir" />

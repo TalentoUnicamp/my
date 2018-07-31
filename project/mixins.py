@@ -8,7 +8,6 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework_yaml.renderers import YAMLRenderer
 from rest_framework_xml.renderers import XMLRenderer
 from rest_framework_msgpack.renderers import MessagePackRenderer
-from rest_framework.response import Response
 import json
 from .renderers import NotNestedCSVRenderer, TSVRenderer, NotNestedTSVRenderer
 from settings.mixins import SettingsContextMixin

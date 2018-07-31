@@ -17,8 +17,8 @@ class Event(models.Model):
     msocks_allow = True
     msocks_fields = ['id', 'name', 'description']
 
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
     event_type = models.CharField(max_length=20, choices=EVENT_TYPES)
     start = models.DateTimeField()
     duration = models.TimeField()

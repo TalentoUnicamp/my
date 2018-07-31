@@ -55,7 +55,10 @@
         },
         filters: {
             calendar(date) {
-                return moment(date).calendar();
+                if (moment().add(7, 'days').isBefore(moment(date))) {
+                    return moment(date).format('D [de] MMM [às] HH:mm');
+                }
+                return moment(date).calendar()
             },
             time(time) {
                 return moment(time, "HH:mm:ss").format("HH:mm");
