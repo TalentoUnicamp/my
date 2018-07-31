@@ -33,6 +33,7 @@ class ScheduleContextMixin(ContextMixin):
         schedule_context = {
             'api': {
                 'list_events': reverse('schedule:api:event-list'),
+                'get_event': reverse('schedule:api:event-detail', args=[0])[:-2],
                 'create_event': reverse('schedule:api:event-list'),
                 'delete_event': reverse('schedule:api:event-detail', args=[0])[:-2],
 
