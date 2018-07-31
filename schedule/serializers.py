@@ -10,7 +10,7 @@ class EventSerializer(
         PrefetchMixin,
         serializers.ModelSerializer):
 
-    speaker_unique_id = serializers.CharField(write_only=True, required=False, allow_null=True)
+    speaker_unique_id = serializers.CharField(write_only=True, required=False, allow_null=True, allow_blank=True)
     speaker = SimpleProfileSerializer(read_only=True)
     n_attendees = serializers.IntegerField(read_only=True)
     n_attended = serializers.IntegerField(read_only=True)

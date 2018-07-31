@@ -16,6 +16,9 @@ class CompanyViewset(
     serializer_class = CompanySerializer
     queryset = Company.objects.all()
 
+    def get_queryset(self):
+        return Company.objects.all()
+
 
 class EmployeeViewset(
         PrefetchQuerysetModelMixin,
