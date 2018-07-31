@@ -2,7 +2,6 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_condition import Or
 from godmode.permissions import IsAdmin
-from staff.permissions import IsStaff
 from company.permissions import EmployeeHasAccess
 from project.mixins import ExportMixin
 from project.generics import PrefetchListAPIView
