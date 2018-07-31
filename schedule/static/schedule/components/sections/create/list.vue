@@ -11,11 +11,14 @@
         <br>
         <div class="ui form">
             <div class="fields">
-                <div class="sixteen wide field">
+                <div class="twelve wide field">
                     <div class="ui left icon fluid input">
                         <i class="search icon"></i>
                         <input type="text" class="searchText" placeholder="Pesquisar..." v-model="searchText">
                     </div>
+                </div>
+                <div class="four wide field">
+                    <DownloadButton v-bind:url="schedule.exports.events" />
                 </div>
             </div>
         </div>
@@ -64,8 +67,11 @@ import toast from "project/js/notifications";
 import swal from "sweetalert";
 import { ModelSubscription } from "model_sockets/js/subscription";
 
+import DownloadButton from "project/components/extra/download_button.vue";
+
 export default {
     props: ["schedule_context"],
+    components: { DownloadButton },
     data() {
         return {
             schedule: this.schedule_context,
