@@ -34,6 +34,9 @@
         props: ['event'],
         filters: {
             calendar(date) {
+                if (moment().add(7, 'days').isBefore(moment(date))) {
+                    return moment(date).format('D [de] MMM [às] HH:mm');
+                }
                 return moment(date).calendar()
             },
             time(time) {
