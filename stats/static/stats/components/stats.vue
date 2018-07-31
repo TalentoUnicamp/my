@@ -41,7 +41,7 @@
 
     export default {
         props: ["stats_context", "user_context"],
-        components: { HackerStats, ApplicationStats, RawData },
+        components: { RawData, HackerStats, ApplicationStats },
         data() {
             return {
                 user: this.user_context,
