@@ -16,7 +16,8 @@ apipatterns = [
 ]
 
 exportpatterns = [
-    path('scanned_hackers/', exports.ExportScannedHackers.as_view(), name="scanned_hackers")
+    path('scanned_hackers/', exports.ExportScannedHackers.as_view(), name="scanned_hackers"),
+    path('all_hackers/', exports.ExportAllHackers.as_view(), name="all_hackers"),
 ]
 
 app_name = 'hacker'

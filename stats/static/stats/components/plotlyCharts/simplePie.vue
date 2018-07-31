@@ -1,16 +1,17 @@
+<template>
+    <sui-segment basic>
+        <sui-dimmer :active="loading" inverted>
+            <sui-loader content="Carregando..." />
+        </sui-dimmer>
+        <vue-plotly :data="data" :layout="layout" :options="{displaylogo: false}" :autoResize="true" />
+    </sui-segment>
+</template>
+
 <script>
-import { Pie } from "vue-chartjs";
+import VuePlotly from "stats/components/vue_plotly.vue";
 export default {
-    props: ["values", "options", "labels", "title"],
-    extends: Pie,
-    watch: {
-        data_points(val) {
-            this.renderChart(
-                this.data,
-                this.options ? this.options : this.defaultOptions
-            );
-        }
-    },
+    components: { VuePlotly },
+    props: ["labels", "values", "title"],
     computed: {
         bgColor() {
             return this.shuffle([
@@ -26,33 +27,27 @@ export default {
                 "#FFC700"
             ]).slice(0, this.labels.length);
         },
-        defaultOptions() {
+        layout() {
             return {
-                responsive: true,
-                maintainAspectRatio: false,
-                title: {
-                    display: true,
-                    text: this.title
-                }
+                title: this.title,
+                showLegend: false
             };
         },
         data() {
-            return {
-                labels: this.labels,
-                datasets: [
-                    {
-                        backgroundColor: this.bgColor,
-                        data: this.values
+            return [
+                {
+                    labels: this.labels,
+                    values: this.values,
+                    type: "pie",
+                    marker: {
+                        colors: this.bgColor
                     }
-                ]
-            };
+                }
+            ];
+        },
+        loading() {
+            return !this.values || !this.labels || this.values[0] === undefined;
         }
-    },
-    mounted() {
-        this.renderChart(
-            this.data,
-            this.options ? this.options : this.defaultOptions
-        );
     },
     methods: {
         shuffle(array) {
