@@ -70,108 +70,117 @@
             <sui-button icon="plus" :disabled="!allowCreate" content="Criar evento" color="blue" />
         </sui-form>
 
+        <AttendeeList
+        :schedule_context="schedule" />
+
         <List
         :schedule_context="schedule" />
 
     </div>
 </template>
 <script>
-    import axios from 'project/js/axios_csrf'
-    import toast from 'project/js/notifications'
-    import moment from 'project/js/moment'
-    import List from './create/list.vue'
+import axios from "project/js/axios_csrf";
+import toast from "project/js/notifications";
+import moment from "project/js/moment";
+import List from "./create/list.vue";
+import AttendeeList from "./create/attendee_list.vue";
 
-    export default {
-        props: ['schedule_context'],
-        components: { List },
-        data() {
-            return {
-                schedule: this.schedule_context,
-                loadingForm: false,
-                data: {},
-                typeOptions: [],
-                userProfiles: [],
-            }
-        },
-        computed: {
-            allowCreate() {
-                return this.data.name &&
-                    this.data.description &&
-                    this.data.event_type &&
-                    this.data.start &&
-                    this.data.duration &&
-                    (this.data.require_register ? this.data.max_attendees : true)
-            }
-        },
-        methods: {
-            getEventTypeOptions() {
-                var comp = this;
-                axios.options(this.schedule.api.create_event)
-                .then(function (data) {
-                    comp.typeOptions = data.data.actions.POST.event_type.choices.map(choice => {
-                        return {
-                            key: choice.value,
-                            value: choice.value,
-                            text: choice.display_name
+export default {
+    props: ["schedule_context"],
+    components: { List, AttendeeList },
+    data() {
+        return {
+            schedule: this.schedule_context,
+            loadingForm: false,
+            data: {},
+            typeOptions: [],
+            userProfiles: []
+        };
+    },
+    computed: {
+        allowCreate() {
+            return (
+                this.data.name &&
+                this.data.description &&
+                this.data.event_type &&
+                this.data.start &&
+                this.data.duration &&
+                (this.data.require_register ? this.data.max_attendees : true)
+            );
+        }
+    },
+    methods: {
+        getEventTypeOptions() {
+            var comp = this;
+            axios
+                .options(this.schedule.api.create_event)
+                .then(function(data) {
+                    comp.typeOptions = data.data.actions.POST.event_type.choices.map(
+                        choice => {
+                            return {
+                                key: choice.value,
+                                value: choice.value,
+                                text: choice.display_name
+                            };
                         }
-                    })
+                    );
                 })
                 .catch(error => {
                     console.log(error);
-                    toast('Opa!', 'Algo de errado aconteceu :(', 'error');
+                    toast("Opa!", "Algo de errado aconteceu :(", "error");
                 });
-            },
-            createEvent() {
-                if (!this.data.max_attendees)
-                    this.data.max_attendees = 0;
-                self = this;
-                this.loadingForm = true;
-                axios.post(this.schedule.api.create_event, this.data)
+        },
+        createEvent() {
+            if (!this.data.max_attendees) this.data.max_attendees = 0;
+            self = this;
+            this.loadingForm = true;
+            axios
+                .post(this.schedule.api.create_event, this.data)
                 .then(data => {
                     self.data = {};
-                    $('#start').calendar('clear');
-                    $('#duration').calendar('clear');
-                    $('#speaker').dropdown('clear');
-                    toast('Pronto!', 'Evento criado', 'success');
+                    $("#start").calendar("clear");
+                    $("#duration").calendar("clear");
+                    $("#speaker").dropdown("clear");
+                    toast("Pronto!", "Evento criado", "success");
                 })
                 .catch(error => {
                     console.log(error);
-                    toast('Opa!', 'Algo de errado aconteceu :(', 'error');
+                    toast("Opa!", "Algo de errado aconteceu :(", "error");
                 })
                 .then(data => {
                     self.loadingForm = false;
-                })
-            }
-        },
-        mounted: function() {
-            this.getEventTypeOptions();
-            var comp = this;
-            $("#start").calendar({
-                ampm: false,
-                onChange: function(date, text, mode) {
-                    comp.data['start'] = moment(date).format();
-                    comp.data = JSON.parse(JSON.stringify(comp.data));
-                }
-            });
-            $("#duration").calendar({
-                ampm: false,
-                type: 'time',
-                onChange: function(date, text, mode) {
-                    comp.data['duration'] = moment(date).format('HH:mm');
-                    comp.data = JSON.parse(JSON.stringify(comp.data));
-                }
-            });
-            $('#speaker').dropdown({
-                apiSettings: {
-                    url: comp.schedule.api.sui_list_profiles + '?search={query}',
-                    cache: false
-                },
-                filterRemoteData: false,
-                saveRemoteData: false,
-                onChange: function(value) {
-                    comp.data['speaker_unique_id'] = value;
-                }
-            })
+                });
         }
+    },
+    mounted: function() {
+        this.getEventTypeOptions();
+        var comp = this;
+        $("#start").calendar({
+            ampm: false,
+            onChange: function(date, text, mode) {
+                comp.data["start"] = moment(date).format();
+                comp.data = JSON.parse(JSON.stringify(comp.data));
+            }
+        });
+        $("#duration").calendar({
+            ampm: false,
+            type: "time",
+            onChange: function(date, text, mode) {
+                comp.data["duration"] = moment(date).format("HH:mm");
+                comp.data = JSON.parse(JSON.stringify(comp.data));
+            }
+        });
+        $("#speaker").dropdown({
+            apiSettings: {
+                url: comp.schedule.api.sui_list_profiles + "?search={query}",
+                cache: false
+            },
+            filterRemoteData: false,
+            saveRemoteData: false,
+            onChange: function(value) {
+                comp.data["speaker_unique_id"] = value;
+            }
+        });
     }
+};
 </script>

@@ -23,7 +23,8 @@ apipatterns += [
 ]
 
 exportpatterns = [
-    path('feedback/<str:event_id>/', exports.ExportFeedback.as_view(), name="feedback")
+    path('feedback/<str:event_id>/', exports.ExportFeedback.as_view(), name="feedback"),
+    path('events/', exports.ExportEvents.as_view(), name="events"),
 ]
 
 app_name = 'schedule'

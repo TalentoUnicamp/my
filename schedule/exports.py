@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from project.generics import PrefetchListAPIView
 from project.mixins import ExportMixin
+from godmode.permissions import IsAdmin
 from .models import Event, Feedback
-from .export_serializers import ExportFeedbackSerializer
+from .export_serializers import ExportFeedbackSerializer, ExportEventSerializer
 from .permissions import CanAttendEvents
 
 
@@ -17,3 +18,9 @@ class ExportFeedback(ExportMixin, PrefetchListAPIView):
             return Feedback.objects.none()
         self.queryset = event.feedbacks.all()
         return super().get_queryset()
+
+
+class ExportEvents(ExportMixin, PrefetchListAPIView):
+    serializer_class = ExportEventSerializer
+    permission_classes = [IsAdmin]
+    queryset = Event.objects.all()
