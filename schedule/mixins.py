@@ -61,7 +61,8 @@ class ScheduleContextMixin(ContextMixin):
                 'sui_list_profiles': reverse('profile:api:sui_list_profiles'),
             },
             'exports': {
-                'feedback': reverse('schedule:exports:feedback', args=[0])[:-2]
+                'feedback': reverse('schedule:exports:feedback', args=[0])[:-2],
+                'events': reverse('schedule:exports:events'),
             }
         }
         context['schedule_context'] = json.dumps(schedule_context)
