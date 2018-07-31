@@ -10,7 +10,7 @@ class EventSerializer(
         PrefetchMixin,
         serializers.ModelSerializer):
 
-    speaker_unique_id = serializers.CharField(write_only=True, required=False)
+    speaker_unique_id = serializers.CharField(write_only=True, required=False, allow_null=True)
     speaker = SimpleProfileSerializer(read_only=True)
     n_attendees = serializers.IntegerField(read_only=True)
     n_attended = serializers.IntegerField(read_only=True)
@@ -44,10 +44,18 @@ class EventSerializer(
 
     def update(self, instance, validated_data):
         # If switching from requiring register to not, clear relations
-        if not validated_data.get('require_register', True) and instance.require_register:
+        require_register = validated_data.get('require_register', None)
+        if require_register is not None and not require_register and instance.require_register:
+            print("NONNONNONONO")
             instance.attendees.clear()
             instance.attended.clear()
             instance.feedbacks.all().delete()
+        unique_id = validated_data.pop('speaker_unique_id', False)
+        if unique_id or unique_id is None:
+            if unique_id is None:
+                validated_data['speaker'] = None
+            else:
+                validated_data['speaker'] = Profile.objects.get(unique_id=unique_id)
         return super().update(instance, validated_data)
 
     class Meta:
