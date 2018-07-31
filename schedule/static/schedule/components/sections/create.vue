@@ -70,9 +70,6 @@
             <sui-button icon="plus" :disabled="!allowCreate" content="Criar evento" color="blue" />
         </sui-form>
 
-        <AttendeeList
-        :schedule_context="schedule" />
-
         <List
         :schedule_context="schedule" />
 
@@ -83,11 +80,10 @@ import axios from "project/js/axios_csrf";
 import toast from "project/js/notifications";
 import moment from "project/js/moment";
 import List from "./create/list.vue";
-import AttendeeList from "./create/attendee_list.vue";
 
 export default {
     props: ["schedule_context"],
-    components: { List, AttendeeList },
+    components: { List },
     data() {
         return {
             schedule: this.schedule_context,
