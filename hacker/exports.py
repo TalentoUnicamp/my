@@ -28,5 +28,5 @@ class ExportScannedHackers(ExportMixin, generics.ListAPIView):
 
 class ExportAllHackers(ExportMixin, PrefetchListAPIView):
     serializer_class = ExportAllHackersSerializer
-    permission_classes = [Or(IsAdmin, IsStaff, EmployeeHasAccess)]
+    permission_classes = [Or(IsAdmin, EmployeeHasAccess)]
     queryset = User.objects.exclude(profile=None)

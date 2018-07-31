@@ -7,7 +7,7 @@
         <div class="ui stackable centered page grid">
             <div class="row">
                 <div class="column">
-                    <sui-menu class="stackable three item">
+                    <sui-menu :class="nTabs" class="stackable item">
                         <a
                         is="sui-menu-item"
                         v-for="item in items"
@@ -26,6 +26,7 @@
                     v-if="isActive('Aplicações')" />
                     <RawData
                     v-bind:stats_context="stats"
+                    v-if="permissionToRawData"
                     v-show="isActive('Dados brutos')" />
 
                 </div>
@@ -47,7 +48,6 @@
                 user: this.user_context,
                 stats: this.stats_context,
                 active: "Participantes",
-                items: ["Participantes", "Aplicações", "Dados brutos"]
             };
         },
         methods: {
@@ -56,6 +56,28 @@
             },
             select(name) {
                 this.active = name;
+            }
+        },
+        computed: {
+            permissionToRawData() {
+                if (this.user.is_admin) {
+                    return true;
+                }
+                if (this.user.employee_company_access >= 0) {
+                    return true;
+                }
+                return false;
+            },
+            nTabs() {
+                if (this.permissionToRawData)
+                    return "three";
+                return "two";
+            },
+            items() {
+                let items = ['Participantes', 'Aplicações'];
+                if (this.permissionToRawData)
+                    items.push('Dados brutos');
+                return items;
             }
         }
     };
