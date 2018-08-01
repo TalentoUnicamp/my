@@ -62,7 +62,8 @@ class ScheduleContextMixin(ContextMixin):
             },
             'exports': {
                 'feedback': reverse('schedule:exports:feedback', args=[0])[:-2],
-                'events': reverse('schedule:exports:events'),
+                'event_list': reverse('schedule:exports:events-list'),
+                'event_get': reverse('schedule:exports:events-detail', args=[0])[:-2],
             }
         }
         context['schedule_context'] = json.dumps(schedule_context)
