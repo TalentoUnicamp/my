@@ -9,11 +9,11 @@ class IsEmployee(permissions.IsAuthenticated):
 
 
 class EmployeeHasAccess(IsEmployee):
-    access_level = 0
 
     def has_permission(self, request, view):
+        access_level = getattr(view, "access_level", 0)
         is_employee = super().has_permission(request, view)
         if not is_employee:
             return False
         company_access = request.user.profile.employee.company.access_level
-        return company_access >= self.access_level
+        return company_access >= access_level

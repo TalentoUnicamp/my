@@ -42,6 +42,8 @@ class Profile(models.Model):
         'is_staff',
         'is_admin',
         'is_employee',
+        'is_mentor',
+        'employee_company_access',
         'has_facebook',
         'has_github',
         'has_google'
@@ -116,6 +118,14 @@ class Profile(models.Model):
         return hasattr(self, 'employee')
 
     @property
+    def is_mentor(self):
+        return hasattr(self, 'mentor')
+
+    @property
+    def employee_company_access(self):
+        return (self.employee.company.access_level if self.is_employee else -1)
+
+    @property
     def full_name(self):
         return self.user.get_full_name()
 
@@ -188,6 +198,7 @@ class Shortcuts(models.Model):
     is_staff = models.BooleanField(default=False)
     is_employee = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_mentor = models.BooleanField(default=False)
 
     # Control attributes
     state = models.CharField(default='', max_length=20)
@@ -205,6 +216,7 @@ def update_shortcuts(profile):
         'is_staff': profile.is_staff,
         'is_employee': profile.is_employee,
         'is_admin': profile.is_admin,
+        'is_mentor': profile.is_mentor,
         'state': profile.state,
         'is_verified': profile.is_verified,
         'full_name': profile.full_name,

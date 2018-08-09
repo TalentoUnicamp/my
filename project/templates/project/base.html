@@ -12,6 +12,7 @@
 {% compress js %}
 <script type="module" src="{% static 'project/apps/self_subs.js' %}"></script>
 <script type="module" src="{% static 'project/apps/settings_subs.js' %}"></script>
+<script type="module" src="{% static 'project/apps/ticket_subs.js' %}"></script>
 {% endcompress %}
 {% endblock subscriptionapp %}
 
@@ -26,6 +27,7 @@
 <!-- Base subscriptions app element -->
 <div id="selfsub-app"></div>
 <div id="settingssub-app"></div>
+<div id="ticketsub-app"></div>
 
 <div id="base">
 <div id="sidebar-app"></div>

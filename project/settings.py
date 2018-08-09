@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'maintenance_mode',
 
+    'pwa',
+
     'debug_toolbar',
     'debug_panel',
     'compressor',
@@ -72,6 +74,7 @@ INSTALLED_APPS = [
     'announcement',
     'stats',
     'schedule',
+    'helper',
 ]
 
 
@@ -245,12 +248,18 @@ MSOCKS_SELF_SUBSCRIPTION_FIELDS = [
     'is_hacker',
     'is_staff',
     'is_admin',
+    'is_mentor',
     'is_employee',
+    'employee_company_access',
     'token',
     'is_verified',
     'full_name',
+    ('first_name', 'user.first_name'),
+    ('last_name', 'user.last_name'),
     'email',
 ]
+# Override model sockets router
+ASGI_APPLICATION = "project.router_application.application"
 
 SHOW_TOOLBAR_CALLBACK = eval(os.environ.get('SHOW_TOOLBAR_CALLBACK', 'True'))
 
@@ -263,3 +272,16 @@ DEBUG_TOOLBAR_CONFIG = {
 MAINTENANCE_MODE = eval(os.environ.get('MAINTENANCE_MODE', 'False'))
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 MAINTENANCE_MODE_IGNORE_SUPERUSER = True
+
+# Progressive Web App Settings
+PWA_APP_NAME = 'My Kickass App'
+PWA_APP_DESCRIPTION = "Do kickass things all day long without that pesky browser chrome"
+PWA_APP_THEME_COLOR = '#0A0302'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_START_URL = '/'
+PWA_APP_ICONS = [
+    {
+        'src': 'https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/android-icon-192x192.png',
+        'sizes': '192x192'
+    }
+]

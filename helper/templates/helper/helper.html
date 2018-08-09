@@ -1,0 +1,19 @@
+{% extends 'project/base.html' %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block appjs %}
+{% compress js %}
+<script type="module" src="{% static 'helper/apps/helper.js' %}"></script>
+{% endcompress %}
+{% endblock appjs %}
+
+{% block content %}
+
+
+<script type="text/javascript">
+    var helper_context = JSON.parse('{{ helper_context | escapejs }}');
+</script>
+
+<div id="helper-app"></div>
+{% endblock content %}

@@ -28,6 +28,7 @@ class ListProfileSerializer(
     is_verified = serializers.BooleanField(source='shortcuts.is_verified')
     is_hacker = serializers.BooleanField(source='shortcuts.is_hacker')
     is_staff = serializers.BooleanField(source='shortcuts.is_staff')
+    is_mentor = serializers.BooleanField(source='shortcuts.is_mentor')
     is_admin = serializers.BooleanField(source='shortcuts.is_admin')
     is_employee = serializers.BooleanField(source='shortcuts.is_employee')
     has_facebook = serializers.BooleanField(source='shortcuts.has_facebook')
@@ -45,6 +46,7 @@ class ListProfileSerializer(
             'is_hacker',
             'is_staff',
             'is_admin',
+            'is_mentor',
             'is_employee',
             'has_facebook',
             'has_github',

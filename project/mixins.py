@@ -28,6 +28,7 @@ class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin
             'active_tab': self.active_tab,
             'event_name': dj_settings.EVENT_NAME,
             'event_logo': static('project/img/logo.svg'),
+            'event_logo_png': static('project/img/logo.png'),
             'redirect_urls': {
                 'dashboard': reverse('dashboard:index'),
                 'application': reverse('application:form'),
@@ -37,6 +38,7 @@ class SidebarContextMixin(LoginRequiredMixin, SettingsContextMixin, ContextMixin
                 'staff': reverse('staff:index'),
                 'stats': reverse('stats:index'),
                 'schedule': reverse('schedule:index'),
+                'helper': reverse('helper:index'),
                 'logout': reverse('profile:logout'),
             },
             'api': {
@@ -65,11 +67,13 @@ class UserContextMixin(ContextMixin):
             'is_hacker': profile.is_hacker,
             'is_staff': profile.is_staff,
             'is_employee': profile.is_employee,
-            'is_mentor': False,
+            'is_mentor': profile.is_mentor,
             'is_judge': False,
-            'employee_company_access': (profile.employee.company.access_level if profile.is_employee else -1),
+            'employee_company_access': profile.employee_company_access,
             'state': profile.state,
             'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
             'social': {
                 'has_facebook': profile.has_facebook,
                 'has_github': profile.has_github,

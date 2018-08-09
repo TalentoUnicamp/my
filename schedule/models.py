@@ -33,13 +33,11 @@ class Event(models.Model):
     )
     attendees = models.ManyToManyField(
         Profile,
-        related_name="selected_events",
-        null=True
+        related_name="selected_events"
     )
     attended = models.ManyToManyField(
         Profile,
-        related_name="attended_events",
-        null=True
+        related_name="attended_events"
     )
 
     @property
