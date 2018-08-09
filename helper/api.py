@@ -40,7 +40,10 @@ class TicketViewset(
                 And(CanSubmitTickets, OwnsObject),  # Deleting own ticket
             )),
             And(IsGetRequest, CanSubmitTickets),  # Geting last ticket, or list of tickets
-            And(IsPutPatchRequest, IsMentor)    # Mentors manipulating tickets
+            And(IsPutPatchRequest, Or(
+                IsMentor,   # Mentors manipulating tickets
+                And(CanSubmitTickets, OwnsObject)   # Submitting feedback
+            ))
         )
     ]
     queryset = Ticket.objects.all()
