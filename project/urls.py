@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = [
     path('', LoginView.as_view(), name='login'),
+    path('', include('pwa.urls')),
     path('admin/', admin.site.urls),
     path('dashboard/', include('dashboard.urls')),
     path('profile/', include('user_profile.urls')),
@@ -21,6 +22,7 @@ urlpatterns = [
     path('announcement/', include('announcement.urls')),
     path('stats/', include('stats.urls')),
     path('schedule/', include('schedule.urls')),
+    path('helper/', include('helper.urls')),
 ]
 
 if settings.SHOW_TOOLBAR_CALLBACK:

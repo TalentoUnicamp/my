@@ -43,3 +43,6 @@ facebook-sdk==2.0.0
 # Storages
 django-storages==1.6.6
 boto3==1.7.62
+
+# Progressive Web App
+django-progressive-web-app==0.1.1

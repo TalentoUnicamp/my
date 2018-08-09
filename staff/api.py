@@ -17,7 +17,6 @@ class ToggleIsStaff(views.APIView):
         profile = Profile.objects.get(unique_id=unique_id)
         if profile.is_staff:
             profile.staff.delete()
-            print(profile.user.is_staff)
             profile.trigger_update()
         else:
             staff = Staff(profile=profile)

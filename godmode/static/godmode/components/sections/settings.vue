@@ -25,8 +25,17 @@
                     <sui-checkbox label="Hackers são admitidos por padrão" toggle v-model="auto_admit"/>
                 </sui-form-field>
                 <sui-form-field>
+                    <sui-checkbox label="Fila do helper aberta" toggle v-model="ticket_queue_open"/>
+                </sui-form-field>
+            </sui-form-fields>
+            <sui-form-fields fields="two">
+                <sui-form-field>
                     <label>Número máximo de participantes <small style="color: gray;">0 para sem limites</small></label>
                     <sui-input v-model="max_hackers" type='number' placeholder="Máximo de participantes" />
+                </sui-form-field>
+                <sui-form-field>
+                    <label>Minutos para tickets expirarem <small style="color: gray;">0 para não expirarem</small></label>
+                    <sui-input v-model="ticket_expire" type='number' placeholder="30" />
                 </sui-form-field>
             </sui-form-fields>
             <div class="divided title">Datas</div>
@@ -86,68 +95,74 @@
 </template>
 
 <script>
-    import axios from "project/js/axios_csrf";
-    import toast from "project/js/notifications";
-    import moment from 'project/js/moment'
+import axios from "project/js/axios_csrf";
+import toast from "project/js/notifications";
+import moment from "project/js/moment";
 
-    export default {
-        props: ["admin_context", "settings_context"],
-        data() {
-            return {
-                admin: this.admin_context,
-                settings: this.settings_context,
-                default_staff: this.settings_context["default_staff"],
-                default_hacker: this.settings_context["default_hacker"],
-                auto_admit: this.settings_context["auto_admit_hackers"],
-                max_hackers: this.settings_context["max_hackers"]
-            };
-        },
-        watch: {
-            settings: {
-                handler(data) {
-                    this.default_hacker = data["default_hacker"];
-                    this.default_staff = data["default_staff"];
-                    this.auto_admit = data["auto_admit_hackers"];
-                    this.max_hackers = data["max_hackers"];
-                    this.refreshCalendars(data);
-                },
-                deep: true
+export default {
+    props: ["admin_context", "settings_context"],
+    data() {
+        return {
+            admin: this.admin_context,
+            settings: this.settings_context,
+            default_staff: this.settings_context["default_staff"],
+            default_hacker: this.settings_context["default_hacker"],
+            auto_admit: this.settings_context["auto_admit_hackers"],
+            max_hackers: this.settings_context["max_hackers"],
+            ticket_expire: this.settings_context["ticket_expire"],
+            ticket_queue_open: this.settings_context["ticket_queue_open"]
+        };
+    },
+    watch: {
+        settings: {
+            handler(data) {
+                this.default_hacker = data["default_hacker"];
+                this.default_staff = data["default_staff"];
+                this.auto_admit = data["auto_admit_hackers"];
+                this.max_hackers = data["max_hackers"];
+                this.ticket_expire = data["ticket_expire"];
+                this.ticket_queue_open = data["ticket_queue_open"];
+                this.refreshCalendars(data);
+            },
+            deep: true
+        }
+    },
+    methods: {
+        refreshCalendars(data) {
+            for (let key in data) {
+                if (key.endsWith("seconds")) {
+                    let k = key.replace("_seconds", "");
+                    let value = data[key];
+                    let date = moment(value).toDate();
+                    $("#" + k).calendar("set date", date);
+                }
             }
         },
-        methods: {
-            refreshCalendars(data) {
-                for (let key in data) {
-                    if (key.endsWith("seconds")) {
-                        let k = key.replace("_seconds", "");
-                        let value = data[key];
-                        let date = moment(value).toDate();
-                        $("#" + k).calendar("set date", date);
-                    }
-                }
-            },
-            saveChanges() {
-                let data = {
-                    _default_hacker: this.default_hacker,
-                    _default_staff: this.default_staff,
-                    auto_admit: this.auto_admit,
-                    max_hackers: this.max_hackers,
-                    registration_open: moment(
-                        $("#registration_open").calendar("get date")
-                        ).format(),
-                    registration_close: moment(
-                        $("#registration_close").calendar("get date")
-                        ).format(),
-                    confirmation: moment(
-                        $("#confirmation").calendar("get date")
-                        ).format(),
-                    hackathon_start: moment(
-                        $("#hackathon_start").calendar("get date")
-                        ).format(),
-                    hackathon_end: moment(
-                        $("#hackathon_end").calendar("get date")
-                        ).format()
-                };
-                axios
+        saveChanges() {
+            let data = {
+                _default_hacker: this.default_hacker,
+                _default_staff: this.default_staff,
+                auto_admit: this.auto_admit,
+                max_hackers: this.max_hackers,
+                ticket_expire: this.ticket_expire,
+                ticket_queue_open: this.ticket_queue_open,
+                registration_open: moment(
+                    $("#registration_open").calendar("get date")
+                ).format(),
+                registration_close: moment(
+                    $("#registration_close").calendar("get date")
+                ).format(),
+                confirmation: moment(
+                    $("#confirmation").calendar("get date")
+                ).format(),
+                hackathon_start: moment(
+                    $("#hackathon_start").calendar("get date")
+                ).format(),
+                hackathon_end: moment(
+                    $("#hackathon_end").calendar("get date")
+                ).format()
+            };
+            axios
                 .put(this.admin.api.update_settings, data)
                 .then(function(data) {
                     toast("Sucesso", "Configurações alteradas", "success");
@@ -156,29 +171,29 @@
                     console.error(error);
                     toast("Opa!", "Algo de errado aconteceu :(", "error");
                 });
-            }
-        },
-        mounted() {
-            $("#registration_open").calendar({
-                ampm: false,
-                endCalendar: $("#registration_close")
-            });
-            $("#registration_close").calendar({
-                ampm: false,
-                startCalendar: $("#registration_open")
-            });
-            $("#hackathon_start").calendar({
-                ampm: false,
-                endCalendar: $("#hackathon_end")
-            });
-            $("#hackathon_end").calendar({
-                ampm: false,
-                startCalendar: $("#hackathon_start")
-            });
-            $("#confirmation").calendar({
-                ampm: false
-            });
-            this.refreshCalendars(this.settings);
         }
-    };
+    },
+    mounted() {
+        $("#registration_open").calendar({
+            ampm: false,
+            endCalendar: $("#registration_close")
+        });
+        $("#registration_close").calendar({
+            ampm: false,
+            startCalendar: $("#registration_open")
+        });
+        $("#hackathon_start").calendar({
+            ampm: false,
+            endCalendar: $("#hackathon_end")
+        });
+        $("#hackathon_end").calendar({
+            ampm: false,
+            startCalendar: $("#hackathon_start")
+        });
+        $("#confirmation").calendar({
+            ampm: false
+        });
+        this.refreshCalendars(this.settings);
+    }
+};
 </script>

@@ -15,6 +15,7 @@ class CanAttendEvents(LoginRequiredMixin, UserPassesTestMixin):
             has_employee_access = company_access >= self.access_level
         return (
             profile.is_staff or
+            profile.is_mentor or
             profile.is_admin or
             has_employee_access or
             profile.state == 'checkedin' or
