@@ -1,7 +1,7 @@
 <template>
-    <div @click="redirect" v-bind:class="{active: isActive}" v-if="item.condition" class="item">
+    <a v-bind:href="item.link"><div @click="redirect" v-bind:class="{active: isActive}" v-if="item.condition" class="item">
         {{ item.title }}
-    </div>
+    </div></a>
 </template>
 
 <script>
@@ -20,3 +20,8 @@ export default {
     }
 };
 </script>
+<style scoped>
+a {
+    color: white;
+}
+</style>
