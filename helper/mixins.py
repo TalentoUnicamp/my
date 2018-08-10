@@ -25,6 +25,7 @@ class IsMentorOrCanSubmitTickets(LoginRequiredMixin, UserPassesTestMixin):
             company_access = profile.employee.company.access_level
             has_employee_access = company_access >= self.access_level
         return (
+            profile.is_staff or
             profile.is_mentor or
             has_employee_access
         )
