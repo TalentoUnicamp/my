@@ -27,6 +27,8 @@ class AdminContextMixin(ContextMixin):
                 'delete_user': reverse('godmode:api:delete_user', args=[0])[:-2],
                 'batch_create_users': reverse('godmode:api:batch_create_users'),
 
+                'toggle_is_mentor': reverse('helper:api:toggle_is_mentor'),
+
                 'list_companies': reverse('company:api:company-list'),
                 'create_company': reverse('company:api:company-list'),
                 'delete_company': reverse('company:api:company-detail', args=[0])[:-2],

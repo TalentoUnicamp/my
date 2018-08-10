@@ -30,6 +30,8 @@ class SettingsContextMixin(ContextMixin):
             'confirmation_seconds': Settings.confirmation_seconds(settings=settings),
             'hackathon_start_seconds': Settings.hackathon_start_seconds(settings=settings),
             'hackathon_end_seconds': Settings.hackathon_end_seconds(settings=settings),
+            'ticket_expire': settings.ticket_expire,
+            'ticket_queue_open': settings.ticket_queue_open,
             'api': {
                 'dashboard': reverse('dashboard:index'),
             }

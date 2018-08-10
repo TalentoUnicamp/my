@@ -26,6 +26,8 @@ class Settings(models.Model):
         'confirmation_seconds',
         'hackathon_start_seconds',
         'hackathon_end_seconds',
+        'ticket_expire',
+        'ticket_queue_open',
     ]
 
     # Whether new users (created with social login) are hackers by default
@@ -49,6 +51,10 @@ class Settings(models.Model):
     hackathon_start = models.DateTimeField(default=timezone.now)
     # When the event ends
     hackathon_end = models.DateTimeField(default=timezone.now)
+
+    # Tickets
+    ticket_expire = models.IntegerField(default=30)
+    ticket_queue_open = models.BooleanField(default=False)
 
     @staticmethod
     def get(settings=None):

@@ -9,6 +9,7 @@
         v-on:toggle-ishacker="toggleIsHacker"
         v-on:toggle-isstaff="toggleIsStaff"
         v-on:toggle-isadmin="toggleIsAdmin"
+        v-on:toggle-ismentor="toggleIsMentor"
         v-on:delete-user="deleteUser" />
     </div>
 </template>
@@ -94,6 +95,19 @@
             toggleIsStaff(unique_id) {
                 var comp = this;
                 axios.post(this.admin.api.toggle_is_staff, {
+                    unique_id: unique_id
+                })
+                .then(function(data) {
+                    toast('Aviso', data.data.message, 'info');
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    toast('Opa!', 'Algo de errado aconteceu :(', 'error');
+                });
+            },
+            toggleIsMentor(unique_id) {
+                var comp = this;
+                axios.post(this.admin.api.toggle_is_mentor, {
                     unique_id: unique_id
                 })
                 .then(function(data) {

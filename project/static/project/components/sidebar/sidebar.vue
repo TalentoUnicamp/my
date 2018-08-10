@@ -98,16 +98,14 @@ export default {
                             : false) ||
                         this.user.is_staff ||
                         this.user.is_admin ||
-                        this.user.is_employee ||
-                        this.user.is_judge ||
-                        this.user.is_mentor
+                        this.user.employee_company_access >= 0
                 },
                 {
                     title: "Helper",
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["helper"],
                     tab: "helper",
-                    condition: false
+                    condition: this.user.is_mentor || this.user.employee_company_access >= 0
                 },
                 {
                     title: "Judge",
@@ -124,8 +122,7 @@ export default {
                     condition:
                         this.user.is_admin ||
                         this.user.is_staff ||
-                        (this.user.is_employee &&
-                            this.user.employee_company_access >= 0)
+                        this.user.employee_company_access >= 0
                 },
                 {
                     title: "Logout",

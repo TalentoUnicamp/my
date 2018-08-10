@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="four wide field">
-                    <DownloadButton v-bind:url="schedule.exports.events" />
+                    <DownloadButton v-bind:url="schedule.exports.event_list" />
                 </div>
             </div>
         </div>
@@ -37,6 +37,7 @@
                         </strong>
                     </td>
                     <td class="right aligned collapsing">
+                        <DownloadButton v-bind:url="schedule.exports.event_get + event.id + '/'" />
                         <sui-button class="actionbuttons" :loading="loadingModal" :disabled="loadingModal" size="small" color="blue" content="Alterar Palestrante" @click="changeSpeaker(event)" />
                         <sui-button class="actionbuttons" size="small" color="red" content="Apagar" @click="deleteEvent(event)" />
                     </td>

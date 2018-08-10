@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from project.generics import PrefetchListAPIView
-from project.mixins import ExportMixin
+from project.mixins import ExportMixin, PrefetchQuerysetModelMixin
 from godmode.permissions import IsAdmin
 from .models import Event, Feedback
 from .export_serializers import ExportFeedbackSerializer, ExportEventSerializer
@@ -20,7 +21,10 @@ class ExportFeedback(ExportMixin, PrefetchListAPIView):
         return super().get_queryset()
 
 
-class ExportEvents(ExportMixin, PrefetchListAPIView):
+class ExportEventsViewset(
+        ExportMixin,
+        PrefetchQuerysetModelMixin,
+        ReadOnlyModelViewSet):
     serializer_class = ExportEventSerializer
     permission_classes = [IsAdmin]
     queryset = Event.objects.all()

@@ -70,6 +70,7 @@
                         <sui-button class="actionbuttons" size="tiny" content="Staff" v-bind:class="{blue: user.is_staff, basic: !user.is_staff }" @click="$emit('toggle-isstaff', user.unique_id)" />
                         <sui-button class="actionbuttons" size="tiny" content="Admin" v-bind:class="{blue: user.is_admin, basic: !user.is_admin }" @click="$emit('toggle-isadmin', user.unique_id)" />
                         <br>
+                        <sui-button class="actionbuttons" size="tiny" content="Mentor" v-bind:class="{blue: user.is_mentor, basic: !user.is_mentor }" @click="$emit('toggle-ismentor', user.unique_id)" />
                         <sui-button class="actionbuttons" size="tiny" color="red" content="Apagar" @click="$emit('delete-user', user.unique_id)" />
                     </td>
                 </tr>
@@ -114,7 +115,8 @@ export default {
                 { text: "Todos", color: "red" },
                 { text: "Hacker", color: "blue" },
                 { text: "Staff", color: "yellow" },
-                { text: "Admin", color: "green" }
+                { text: "Mentor", color: "orange" },
+                { text: "Admin", color: "green" },
             ],
             users: this.data,
             selectedPage: 1,
@@ -159,6 +161,7 @@ export default {
             let filtered = searched.filter(function(user) {
                 if (self.filter === "Hacker") return user.is_hacker == true;
                 if (self.filter === "Staff") return user.is_staff == true;
+                if (self.filter === "Mentor") return user.is_mentor == true;
                 if (self.filter === "Admin") return user.is_admin == true;
                 return true;
             });

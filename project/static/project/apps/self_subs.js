@@ -23,6 +23,7 @@ var sub = new Vue({
             //     email: 'email'
             // }
             for (let key in data) this.user_context[key] = data[key];
+
         }
     },
     mounted() {

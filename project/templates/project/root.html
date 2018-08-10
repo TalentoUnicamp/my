@@ -1,5 +1,6 @@
 {% load compress %}
 {% load staticfiles %}
+{% load pwa %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -19,10 +20,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/favicon-16x16.png">
-    <link rel="manifest" href="https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="https://s3-sa-east-1.amazonaws.com/talentoprod/project/img/icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
+    {% progressive_web_app_meta %}
 
     {% compress js %}
     <script src="{% static 'project/plugins/jquery/dist_show/jquery.min.js' %}"></script>
