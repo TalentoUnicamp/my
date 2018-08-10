@@ -1,6 +1,7 @@
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from staff.permissions import IsStaff
 from .serializers import ApplicationRetrieveSerializer, FormOptionsSerializer
 from .models import Application
@@ -15,6 +16,7 @@ class ViewApplication(RetrieveAPIView):
 
 
 class FormOptionsAPI(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get_data_list(self, option):
         import csv

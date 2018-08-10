@@ -1,8 +1,9 @@
 from rest_framework import views, viewsets, response, mixins
+from rest_framework.permissions import IsAuthenticated
 from rest_condition import And, Or
 from project.mixins import PrefetchQuerysetModelMixin
+from project.permissions import IsReadyOnlyRequest
 from user_profile.models import Profile
-from user_profile.permissions import UserReadOnly
 from godmode.permissions import IsAdmin
 from staff.permissions import IsStaff
 from .serializers import EventSerializer, FullEventSerializer, FeedbackSerializer, AttendedEventSerializer
@@ -19,7 +20,15 @@ class EventViewset(
     """
     serializer_class = EventSerializer
     queryset = Event.objects.all()
-    permission_classes = [Or(And(CanAttendEvents, UserReadOnly), IsAdmin)]
+    permission_classes = [
+        Or(
+            And(
+                CanAttendEvents,
+                And(IsAuthenticated, IsReadyOnlyRequest)
+            ),
+            IsAdmin
+        )
+    ]
 
 
 class MyEventViewset(
