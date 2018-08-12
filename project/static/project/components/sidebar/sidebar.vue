@@ -105,7 +105,10 @@ export default {
                     active_tab: this.sidebar.active_tab,
                     link: this.sidebar.redirect_urls["helper"],
                     tab: "helper",
-                    condition: this.user.is_mentor || this.user.employee_company_access >= 0
+                    condition:
+                        this.user.is_mentor ||
+                        this.user.employee_company_access >= 0 ||
+                        this.user.is_staff
                 },
                 {
                     title: "Judge",

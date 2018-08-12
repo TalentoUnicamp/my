@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from rest_condition import Or
 from company.permissions import EmployeeHasAccess
+from staff.permissions import IsStaff
 
 
 class IsMentor(permissions.IsAuthenticated):
@@ -12,5 +13,6 @@ class IsMentor(permissions.IsAuthenticated):
 
 CanSubmitTickets = Or(
     EmployeeHasAccess,
-    IsMentor
+    IsMentor,
+    IsStaff
 )

@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.conf import settings
 from django.db.models import Q
 from django.db import connection
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import views, response
 from godmode.permissions import IsAdmin
 from staff.permissions import IsStaff
@@ -15,6 +15,7 @@ import time
 
 
 class CheckToken(views.APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
         token = request.data.get('token')
@@ -28,6 +29,7 @@ class CheckToken(views.APIView):
 
 
 class ResetTokenEmail(views.APIView):
+    permission_classes = [AllowAny]
 
     def post(self, request):
         email = request.data.get('email')

@@ -234,6 +234,7 @@ ADMINS = [('Admin', os.environ.get('ADMIN_ACCOUNT')), ]
 
 # Event data
 EVENT_NAME = os.environ.get('EVENT_NAME', 'Hackathon')
+EVENT_DESCRIPTION = os.environ.get('EVENT_DESCRIPTION', '')
 
 
 # Model Sockets settings
@@ -274,8 +275,8 @@ MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
 MAINTENANCE_MODE_IGNORE_SUPERUSER = True
 
 # Progressive Web App Settings
-PWA_APP_NAME = 'My Kickass App'
-PWA_APP_DESCRIPTION = "Do kickass things all day long without that pesky browser chrome"
+PWA_APP_NAME = EVENT_NAME
+PWA_APP_DESCRIPTION = EVENT_DESCRIPTION
 PWA_APP_THEME_COLOR = '#0A0302'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_START_URL = '/'

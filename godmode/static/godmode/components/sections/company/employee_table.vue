@@ -15,6 +15,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Email</th>
+                    <th>Check in</th>
                     <th>Empresa</th>
                     <th></th>
                 </tr>
@@ -28,6 +29,9 @@
                     </td>
                     <td>
                         {{ employee.email }}
+                    </td>
+                    <td>
+                        <sui-icon size="large" :color="employee.checkedin ? 'green' : 'red'" :name="employee.checkedin ? 'check' : 'times'" />
                     </td>
                     <td>
                         <strong>
@@ -49,7 +53,7 @@
                             v-model="pageSize" />
                         </div>
                     </th>
-                    <th colspan="3">
+                    <th colspan="4">
                         <div class="ui right floated pagination menu">
                             <a class="item"
                             v-for="page in pages"

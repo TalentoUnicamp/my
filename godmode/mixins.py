@@ -37,6 +37,9 @@ class AdminContextMixin(ContextMixin):
                 'create_employee': reverse('company:api:employee-list'),
                 'delete_employee': reverse('company:api:employee-detail', args=[0])[:-2],
 
+                'fetch_checkin_employee': reverse('company:api:fetch_checkin_employee'),
+                'checkin_employee': reverse('company:api:checkin_employee'),
+
                 'update_settings': reverse('settings:api:get_update'),
 
                 'list_announcement': reverse('announcement:api:announcement-list'),
