@@ -23,6 +23,7 @@
     "mathjs": "^5.0.4",
     "moment": "^2.22.2",
     "plotly.js": "^1.39.3",
+    "reconnecting-websocket": "^4.0.0-rc5",
     "semantic-ui-calendar": "0.0.8",
     "semantic-ui-vue": "^0.2.11",
     "sweetalert": "^2.1.0",
