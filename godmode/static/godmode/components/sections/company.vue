@@ -2,7 +2,7 @@
     <div>
         <div class="ui stackable centered">
             <div class="column">
-                <sui-menu class="stackable three item">
+                <sui-menu class="stackable four item">
                     <a
                     is="sui-menu-item"
                     v-for="item in items"
@@ -22,6 +22,9 @@
                 v-bind:data="employeeList"
                 v-on:remove-from-company="deleteEmployee"
                 v-show="isActive('Empregados')" />
+                <Checkin
+                v-bind:admin_context="admin"
+                v-show="isActive('Check in')" />
                 <CompanyList
                 v-bind:data="companyList"
                 v-on:create-company="createCompany"
@@ -41,12 +44,13 @@ import swal from "sweetalert";
 import CompanyList from "./company/company_table.vue";
 import EmployeeList from "./company/employee_table.vue";
 import UserList from "./company/user_table.vue";
+import Checkin from "./company/checkin.vue";
 
 import { ModelSubscription } from "model_sockets/js/subscription";
 
 export default {
     props: ["admin_context"],
-    components: { CompanyList, EmployeeList, UserList },
+    components: { CompanyList, EmployeeList, UserList, Checkin },
     data() {
         return {
             admin: this.admin_context,
@@ -54,7 +58,7 @@ export default {
             employeeList: [],
             userList: [],
             active: "Não empregados",
-            items: ["Não empregados", "Empregados", "Empresas"]
+            items: ["Não empregados", "Empregados", "Check in", "Empresas"]
         };
     },
     methods: {

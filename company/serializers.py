@@ -37,7 +37,7 @@ class ReadEmployeeSerializer(
     company_name = serializers.CharField(source='company.name')
 
     class Meta:
-        fields = ['full_name', 'email', 'unique_id', 'company_name']
+        fields = ['full_name', 'email', 'unique_id', 'company_name', 'checkedin']
         model = Employee
         select_related_fields = ['profile__user', 'company', 'profile__shortcuts']
 

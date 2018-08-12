@@ -11,7 +11,9 @@ apipatterns = router.urls
 
 apipatterns += [
     path('fetch_scan_hacker/', api.FetchScanHacker.as_view(), name='fetch_scan_hacker'),
-    path('scan_hacker', api.ScanHacker.as_view(), name='scan_hacker')
+    path('scan_hacker', api.ScanHacker.as_view(), name='scan_hacker'),
+    path('fetch_checkin_employee/', api.FetchCheckinEmployee.as_view(), name='fetch_checkin_employee'),
+    path('checkin_employee', api.CheckinEmployee.as_view(), name='checkin_employee')
 ]
 
 app_name = 'company'
