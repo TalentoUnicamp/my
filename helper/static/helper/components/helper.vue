@@ -111,7 +111,7 @@ export default {
             // Delay connection by a bit
             setTimeout(() => {
                 mentorsub.connect();
-            }, 5000);
+            }, 2000);
         }
     }
 };
