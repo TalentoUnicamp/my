@@ -21,7 +21,8 @@ class Employee(models.Model):
         ('full_name', 'profile.shortcuts.full_name'),
         ('unique_id', 'profile.unique_id'),
         ('email', 'profile.user.email'),
-        ('company_name', 'company.name')
+        ('company_name', 'company.name'),
+        'checkedin'
     ]
 
     profile = models.OneToOneField(
@@ -33,6 +34,11 @@ class Employee(models.Model):
         on_delete=models.CASCADE,
         related_name='employees'
     )
+    checkedin = models.BooleanField(default=False)
+
+    def check_in(self):
+        self.checkedin = True
+        self.save()
 
     def __str__(self):
         return f'{self.profile} em {self.company.name}'

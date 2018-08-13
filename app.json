@@ -1,42 +1,47 @@
 {
-  "name": "",
-  "description": "",
-  "keywords": [],
+  "name": "Talento",
+  "description": "Everything Talento",
+  "keywords": [
+    "small",
+    "sharp",
+    "tool"
+  ],
   "addons": [
-    "heroku-redis",
-
+    "librato:development",
+    "logentries:le_tryit",
+    "heroku-redis:hobby-dev"
   ],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/python"
     }
   ],
-  "repository": "",
-  "success_url": "/",
   "env": {
-    "DEBUG": {
-      "description": "Ativar modo debug (se em dúvida, deixe False)",
-      "value": "False"
-    },
-    "SECRET_KEY": {
-      "description": "String longa e aleatória usada como chave de encriptação das comunicações do site.",
-      "generator": "secret"
-    },
-    "EMAIL_ACCOUNT": {
-      "description": "Conta de email de onde serão enviados os emails do site. Use uma existente.",
-      "value": ""
-    },
-    "EMAIL_PASSWORD": {
-      "description": "Senha do email ai de cima, pra ser possível enviar emails.",
-      "value": ""
-    },
-    "ADMIN_ACCOUNT": {
-      "description": "Email do admnistrador que vai receber os error reports. Use o meu email",
-      "value": "gustavomaronato@gmail.com"
-    },
-    "ROOT_URL" : {
-        "description": "URL do seu app (<nome-do-app>.herokuapp.com)",
-        "value": "",
-    }
+    "ADMIN_ACCOUNT": "",
+    "ALLOWED_HOSTS": "",
+    "AWS_ACCESS_KEY_ID": "",
+    "AWS_SECRET_ACCESS_KEY": "",
+    "AWS_STORAGE_BUCKET_NAME": "",
+    "DEBUG": "False",
+    "DISABLE_COLLECTSTATIC": "1",
+    "EMAIL_ACCOUNT": "",
+    "EMAIL_HOST": "",
+    "EMAIL_PASSWORD": "",
+    "EMAIL_PORT": "",
+    "EVENT_NAME": "",
+    "FACEBOOK_HANDLE": "",
+    "FACEBOOK_KEY": "",
+    "FACEBOOK_SECRET": "",
+    "GITHUB_KEY": "",
+    "GITHUB_SECRET": "",
+    "GOOGLE_KEY": "",
+    "GOOGLE_SECRET": "",
+    "MAINTENANCE_MODE": "False",
+    "ROOT_URL": "",
+    "SECRET_KEY": "",
+    "SHOW_TOOLBAR_CALLBACK": "False"
   }
 }

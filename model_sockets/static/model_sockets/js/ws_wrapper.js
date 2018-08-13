@@ -9,7 +9,7 @@
  * });
  */
 
-import ReconnectingWebSocket from "./reconnecting-websocket";
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 class WebSocketBridge {
   constructor(options) {
