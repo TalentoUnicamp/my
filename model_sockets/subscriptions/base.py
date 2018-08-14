@@ -7,7 +7,7 @@ from .utils import get_fields_and_properties
 
 
 # Prevent garbage collector from cleaning the instances
-subscribed_instances = []
+# subscribed_instances = []
 
 
 class BaseSubscriptionReceiver:
@@ -98,7 +98,7 @@ class BaseSubscriptionReceiver:
         """Register subscription to receive updates
         """
         self.signal.connect(self.receive, sender=sender, dispatch_uid=dispatch_uid)
-        subscribed_instances.append(self)
+        # subscribed_instances.append(self)
 
     def unregister(self, sender=None, dispatch_uid=None):
         """Unregister from updates
