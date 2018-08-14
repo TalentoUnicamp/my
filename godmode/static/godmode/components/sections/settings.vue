@@ -30,6 +30,11 @@
             </sui-form-fields>
             <sui-form-fields fields="two">
                 <sui-form-field>
+                    <sui-checkbox label="Exigir emails válidos" toggle v-model="verify_email"/>
+                </sui-form-field>
+            </sui-form-fields>
+            <sui-form-fields fields="two">
+                <sui-form-field>
                     <label>Número máximo de participantes <small style="color: gray;">0 para sem limites</small></label>
                     <sui-input v-model="max_hackers" type='number' placeholder="Máximo de participantes" />
                 </sui-form-field>
@@ -110,7 +115,8 @@ export default {
             auto_admit: this.settings_context["auto_admit_hackers"],
             max_hackers: this.settings_context["max_hackers"],
             ticket_expire: this.settings_context["ticket_expire"],
-            ticket_queue_open: this.settings_context["ticket_queue_open"]
+            ticket_queue_open: this.settings_context["ticket_queue_open"],
+            verify_email: this.settings_context["verify_email"]
         };
     },
     watch: {
@@ -122,6 +128,7 @@ export default {
                 this.max_hackers = data["max_hackers"];
                 this.ticket_expire = data["ticket_expire"];
                 this.ticket_queue_open = data["ticket_queue_open"];
+                this.verify_email = data["verify_email"];
                 this.refreshCalendars(data);
             },
             deep: true
@@ -146,6 +153,7 @@ export default {
                 max_hackers: this.max_hackers,
                 ticket_expire: this.ticket_expire,
                 ticket_queue_open: this.ticket_queue_open,
+                verify_email: this.verify_email,
                 registration_open: moment(
                     $("#registration_open").calendar("get date")
                 ).format(),

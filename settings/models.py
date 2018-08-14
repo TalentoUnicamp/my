@@ -28,6 +28,7 @@ class Settings(models.Model):
         'hackathon_end_seconds',
         'ticket_expire',
         'ticket_queue_open',
+        'verify_email',
     ]
 
     # Whether new users (created with social login) are hackers by default
@@ -37,6 +38,8 @@ class Settings(models.Model):
 
     # Auto admit hackers
     auto_admit = models.BooleanField(default=False)
+    # Require email verification
+    verify_email = models.BooleanField(default=True)
     # Max hackers allowed
     max_hackers = models.IntegerField(default=100)
 
