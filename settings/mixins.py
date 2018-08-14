@@ -19,6 +19,7 @@ class SettingsContextMixin(ContextMixin):
             'default_hacker': Settings.default_hacker(settings=settings),
             'default_staff': Settings.default_staff(settings=settings),
             'auto_admit_hackers': Settings.auto_admit_hackers(settings=settings),
+            'verify_email': settings.verify_email,
             'registration_opened': Settings.registration_opened(settings=settings),
             'registration_is_open': Settings.registration_is_open(settings=settings),
             'can_confirm': Settings.can_confirm(settings=settings),

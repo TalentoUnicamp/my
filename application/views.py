@@ -19,8 +19,6 @@ class ApplicationView(
     active_tab = 'application'
 
     def form_valid(self, form):
-        print("Checking valid")
-        print(form.fields['education'])
         form.save(hacker=self.request.user.profile.hacker)
         return super().form_valid(form)
 
