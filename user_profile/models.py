@@ -1,9 +1,11 @@
 from django.db import models
 from django.utils.crypto import get_random_string
 from django.db.models.signals import post_save
+from settings.models import Settings
 from django.conf import settings
 from django.contrib.auth.models import User
 import re
+
 
 from .tasks import send_verify_email
 # Create your models here.
@@ -148,9 +150,13 @@ class Profile(models.Model):
         user = self.user
         user.email = email
         user.save()
-        self.verified = False
-        self.new_verification_code()
-        send_verify_email.delay(self.id)
+        if Settings.get().verify_email:
+            self.verified = False
+            self.new_verification_code()
+            send_verify_email.delay(self.id)
+        else:
+            self.verified = True
+            self.save()
 
     def verify_email(self):
         self.verified = True
