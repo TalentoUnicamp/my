@@ -26,8 +26,11 @@
     {% progressive_web_app_meta %}
 
     {% compress js %}
-    <!-- Make sure that iOS 10 can open the site -->
-    <script src="{% static 'project/js/object_values.js' %}"></script>
+    <!-- Make sure that iOS <= 10 can open the site -->
+    <script src="{% static 'project/js/babel_polyfill.js' %}"></script>
+    {% endcompress %}
+
+    {% compress js %}
     <script src="{% static 'project/plugins/jquery/dist_show/jquery.min.js' %}"></script>
     <script src="{% static 'project/plugins/semantic/dist_show/semantic.js' %}"></script>
     {% endcompress %}
